@@ -14,7 +14,7 @@ select_classified_policy_ids = """
 
 # SQL statement to get policy text for the current policy ID
 select_policy_text = """
-    SELECT `plain_text`, `plain_content`
+    SELECT `cleaned_text`, `cleaned_html`
     FROM `policy`
     WHERE id = %s
 """

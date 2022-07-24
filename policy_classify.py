@@ -103,12 +103,8 @@ class PolicyClassify:
         try:
 
             policy_id = policy['id']
-            app_id = policy['app_id']
-            policy_url = policy['policy_url']
 
-            if (app_id in self.classified_app_ids or app_id in [964776]):
-                return
-            if ('honeywell' in policy_url.lower()):
+            if (policy_id in self.classified_policy_ids):
                 return
 
             (policy_text, policy_html) = utilities.get_policy_text(policy_id)
@@ -117,7 +113,7 @@ class PolicyClassify:
 
             if (len(policy_text) < 3):
                 
-                self.logger.debug(f'Policy Too Small: id: {str(policy_id)}, app_id: {str(app_id)}, policy_url: {str(policy_url)}')
+                self.logger.debug(f'Policy Too Small: id: {str(policy_id)}')
                 
                 # Increment the total number of small found.
                 self.total_number_of_small_or_empty_policies += 1
@@ -129,7 +125,7 @@ class PolicyClassify:
             
 
             # Instantiate the policy class
-            policy = Policy(self.logger, self.models, self.dictionary, policy_id, app_id, policy_url, policy_text, policy_html)
+            policy = Policy(self.logger, self.models, self.dictionary, policy_id, policy_text, policy_html)
             
             try:
                 
