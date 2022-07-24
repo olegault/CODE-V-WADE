@@ -68,8 +68,8 @@ class PolicyClassify:
         # Retrieve the Policy list.
         self.policy_list = PolicyList(self.logger).get_policies()
 
-        # Retrieve App IDs for previously cleaned policies
-        self.classified_app_ids = PolicyList(self.logger).get_classified_app_ids()
+        # Retrieve IDs for previously cleaned policies
+        self.classified_policy_ids = PolicyList(self.logger).get_classified_policy_ids()
 
         # Retrieve dictionary for word embeddings
         self.dictionary = Model(self.logger).get_dictionary()

@@ -122,7 +122,7 @@ class PrivacyPoliciesDataset(Dataset):
     
     @staticmethod
     def collate_data(batch):
-        
+
         def stack_segments(segments, clearance = 2):
 
             import numpy as np
@@ -155,15 +155,9 @@ class PrivacyPoliciesDataset(Dataset):
         segments = [item[0] for item in batch]
 
         labels = [item[1] for item in batch]
-        
+
         segments_tensor = stack_segments(segments)
 
         labels_tensor = torch.stack(labels)
-        
-#         dev = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-        
-#         segments_tensor.to(dev)
-        
-#         labels_tensor.to(dev)
 
         return [segments_tensor, labels_tensor]

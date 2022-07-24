@@ -30,10 +30,10 @@ class PolicyList:
 
             with database_connection.cursor() as cursor:
 
-                # Select the app urls by run id and process id.
+                # Select the policies by Policy ID.
                 cursor.execute(sql_statements.select_cleaned_policy)
 
-                # Fetch all app urls.
+                # Fetch all Policy IDs.
                 result_rows = cursor.fetchall()
 
         # Initialize an policy list.
@@ -49,11 +49,7 @@ class PolicyList:
             row_count += 1
 
             # Append the Policy ID to the Policy list
-            policy_list.append({
-                'id': row['id'],
-                'app_id': row['app_id'],
-                'policy_url': row['policy_url'],
-            })
+            policy_list.append(row['id'])
 
             # For the first ten rows log the url information.
             if row_count <= 10:
@@ -64,7 +60,7 @@ class PolicyList:
 
         return policy_list
     
-    def get_classified_app_ids(self):
+    def get_classified_policy_ids(self):
         """Method to get the list of classified policy entries.
         :return: a list of policy IDs from the policy database.
         """
@@ -76,19 +72,19 @@ class PolicyList:
 
             with database_connection.cursor() as cursor:
 
-                # Select the App IDs for cleaned policies.
-                cursor.execute(sql_statements.select_classified_policy_app_ids)
+                # Select the Policy IDs for cleaned policies.
+                cursor.execute(sql_statements.select_classified_policy_ids)
 
-                # Fetch all app urls.
+                # Fetch all Policy IDs.
                 result_rows = cursor.fetchall()
 
-        # Initialize an app ID list.
-        app_list = []
+        # Initialize an policy ID list.
+        policy_list = []
 
         # Initialize a row counter.
         row_count = 0
 
-        self.logger.info("Extracting Previously Cleaned Policy App IDs.")
+        self.logger.info("Extracting Previously Cleaned Policy IDs.")
 
         # For each row in the result rows.
         for row in result_rows:
@@ -96,18 +92,18 @@ class PolicyList:
             # Increment the row counter.
             row_count += 1
 
-            # Append the Policy's App ID ID to the Policy list
-            app_list.append(row['app_id'])
+            # Append the Policy ID to the Policy list
+            policy_list.append(row['policy_id'])
 
             # For the first ten rows log the url information.
             if row_count <= 10:
-                self.logger.info("Row #%d  App ID = %s",
-                                 row_count, row['app_id'])
+                self.logger.info("Row #%d  Policy ID = %s",
+                                 row_count, row['Policy_id'])
 
-        app_list = set(app_list)
+        policy_list = set(policy_list)
 
-        self.logger.info("Row count = %d,  number of rows in already cleaned App ID list = %d", row_count, len(app_list))
+        self.logger.info("Row count = %d,  number of rows in already cleaned Policy ID list = %d", row_count, len(policy_list))
 
-        return app_list
+        return policy_list
 
 
