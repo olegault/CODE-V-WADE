@@ -26,37 +26,37 @@ class Model:
         self.dictionary_path = self.configuration["models"]["dictionaryPath"]
     
     def load_model(current_attribute, current_num_levels):
-    # Load Trained Model
-    net = NeuralNet(
-        CNN,
-        module__embeddings = weights_matrix,
-        module__vocab_size = weights_matrix.shape[0],
-        module__emb_dim = weights_matrix.shape[1],
-        module__Co = 200,
-        module__Hu = [100],
-        module__C = current_num_levels,
-        module__Ks = [3],
-        module__name = f'{current_attribute}_zeros_60-20-(no-val)_polisis',
-        module__dropout = 0.5,
-        max_epochs = 300,
-        lr = 0.01,
-        optimizer = SGD,
-        optimizer__weight_decay = 0,
-        optimizer__momentum=0.9,
-        criterion = nn.BCELoss(),
-        batch_size=40,
-        # Turn the validation split off once we have the metadata values set
-        train_split = None,
-        # Shuffle training data on each epoch
-        iterator_train__shuffle=True,
-        iterator_train__collate_fn=collate_data,
-        iterator_valid__collate_fn=collate_data,
-        # Turn off verbose
-        verbose = 0,
-        device='cuda',
-    ).initialize()
-    net.load_params(f_params=f'trained_models/{current_attribute}/model.pkl',f_optimizer=f'trained_models/{current_attribute}/optimizer.pkl', f_history=f'trained_models/{current_attribute}/history.json')
-    return net
+        # Load Trained Model
+        net = NeuralNet(
+            CNN,
+            module__embeddings = weights_matrix,
+            module__vocab_size = weights_matrix.shape[0],
+            module__emb_dim = weights_matrix.shape[1],
+            module__Co = 200,
+            module__Hu = [100],
+            module__C = current_num_levels,
+            module__Ks = [3],
+            module__name = f'{current_attribute}_zeros_60-20-(no-val)_polisis',
+            module__dropout = 0.5,
+            max_epochs = 300,
+            lr = 0.01,
+            optimizer = SGD,
+            optimizer__weight_decay = 0,
+            optimizer__momentum=0.9,
+            criterion = nn.BCELoss(),
+            batch_size=40,
+            # Turn the validation split off once we have the metadata values set
+            train_split = None,
+            # Shuffle training data on each epoch
+            iterator_train__shuffle=True,
+            iterator_train__collate_fn=collate_data,
+            iterator_valid__collate_fn=collate_data,
+            # Turn off verbose
+            verbose = 0,
+            device='cuda',
+        ).initialize()
+        net.load_params(f_params=f'trained_models/{current_attribute}/model.pkl',f_optimizer=f'trained_models/{current_attribute}/optimizer.pkl', f_history=f'trained_models/{current_attribute}/history.json')
+        return net
     
     def get_all_models(self):
         models = {}

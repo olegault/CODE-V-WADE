@@ -173,12 +173,13 @@ class Policy:
                         # Instantiate attribute labels dict as a list.
                         attribute_labels = self.models[attribute]['labels']
                         
+                        attribute_results = []
                         attribute_predictions = attribute_model.predict_proba(segment_tensor)
                         attribute_predictions = attribute_predictions > 0.5
                         attribute_predictions = attribute_predictions[0, :]
                         for attribute_label_index in range(len(attribute_labels)):
                             if attribute_predictions[attribute_label_index] == True:
-                                attribute_results.append(attribute_labels[attribute_label_index]
+                                attribute_results.append(attribute_labels[attribute_label_index])
 
                         # If any labels have been classified, add them to the dict.
                         current_segment[attribute]= attribute_results

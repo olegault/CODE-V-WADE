@@ -1,3 +1,13 @@
+#Imports needed from pytorch
+import torch
+from torch.utils.data import Dataset
+from collections import OrderedDict
+from torch import nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torch.optim import SGD,Adam
+
+
 class CNN(nn.Module):
 
 
