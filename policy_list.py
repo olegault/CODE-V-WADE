@@ -31,7 +31,7 @@ class PolicyList:
             with database_connection.cursor() as cursor:
 
                 # Select the policies by Policy ID.
-                cursor.execute(sql_statements.select_cleaned_policy)
+                cursor.execute(sql_statements.select_cleaned_policies)
 
                 # Fetch all Policy IDs.
                 result_rows = cursor.fetchall()
@@ -98,7 +98,7 @@ class PolicyList:
             # For the first ten rows log the url information.
             if row_count <= 10:
                 self.logger.info("Row #%d  Policy ID = %s",
-                                 row_count, row['Policy_id'])
+                                 row_count, row['policy_id'])
 
         policy_list = set(policy_list)
 

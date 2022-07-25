@@ -38,7 +38,7 @@ class PolicyClassify:
         # Register an at exit method to run, when the program exits run the exit method.
         atexit.register(self.onexit)
 
-        self.logger.info("Initializing PolicyClean.")
+        self.logger.info("Initializing PolicyClassify.")
 
         # Get the configuration from the configuration file
         self.configuration = Configuration().get_configuration()
@@ -91,18 +91,16 @@ class PolicyClassify:
         raise Exception("FUBAR")
 
     
-    def safe_process_policy(self, policy):
+    def safe_process_policy(self, policy_id):
         """Method to process a policy within a try block so that processing may continue in case of error.
            Safely call the process policy function.
 
         :param policy: A dict containing the ID of the policy from the raw_policy database.   
         """
         
-        self.logger.debug(f'Starting Processing policy: {str(policy)}')
+        self.logger.debug(f'Starting Processing Policy ID: {str(policy_id)}')
         
         try:
-
-            policy_id = policy['id']
 
             if (policy_id in self.classified_policy_ids):
                 return

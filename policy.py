@@ -123,7 +123,7 @@ class Policy:
 
         self.logger.debug(f'Making Category Predictions: {str(self.policy_logger_dict)}')
         # Make predictions using the CNN model
-        predictions = self.models['Main']['model'](segments_tensor)
+        predictions = self.models['Main']['model'].predict_proba(segments_tensor)
 
         # Filter predictions to include labels with >50% probability
         y_pred = predictions > 0.5
@@ -155,13 +155,16 @@ class Policy:
                 # Instantiate result dictionary for current segment
                 current_segment = {
                     'segment_text': segment_text,
-                    'main': main_labels
+                    'main': main_labels,
+                    'Identifiability': [],
+                    'Purpose': [],
+                    'Personal Information Type': []
                 }
 
                 # If any attribute needs to be classified, proceed individually.
                 if ('First Party Collection/Use' in main_labels or 'Third Party Sharing/Collection' in main_labels):
 
-                    segment_tensor = dp.process_policy_of_interest(dictionary, [segment_text,])
+                    segment_tensor = dp.process_policy_of_interest(self.dictionary, [segment_text,])
 
                     for attribute in ['Identifiability', 'Purpose', 'Personal Information Type']:
                         
