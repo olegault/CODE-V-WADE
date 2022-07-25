@@ -56,55 +56,45 @@ class Policy:
 
                 for segment in result:
                     
-                    segment_text = segment['segment_text']
-                    main_labels = segment['main_labels']
-                    
-                    # Insert a row in the segment table.
-                    cursor.execute(sql_statements.segment_insert,
-                                (self.app_id, self.policy_id, segment_text))
-
-                    # Use the segment row id as the foreign key to the classified labels.
-                    segment_id = cursor.lastrowid
-
-                    # Add each category label to the database.
-                    for label in main_labels:
-                        cursor.execute(sql_statements.catetgory_labels_insert, (segment_id, label))
-                    
-                    # If any attribute labels were classified for the segment.
-                    if ('attribute_labels' in segment):
-
-                        # Initialize the list of attribute labels
-                        attribute_labels = segment['attribute_labels']
-
-                        # Parse each label.
-                        for attribute in attribute_labels:
-
-                            # Add each attribute label to the attribute label table of the database.
-                            cursor.execute(sql_statements.attribute_labels_insert, (segment_id, attribute))
-                            
-                            try:
-                                # Attribute table Name to insert into the right db table
-                                attribute_table_name = utilities.label_to_variable(attribute)
-                            except Exception as attr_predict_exception:
-                                self.logger.info(f'Failed to process policy ID = {self.policy_id},\n attribute_table_name = {attribute_table_name}.\n attribute = {attribute}.\n attr_labels = {attribute_labels}', exc_info=attr_predict_exception)
-                                raise 'An exception occurred: {}'.format(attr_predict_exception)
-
-                            # SQL statement to inser value into the attribute table
-                            sql_statement = sql_statements.attribute_variable_table_insert.format(table_name=f"{attribute_table_name}_label")
-
-                            # Fetch all classifications for the current attribute label.
-                            attribute_results = segment[attribute]
-
-                            # Parse through each result for the given attribute.
-                            for label in attribute_results:
-                                
-                                try:
-                                    # Add each label to the corresponding table
-                                    cursor.execute(sql_statement, (segment_id, label))
-                                except Exception as attr_predict_exception:
-                                    self.logger.info(f'Failed to process policy ID = {self.policy_id},\n attribute_table_name = {attribute_table_name}.\n attribute = {attribute}.\n attr_labels = {attribute_labels}', exc_info=attr_predict_exception)
+                    try:
+                        # Insert a row in the segment table.
+                        cursor.execute(sql_statements.segment_insert,
+                                    (self.policy_id 
+                                     , segment['segment_text']
+                                     , int('First Party Collection/Use' in segment['main'])
+                                     , int('Third Party Sharing/Collection' in segment['main'])
+                                     , int('Identifiable' in segment['Identifiability'])
+                                     , int('Aggregated or anonymized' in segment['Identifiability'])
+                                     , int('Unspecified' in segment['Identifiability'])
+                                     , int('Additional service/feature' in segment['Purpose'])
+                                     , int('Advertising' in segment['Purpose'])
+                                     , int('Analytics/Research' in segment['Purpose'])
+                                     , int('Basic service/feature' in segment['Purpose'])
+                                     , int('Legal requirement' in segment['Purpose'])
+                                     , int('Marketing' in segment['Purpose'])
+                                     , int('Merger/Acquisition' in segment['Purpose'])
+                                     , int('Personalization/Customization' in segment['Purpose'])
+                                     , int('Service operation and security' in segment['Purpose'])
+                                     , int('Unspecified' in segment['Purpose'])
+                                     , int('Computer information' in segment['Personal Information Type'])
+                                     , int('Contact' in segment['Personal Information Type'])
+                                     , int('Cookies and tracking elements' in segment['Personal Information Type'])
+                                     , int('Demographic' in segment['Personal Information Type'])
+                                     , int('Financial' in segment['Personal Information Type'])
+                                     , int('Generic personal information' in segment['Personal Information Type'])
+                                     , int('Health' in segment['Personal Information Type'])
+                                     , int('IP address and device IDs' in segment['Personal Information Type'])
+                                     , int('Location' in segment['Personal Information Type'])
+                                     , int('Personal identifier' in segment['Personal Information Type'])
+                                     , int('Social media data' in segment['Personal Information Type'])
+                                     , int('Survey data' in segment['Personal Information Type'])
+                                     , int('User online activities' in segment['Personal Information Type'])
+                                     , int('User profile' in segment['Personal Information Type'])
+                                     , int('Unspecified' in segment['Personal Information Type'])
+                                    ))
+                    except Exception as attr_predict_exception:
+                                    self.logger.info(f'Failed to process policy ID = {self.policy_id}', exc_info=attr_predict_exception)
                                     raise 'An exception occurred: {}'.format(attr_predict_exception)
-
 
                 # Commit to save changes.
                 database_connection.commit()

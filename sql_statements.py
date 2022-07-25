@@ -21,13 +21,42 @@ select_policy_text = """
 
 # SQL statement to add segment to the database.
 segment_insert = """
-    INSERT INTO `segment`
+    INSERT INTO `run_41_segment`
     (
-        `app_id`
-        , `policy_id`
+        `policy_id`
         , `segment_text`
+        , `main_category_label_first_party`
+        , `main_category_label_third_party`
+        , `identifiability_label_identifiable`
+        , `identifiability_label_anonymized`
+        , `identifiability_label_unspecified`
+        , `purpose_label_additional_service`
+        , `purpose_label_advertising`
+        , `purpose_label_analytics`
+        , `purpose_label_basic_service`
+        , `purpose_label_legal`
+        , `purpose_label_marketing`
+        , `purpose_label_merger`
+        , `purpose_label_personalization`
+        , `purpose_label_service_operation`
+        , `purpose_label_unspecified`
+        , `information_type_computer_information`
+        , `information_type_contact`
+        , `information_type_cookies`
+        , `information_type_demographic`
+        , `information_type_financial`
+        , `information_type_generic`
+        , `information_type_health`
+        , `information_type_ip_address`
+        , `information_type_location`
+        , `information_type_identifier`
+        , `information_type_social`
+        , `information_type_survey`
+        , `information_type_activities`
+        , `information_type_profile`
+        , `information_type_unspecified`
     )
-    VALUES (%s, %s, %s)"""
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
 # SQL statement to add main labels for a segment to the database.
 catetgory_labels_insert = """
