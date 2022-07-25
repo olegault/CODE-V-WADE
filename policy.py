@@ -24,12 +24,6 @@ class Policy:
         # Instantiate the policy table ID.
         self.policy_id = policy_id
 
-        # Instantiate the app table ID.
-        self.app_id = app_id
-
-        # Instantiate the policy URL.
-        self.policy_url = policy_url
-
         # Instantiate the policy plain text.
         self.policy_text = policy_text
 
@@ -42,48 +36,7 @@ class Policy:
         # Policy Dict for Logger
         self.policy_logger_dict = {
             'id': self.policy_id,
-            'app_id': self.app_id,
-            'policy_url': self.policy_url
         }
-
-    def classify_attribute(self, segment_text, attribute_model, attribute_labels, threshold = 0.95):
-
-        # Ordered Dict to List 
-        attribute_labels = list(attribute_labels)
-        
-        # Vectorize policy segments
-        segments_tensor = dp.process_policy_of_interest(self.dictionary , [segment_text])
-
-        # Make predictions using the CNN model
-        predictions = attribute_model(segments_tensor)
-        
-        # Filter predictions to include labels with >95% probability
-        y_pred = predictions > threshold
-        
-#         print("YPred:")
-#         print(y_pred)
-        
-        # Extract just the prediction row as a list.
-        predicted_values = y_pred[0, :]
-        
-#         print("Predicted_Values:")
-#         print(predicted_values)
-        
-        # Instantiate a result list.
-        result_labels = []
-        
-        try: 
-            # Parse each label and record True labels.
-            for label in range(len(attribute_labels)):
-                if predicted_values[label] == True:
-                        result_labels.append(attribute_labels[label])
-        except Exception as attr_predict_exception:
-            self.logger.info(f'Failed to process policy ID = {self.policy_id},\n y_pred = {y_pred}.\n predicted_values = {predicted_values}.\n attr_labels = {attribute_labels}', exc_info=attr_predict_exception)
-            raise 'An exception occurred: {}'.format(attr_predict_exception)
-            
-
-        # Return a list of labels that were identified for the attribute in the current segments.
-        return result_labels
 
     def add_results_to_database(self, result):
         """Function to add policy classification results to the database.
@@ -162,10 +115,6 @@ class Policy:
 
     def process_policy(self):
         
-        primary_labels = ('First Party Collection/Use', 'Third Party Sharing/Collection', 'User Access, Edit and Deletion', 'Data Retention',
-          'Data Security', 'International and Specific Audiences', 'Do Not Track', 'Policy Change', 'User Choice/Control',
-          'Introductory/Generic', 'Practice not covered', 'Privacy contact information') 
-        
         self.logger.debug(f'Merging Lists: {str(self.policy_logger_dict)}')
         # Preprocess the Policy Text.
         # Merge lists back to previous paragraph.
@@ -208,7 +157,7 @@ class Policy:
             # Parse main label classifications and add to the main_labels list.
             for label in range(12):
                 if predictedValues[label] == True:
-                    main_labels.append(primary_labels[label])
+                    main_labels.append(self.models['Main']['labels'][label])
 
             # Proceed if current segment includes any main labels.
             if(len(main_labels) > 0):
@@ -216,37 +165,33 @@ class Policy:
                 # Instantiate result dictionary for current segment
                 current_segment = {
                     'segment_text': segment_text,
-                    'main_labels': main_labels
+                    'main': main_labels
                 }
 
-                # Extract corresponding attributes to be extracted for each main label.
-                for label in main_labels:
-                    attribute_labels.extend(utilities.main_label_to_attribute(label))
-                
-                # Remove duplicate attributes.
-                attribute_labels = set(attribute_labels)
-
                 # If any attribute needs to be classified, proceed individually.
-                if (len(attribute_labels) > 0):
+                if ('First Party Collection/Use' in main_labels or 'Third Party Sharing/Collection' in main_labels):
 
-                    # Add attribute labels to the current segment result dict.
-                    current_segment['attribute_labels'] = attribute_labels
+                    segment_tensor = dp.process_policy_of_interest(dictionary, [segment_text,])
 
-                    for attribute in attribute_labels:
+                    for attribute in ['Identifiability', 'Purpose', 'Personal Information Type']:
                         
-                        self.logger.debug(f'Making Attribute {attribute} Predictions: {str(self.policy_logger_dict)}')
+                        self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
 
                         # Instantiate attribute model.
                         attribute_model = self.models[attribute]['model']
 
                         # Instantiate attribute labels dict as a list.
-                        attribute_labels_dict = self.models[attribute]['labels']
-
-                        # Call classification function and extract predicted labels as a list.
-                        predicted_labels = self.classify_attribute(segment_text, attribute_model, attribute_labels_dict, threshold = 0.95)
+                        attribute_labels = self.models[attribute]['labels']
                         
+                        attribute_predictions = attribute_model.predict_proba(segment_tensor)
+                        attribute_predictions = attribute_predictions > 0.5
+                        attribute_predictions = attribute_predictions[0, :]
+                        for attribute_label_index in range(len(attribute_labels)):
+                            if attribute_predictions[attribute_label_index] == True:
+                                attribute_results.append(attribute_labels[attribute_label_index]
+
                         # If any labels have been classified, add them to the dict.
-                        current_segment[attribute]= predicted_labels
+                        current_segment[attribute]= attribute_results
                     
                 # Append the results of the current segment to the results for the policy.
                 result.append(current_segment)

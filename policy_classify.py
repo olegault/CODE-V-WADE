@@ -21,13 +21,13 @@ import time
 import os
 
 class PolicyClassify:
-    """The app review class used to proces app reviews."""
+    """The policy classify class used to process privacy policies."""
 
     def __init__(self):
         """Method to initialize the PolicyClassify class."""
 
         # Setup the logger.
-        self.logger = Log("app_label_log").logger
+        self.logger = Log("privacy_policy_log").logger
 
         # Chunk status log frequency.
         self.chunk_status_log_frequency = 100
@@ -43,13 +43,13 @@ class PolicyClassify:
         # Get the configuration from the configuration file
         self.configuration = Configuration().get_configuration()
 
-        # Size of the thread pool used for processing app urls.
+        # Size of the thread pool used for processing privacy policies.
         self.thread_pool_size = self.configuration["program"]["threadPoolSize"]
 
-        # Size of the chunks to split the app list into for processing.
+        # Size of the chunks to split the policy list into for processing.
         self.policy_list_chunk_size = self.configuration["program"]["policyListChunkSize"]
 
-        # Size of the chunks to split the app list into for processing.
+        # Size of the chunks to split the policy list into for processing.
         self.error_policy_list_chunk_size = self.configuration["program"]["errorPolicyListChunkSize"]
 
         # Sleep time between chunks in seconds.
@@ -74,7 +74,7 @@ class PolicyClassify:
         # Retrieve dictionary for word embeddings
         self.dictionary = Model(self.logger).get_dictionary()
 
-        # Statistical variables to keep track of the total number of apps, privacy labels, and errors.
+        # Statistical variables to keep track of the total number of processed policies, and errors.
         self.total_number_of_policies_classified = 0
         self.total_number_of_small_or_empty_policies = 0
         self.total_number_of_errors = 0
@@ -93,9 +93,9 @@ class PolicyClassify:
     
     def safe_process_policy(self, policy):
         """Method to process a policy within a try block so that processing may continue in case of error.
-           Safely call the process app url function.
+           Safely call the process policy function.
 
-        :param policy: A dict containing the ID, App ID, and URL of the policy from the raw_policy database.   
+        :param policy: A dict containing the ID of the policy from the raw_policy database.   
         """
         
         self.logger.debug(f'Starting Processing policy: {str(policy)}')
@@ -129,7 +129,7 @@ class PolicyClassify:
             
             try:
                 
-                self.logger.debug(f'Policy Classification Underway: id: {str(policy_id)}, app_id: {str(app_id)}, policy_url: {str(policy_url)}')
+                self.logger.debug(f'Policy Classification Underway: id: {str(policy_id)}')
                 # Process the policy text and classify its segments\
                 policy.process_policy()
             except BaseException as process_policy_predict_exception:
@@ -145,7 +145,7 @@ class PolicyClassify:
             finally:
                 signal.alarm(0)
 
-            # Increment the app counter for each app processed.
+            # Increment the policy counter for each policy processed.
             self.total_number_of_policies_classified += 1
 
         except Exception as process_policy_exception:
@@ -184,16 +184,7 @@ class PolicyClassify:
                 signal.alarm(0)
             
             self.logger.debug(f'Processed policy: {str(policy)}')
-            
 
-
-#         # Process the app url list with a thread pool.
-#         with concurrent.futures.ThreadPoolExecutor(max_workers=self.thread_pool_size) as executor:
-#             future_url = {executor.submit(self.safe_process_policy, policy): policy
-#                           for policy in policy_list_chunk}
-#             for future in concurrent.futures.as_completed(future_url):
-#                 policy = future_url[future]
-#                 self.logger.debug(f'Processed policy: {str(policy)}')
 
 
     def process_policy_list(self):
@@ -203,7 +194,7 @@ class PolicyClassify:
         # Initiaize a chunk counter.
         chunk_counter = 0
 
-        # Split the app list into chunks.
+        # Split the policy list into chunks.
         for chunked_list in utilities.split_list_into_chunks(self.policy_list, self.policy_list_chunk_size):
             
             # Process the individual policy list chunks.
@@ -237,7 +228,7 @@ class PolicyClassify:
             + "Elapsed time: " + self.time_log.calculate_elapsed_time() + newline \
             + "Number of policies: " + str(self.total_number_of_policies_classified) + newline \
             + "Number of small or empty policies: " + str(self.total_number_of_small_or_empty_policies) + newline \
-            + "Number of policies that failed to process (app store): " + str(self.total_number_of_errors) + newline \
+            + "Number of policies that failed to process: " + str(self.total_number_of_errors) + newline \
             + line
 
         return status 
