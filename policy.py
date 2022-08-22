@@ -63,6 +63,7 @@ class Policy:
                                      , segment['segment_text']
                                      , int('First Party Collection/Use' in segment['main'])
                                      , int('Third Party Sharing/Collection' in segment['main'])
+                                     , int('Does Not' in segment['Does or Does Not'])
                                      , int('Identifiable' in segment['Identifiability'])
                                      , int('Aggregated or anonymized' in segment['Identifiability'])
                                      , int('Unspecified' in segment['Identifiability'])
@@ -156,6 +157,7 @@ class Policy:
                 current_segment = {
                     'segment_text': segment_text,
                     'main': main_labels,
+                    'Does or Does Not': [],
                     'Identifiability': [],
                     'Purpose': [],
                     'Personal Information Type': []
@@ -166,7 +168,7 @@ class Policy:
 
                     segment_tensor = dp.process_policy_of_interest(self.dictionary, [segment_text,])
 
-                    for attribute in ['Identifiability', 'Purpose', 'Personal Information Type']:
+                    for attribute in ['Does or Does Not', 'Identifiability', 'Purpose', 'Personal Information Type']:
                         
                         self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
 

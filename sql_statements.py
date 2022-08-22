@@ -2,31 +2,32 @@
 # SQL statement to select Policy ID, App ID, and Policy URL from the raw policy table
 select_cleaned_policies = """
     SELECT `id`
-    FROM `run_41_raw_policy`
+    FROM `run_43_raw_policy`
     WHERE `cleaned_html` IS NOT NULL
     AND `cleaned_html` != ''
 """
 # SQL statement to check for an existing entry for a cleaned policy
 select_classified_policy_ids = """
     SELECT DISTINCT(`policy_id`)
-    FROM `run_41_segment`
+    FROM `run_43_segment`
 """
 
 # SQL statement to get policy text for the current policy ID
 select_policy_text = """
     SELECT `cleaned_text`, `cleaned_html`
-    FROM `run_41_raw_policy`
+    FROM `run_43_raw_policy`
     WHERE id = %s
 """
 
 # SQL statement to add segment to the database.
 segment_insert = """
-    INSERT INTO `run_41_segment`
+    INSERT INTO `run_43_segment`
     (
         `policy_id`
         , `segment_text`
         , `main_category_label_first_party`
         , `main_category_label_third_party`
+        , `does_not_label`
         , `identifiability_label_identifiable`
         , `identifiability_label_anonymized`
         , `identifiability_label_unspecified`
@@ -56,4 +57,4 @@ segment_insert = """
         , `information_type_profile`
         , `information_type_unspecified`
     )
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""

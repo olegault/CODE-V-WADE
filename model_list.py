@@ -130,6 +130,14 @@ class Model:
         }
 
         self.logger.info("Fetched Main Model")
+        
+        # Does or Does Not
+        does_not_model = self.load_model('Does or Does Not', 2)
+        does_not_labels = list(dp.attr_value_labels['Does or Does Not'])
+        models['Does or Does Not'] = {
+            'model': does_not_model,
+            'labels': does_not_labels
+        }
 
         # Identifiability
         identifiability_model = self.load_model('Identifiability', 3)
