@@ -14,6 +14,7 @@ from policy_list import PolicyList
 from policy import Policy
 from model_list import Model
 import urllib.parse
+from nltk.tokenize import sent_tokenize
 
 # Importing values to handle timeout signals.
 import signal
@@ -108,7 +109,18 @@ class PolicyClassify:
             (policy_text, policy_html) = utilities.get_policy_text(policy_id)
 
             policy_text = policy_text.splitlines()
-
+            
+            # If readabability couldn't divide the policy into segments, it's possible they have just 1 or 2 long segments.
+            if (len(policy_text) < 3):
+                
+                # Flatten the list
+                flattened_list = [item for sublist in policy_text for item in sublist]
+                
+                flattened_string = '\n'.join(flattened_list)
+                
+                policy_text = sent_tokenize(flattened_string)
+                
+            # If the policy is small despite sentence tokenization, then skip it.    
             if (len(policy_text) < 3):
                 
                 self.logger.debug(f'Policy Too Small: id: {str(policy_id)}')
