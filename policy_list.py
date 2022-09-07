@@ -3,6 +3,7 @@ import utilities
 from configuration import Configuration
 from database import Database
 from urllib.parse import unquote
+import pandas as pd
 
 
 class PolicyList:
@@ -22,41 +23,46 @@ class PolicyList:
         :return: a list of policy IDs for the current run id and node process id.
         """
 
-        # Get a database connection.
-        database_connection = Database().get_database_connection()
+#         # Get a database connection.
+#         database_connection = Database().get_database_connection()
 
-        # Try with the database connection as a resource.
-        with database_connection:
+#         # Try with the database connection as a resource.
+#         with database_connection:
 
-            with database_connection.cursor() as cursor:
+#             with database_connection.cursor() as cursor:
 
-                # Select the policies by Policy ID.
-                cursor.execute(sql_statements.select_cleaned_policies)
+#                 # Select the policies by Policy ID.
+#                 cursor.execute(sql_statements.select_cleaned_policies)
 
-                # Fetch all Policy IDs.
-                result_rows = cursor.fetchall()
+#                 # Fetch all Policy IDs.
+#                 result_rows = cursor.fetchall()
 
-        # Initialize an policy list.
-        policy_list = []
+#         # Initialize an policy list.
+#         policy_list = []
 
-        # Initialize a row counter.
-        row_count = 0
+#         # Initialize a row counter.
+#         row_count = 0
 
-        # For each row in the result rows.
-        for row in result_rows:
+#         # For each row in the result rows.
+#         for row in result_rows:
 
-            # Increment the row counter.
-            row_count += 1
+#             # Increment the row counter.
+#             row_count += 1
 
-            # Append the Policy ID to the Policy list
-            policy_list.append(row['id'])
+#             # Append the Policy ID to the Policy list
+#             policy_list.append(row['id'])
 
-            # For the first ten rows log the url information.
-            if row_count <= 10:
-                self.logger.info("Row #%d  Policy ID = %s",
-                                 row_count, row['id'])
+#             # For the first ten rows log the url information.
+#             if row_count <= 10:
+#                 self.logger.info("Row #%d  Policy ID = %s",
+#                                  row_count, row['id'])
+    
+        txt_file = open('/data/policy_ids.txt', 'r')
 
-        self.logger.info("Row count = %d,  number of rows in policy ID list = %d", row_count, len(policy_list))
+        policy_list = txt_file.readlines()
+        policy_list = [int(x.strip()) for x in policy_list]
+
+        self.logger.info("number of rows in policy ID list = %d", len(policy_list))
 
         return policy_list
     

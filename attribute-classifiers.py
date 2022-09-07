@@ -45,8 +45,8 @@ nltk.download('punkt')
 # In[5]:
 
 
-current_attribute = 'Does or Does Not'
-current_num_levels = 2
+current_attribute = 'Third Party Entity'
+current_num_levels = 6
 
 
 # # 2. Pretrained Embeddings
@@ -393,11 +393,11 @@ net = NeuralNet(
 
 
 params = {
-    'lr': [0.001],
-    'max_epochs': [100]
+    'lr': [0.01, 0.001],
+    'max_epochs': [75, 100, 200, 300, 500]
 }
 
-gs = RandomizedSearchCV(net, params, refit='presence', scoring=score_presence)
+gs = RandomizedSearchCV(net, params, refit='presence', scoring={'presence': score_presence,'absence': score_absence})
 gs.fit(train_dataset.segments_array, train_dataset.labels_tensor)
 print(gs.best_score_, gs.best_params_)
 

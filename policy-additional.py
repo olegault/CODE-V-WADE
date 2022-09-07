@@ -9,10 +9,10 @@ import data_processing as dp
 from cnn import CNN
 
 
-class AdditionalPolicy:
+class Segment:
     """Class that manages processing an app."""
 
-    def __init__(self, logger, models, dictionary, policy_id, policy_text, policy_html):
+    def __init__(self, logger, models, dictionary, policy_id, segment_id, segment_text):
         """Method to initialize the App class."""
 
         # Setup the logger.
@@ -23,19 +23,19 @@ class AdditionalPolicy:
 
         # Instantiate the policy table ID.
         self.policy_id = policy_id
+        
+        # Instantiate the policy table ID.
+        self.segment_id = segment_id
 
-        # Instantiate the policy plain text.
-        self.policy_text = policy_text
-
-        # Instantiate the policy's simple HTML version.
-        self.policy_html = policy_html
+        # Instantiate the segment plain text.
+        self.segment_text = segment_text
 
         # Load existing dictionary
         self.dictionary = dictionary
         
-        # Policy Dict for Logger
-        self.policy_logger_dict = {
-            'id': self.policy_id,
+        # Segment Dict for Logger
+        self.segment_logger_dict = {
+            'id': self.segment_id,
         }
 
     def add_results_to_database(self, result):
@@ -58,7 +58,7 @@ class AdditionalPolicy:
                     
                     try:
                         # Insert a row in the segment table.
-                        cursor.execute(sql_statements.additional_insert,
+                        cursor.execute(sql_statements.segment_insert,
                                     (self.policy_id 
                                      , segment['segment_text']
                                      , int('First Party Collection/Use' in segment['main'])
@@ -106,53 +106,15 @@ class AdditionalPolicy:
 
     def process_policy(self):
         
-        self.logger.debug(f'Merging Lists: {str(self.policy_logger_dict)}')
-        # Preprocess the Policy Text.
-        # Merge lists back to previous paragraph.
-        self.policy_text = utilities.merge_lists(self.policy_text)
-        
-        self.logger.debug(f'Filtering Headings: {str(self.policy_logger_dict)}')
-        # Remove header-related text
-        self.policy_text = utilities.filter_out_headings(self.policy_text, self.policy_html)
-        
         try: 
             self.logger.debug(f'Creating Policy Segments: {str(self.policy_logger_dict)}')
-            # Vectorize policy segments
-            segments_tensor = dp.process_policy_of_interest(self.dictionary , self.policy_text)
+            # Vectorize segment
+            segment_tensor = dp.process_policy_of_interest(self.dictionary, [segment_text,])
         except BaseException as segment_tensor_exception:
             raise Exception(f"Exception while creating segment tensor. Error Message: {segment_tensor_exception}")
 
-        self.logger.debug(f'Making Category Predictions: {str(self.policy_logger_dict)}')
-        # Make predictions using the CNN model
-        predictions = self.models['Main']['model'].predict_proba(segments_tensor)
-
-        # Filter predictions to include labels with >50% probability
-        y_pred = predictions > 0.5
-
-        result = []
-
-        # Append result for each segment to the result list
-        for result_row in range(len(self.policy_text)):
-            # Extract segment text.
-            segment_text = self.policy_text[result_row]
-
-            # Initialize main label classification to empty.
-            main_labels = []
-
-            # Initialize attribute label list to empty.
-            attribute_labels = []
-
-            # Extract main label predictions for current segment.
-            predictedValues = y_pred[result_row, :]
-
-            # Parse main label classifications and add to the main_labels list.
-            for label in range(12):
-                if predictedValues[label] == True:
-                    main_labels.append(self.models['Main']['labels'][label])
-
-            # Proceed if current segment includes any main labels.
-            if(len(main_labels) > 0):
-
+        self.logger.debug(f'Making Category Predictions: {str(self.segment_logger_dict)}')
+        
                 # Instantiate result dictionary for current segment
                 current_segment = {
                     'segment_text': segment_text,
@@ -198,5 +160,5 @@ class AdditionalPolicy:
         self.add_results_to_database(result)
 
 
-    
+
 

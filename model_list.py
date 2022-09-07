@@ -133,7 +133,7 @@ class Model:
         
         # Does or Does Not
         does_not_model = self.load_model('Does or Does Not', 2)
-        does_not_labels = list(dp.attr_value_labels['Does or Does Not'])
+        does_not_labels = list(dp.attr_value_labels('Does or Does Not'))
         models['Does or Does Not'] = {
             'model': does_not_model,
             'labels': does_not_labels
@@ -167,7 +167,136 @@ class Model:
 
         return models
     
-    
+    def get_additional_models(self):
+        models = {}
+        
+        # Retention Period
+        retention_period_model = self.load_model('Retention Period', 4)
+        retention_period_labels = list(dp.attr_value_labels('Retention Period'))
+        models['Retention Period'] = {
+            'model': retention_period_model,
+            'labels': retention_period_labels
+        }
+        
+        # Retention Purpose
+        retention_purpose_model = self.load_model('Retention Purpose', 7)
+        retention_purpose_labels = list(dp.attr_value_labels('Retention Purpose'))
+        models['Retention Purpose'] = {
+            'model': retention_purpose_model,
+            'labels': retention_purpose_labels
+        }
+        
+        # Notification Type
+        notification_type_model = self.load_model('Notification Type', 5)
+        notification_type_labels = list(dp.attr_value_labels('Notification Type'))
+        models['Notification Type'] = {
+            'model': notification_type_model,
+            'labels': notification_type_labels
+        }
+        
+        # Security Measure
+        security_measure_model = self.load_model('Security Measure', 9)
+        security_measure_labels = list(dp.attr_value_labels('Security Measure'))
+        models['Security Measure'] = {
+            'model': security_measure_model,
+            'labels': security_measure_labels
+        }
+        
+        # Audience Type
+        audience_type_model = self.load_model('Audience Type', 4)
+        audience_type_labels = list(dp.attr_value_labels('Audience Type'))
+        models['Audience Type'] = {
+            'model': audience_type_model,
+            'labels': audience_type_labels
+        }
+        
+        # User Type
+        user_type_model = self.load_model('User Type', 4)
+        user_type_labels = list(dp.attr_value_labels('User Type'))
+        models['User Type'] = {
+            'model': user_type_model,
+            'labels': user_type_labels
+        }
+        
+        # Access Scope
+        access_scope_model = self.load_model('Access Scope', 5)
+        access_scope_labels = list(dp.attr_value_labels('Access Scope'))
+        models['Access Scope'] = {
+            'model': access_scope_model,
+            'labels': access_scope_labels
+        }
+        
+        # Access Type
+        access_type_model = self.load_model('Access Type', 7)
+        access_type_labels = list(dp.attr_value_labels('Access Type'))
+        models['Access Type'] = {
+            'model': access_type_model,
+            'labels': access_type_labels
+        }
+        
+        # Action First-Party
+        action_first_party_model = self.load_model('Action First-Party', 9)
+        action_first_party_labels = list(dp.attr_value_labels('Action First-Party'))
+        models['Action First-Party'] = {
+            'model': action_first_party_model,
+            'labels': action_first_party_labels
+        }
+        
+        # Action Third-Party
+        action_third_party_model = self.load_model('Action Third-Party', 5)
+        action_third_party_labels = list(dp.attr_value_labels('Action Third-Party'))
+        models['Action Third-Party'] = {
+            'model': action_third_party_model,
+            'labels': action_third_party_labels
+        }
+        
+        # Third Party Entity
+        third_party_entity_model = self.load_model('Third Party Entity', 6)
+        third_party_entity_labels = list(dp.attr_value_labels('Third Party Entity'))
+        models['Third Party Entity'] = {
+            'model': third_party_entity_model,
+            'labels': third_party_entity_labels
+        }
+        
+        # Choice Scope
+        choice_scope_entity_model = self.load_model('Choice Scope', 8)
+        choice_scope_labels = list(dp.attr_value_labels('Choice Scope'))
+        models['Choice Scope'] = {
+            'model': choice_scope_model,
+            'labels': choice_scope_labels
+        }
+        
+        # Choice Type
+        choice_type_entity_model = self.load_model('Choice Type', 8)
+        choice_type_labels = list(dp.attr_value_labels('Choice Type'))
+        models['Choice Type'] = {
+            'model': choice_type_model,
+            'labels': choice_type_labels
+        }
+        
+        # User Choice
+        user_choice_model = self.load_model('User Choice', 5)
+        user_choice_labels = list(dp.attr_value_labels('User Choice'))
+        models['User Choice'] = {
+            'model': user_choice_model,
+            'labels': user_choice_labels
+        }
+        
+        # Change Type
+        change_type_model = self.load_model('Change Type', 4)
+        change_type_labels = list(dp.attr_value_labels('Change Type'))
+        models['Change Type'] = {
+            'model': change_type_model,
+            'labels': change_type_labels
+        }
+        
+        # Collection Mode
+        collection_mode_model = self.load_model('Collection Mode', 3)
+        collection_mode_labels = list(dp.attr_value_labels('Collection Mode'))
+        models['Collection Mode'] = {
+            'model': collection_mode_model,
+            'labels': collection_mode_labels
+        }
     
     def get_dictionary(self):
         with open(self.dictionary_path, "rb") as dictionary_file:
