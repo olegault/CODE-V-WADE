@@ -169,6 +169,48 @@ class Model:
     
     def get_additional_models(self):
         models = {}
+
+               # Main Model
+        main_model = self.load_model('Majority', 12)
+        main_labels = list(dp.attr_value_labels('Majority'))
+        models['Main'] = {
+            'model': main_model,
+            'labels': main_labels
+        }
+
+        self.logger.info("Fetched Main Model")
+        
+        # Does or Does Not
+        does_not_model = self.load_model('Does or Does Not', 2)
+        does_not_labels = list(dp.attr_value_labels('Does or Does Not'))
+        models['Does or Does Not'] = {
+            'model': does_not_model,
+            'labels': does_not_labels
+        }
+
+        # Identifiability
+        identifiability_model = self.load_model('Identifiability', 3)
+        identifiability_labels = list(dp.attr_value_labels('Identifiability'))
+        models['Identifiability'] = {
+            'model': identifiability_model,
+            'labels': identifiability_labels
+        }
+
+        # Personal Information Type
+        personal_information_type_model = self.load_model('Personal Information Type', 15)
+        personal_information_type_labels = list(dp.attr_value_labels('Personal Information Type'))
+        models['Personal Information Type'] = {
+            'model': personal_information_type_model,
+            'labels': personal_information_type_labels
+        }
+
+        # Purpose
+        purpose_model = self.load_model('Purpose', 10)
+        purpose_labels = list(dp.attr_value_labels('Purpose'))
+        models['Purpose'] = {
+            'model': purpose_model,
+            'labels': purpose_labels
+        }
         
         # Retention Period
         retention_period_model = self.load_model('Retention Period', 4)
@@ -259,7 +301,7 @@ class Model:
         }
         
         # Choice Scope
-        choice_scope_entity_model = self.load_model('Choice Scope', 8)
+        choice_scope_model = self.load_model('Choice Scope', 8)
         choice_scope_labels = list(dp.attr_value_labels('Choice Scope'))
         models['Choice Scope'] = {
             'model': choice_scope_model,
@@ -267,7 +309,7 @@ class Model:
         }
         
         # Choice Type
-        choice_type_entity_model = self.load_model('Choice Type', 8)
+        choice_type_model = self.load_model('Choice Type', 8)
         choice_type_labels = list(dp.attr_value_labels('Choice Type'))
         models['Choice Type'] = {
             'model': choice_type_model,
@@ -297,6 +339,18 @@ class Model:
             'model': collection_mode_model,
             'labels': collection_mode_labels
         }
+
+        # Collection Mode
+        do_not_track_policy_model = self.load_model('Do Not Track Policy', 5)
+        do_not_track_policy_labels = list(dp.attr_value_labels('Do Not Track Policy'))
+        models['Do Not Track Policy'] = {
+            'model': do_not_track_policy_model,
+            'labels': do_not_track_policy_labels
+        }
+
+        self.logger.info("Fetched Attribute Models")
+
+        return models
     
     def get_dictionary(self):
         with open(self.dictionary_path, "rb") as dictionary_file:
