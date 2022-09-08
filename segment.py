@@ -200,7 +200,7 @@ class Segment:
                                     , int('Other' in segment['Do Not Track Policy'])
                                 ))
                 except Exception as attr_predict_exception:
-                                self.logger.info(f'Failed to process policy ID = {self.policy_id}', exc_info=attr_predict_exception)
+                                self.logger.info(f'Failed to process policy ID = {self.policy_id}, segment ID {self.segment_id}', exc_info=attr_predict_exception)
                                 raise 'An exception occurred: {}'.format(attr_predict_exception)
 
                 # Commit to save changes.
@@ -210,7 +210,7 @@ class Segment:
                 
 
 
-    def process_policy(self):
+    def process_segment(self):
         
         try: 
             self.logger.debug(f'Creating Policy Segments: {str(self.policy_logger_dict)}')

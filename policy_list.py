@@ -18,55 +18,53 @@ class PolicyList:
         # Get the configuration from the configuration file.
         self.configuration = Configuration().get_configuration()
 
-    def get_policies(self):
+    def get_segments(self):
         """Method to get the list of uncleaned policy entries.
         :return: a list of policy IDs for the current run id and node process id.
         """
 
-#         # Get a database connection.
-#         database_connection = Database().get_database_connection()
+        # Get a database connection.
+        database_connection = Database().get_database_connection()
 
-#         # Try with the database connection as a resource.
-#         with database_connection:
+        # Try with the database connection as a resource.
+        with database_connection:
 
-#             with database_connection.cursor() as cursor:
+            with database_connection.cursor() as cursor:
 
-#                 # Select the policies by Policy ID.
-#                 cursor.execute(sql_statements.select_cleaned_policies)
+                # Select the policies by Policy ID.
+                cursor.execute(sql_statements.select_unclassified_segments)
 
-#                 # Fetch all Policy IDs.
-#                 result_rows = cursor.fetchall()
+                # Fetch all Policy IDs.
+                result_rows = cursor.fetchall()
 
-#         # Initialize an policy list.
-#         policy_list = []
+        # Initialize an segment list.
+        segment_list = []
 
-#         # Initialize a row counter.
-#         row_count = 0
+        # Initialize a row counter.
+        row_count = 0
 
-#         # For each row in the result rows.
-#         for row in result_rows:
+        # For each row in the result rows.
+        for row in result_rows:
 
-#             # Increment the row counter.
-#             row_count += 1
+            # Increment the row counter.
+            row_count += 1
 
-#             # Append the Policy ID to the Policy list
-#             policy_list.append(row['id'])
+            # Append the Policy ID to the Policy list
+            segment_list.append({
+                'segment_id': row['id'],
+                'policy_id': row['policy_id']
+            })
 
-#             # For the first ten rows log the url information.
-#             if row_count <= 10:
-#                 self.logger.info("Row #%d  Policy ID = %s",
-#                                  row_count, row['id'])
+            # For the first ten rows log the url information.
+            if row_count <= 10:
+                self.logger.info("Row #%d  Policy ID = %s Segment ID = %s",
+                                  row_count, row['policy_id'], row['id'])
+
+        self.logger.info("number of rows in policy ID list = %d", len(segment_list))
+
+        return segment_list
     
-        txt_file = open('/data/policy_ids.txt', 'r')
-
-        policy_list = txt_file.readlines()
-        policy_list = [int(x.strip()) for x in policy_list]
-
-        self.logger.info("number of rows in policy ID list = %d", len(policy_list))
-
-        return policy_list
-    
-    def get_classified_policy_ids(self):
+    def get_classified_segment_ids(self):
         """Method to get the list of classified policy entries.
         :return: a list of policy IDs from the policy database.
         """
@@ -79,13 +77,13 @@ class PolicyList:
             with database_connection.cursor() as cursor:
 
                 # Select the Policy IDs for cleaned policies.
-                cursor.execute(sql_statements.select_classified_policy_ids)
+                cursor.execute(sql_statements.select_classified_segments)
 
                 # Fetch all Policy IDs.
                 result_rows = cursor.fetchall()
 
         # Initialize an policy ID list.
-        policy_list = []
+        segment_list = []
 
         # Initialize a row counter.
         row_count = 0
@@ -98,18 +96,18 @@ class PolicyList:
             # Increment the row counter.
             row_count += 1
 
-            # Append the Policy ID to the Policy list
-            policy_list.append(row['policy_id'])
+            # Append the Policy ID to the Segment list
+            segment_list.append(row['segment_id'])
 
             # For the first ten rows log the url information.
             if row_count <= 10:
-                self.logger.info("Row #%d  Policy ID = %s",
-                                 row_count, row['policy_id'])
+                self.logger.info("Row #%d  Segment ID = %s",
+                                 row_count, row['segment_id'])
 
-        policy_list = set(policy_list)
+        segment_list = set(segment_list)
 
-        self.logger.info("Row count = %d,  number of rows in already cleaned Policy ID list = %d", row_count, len(policy_list))
+        self.logger.info("Row count = %d,  number of rows in already cleaned Segment ID list = %d", row_count, len(segment_list))
 
-        return policy_list
+        return segment_list
 
 

@@ -45,6 +45,34 @@ def split_list_into_chunks(list_to_split_into_chunks, chunk_size):
     for start_of_chunk in range(0, len(list_to_split_into_chunks), chunk_size):
         yield list_to_split_into_chunks[start_of_chunk:start_of_chunk + chunk_size]
 
+def get_segment_text(segment_id):
+    """Function to extract segment text from the policy table.
+
+    :param segment_id: The ID of the corresponding row of the segment table.
+    """
+
+    # Establish a database connection
+    database_connection = Database().get_database_connection()
+
+    # Try with the database connection as a resource.
+    with database_connection:
+        with database_connection.cursor() as cursor:
+            # Insert a row in the error log table.
+            cursor.execute(sql_statements.select_segment_text,
+                           (segment_id))
+
+            # Fetch all app urls.
+            result_rows = cursor.fetchall()
+    
+    # Initialize a segment text string variable
+    segment_text = ''
+
+    # Parse the returned list and extract a single element
+    for row in result_rows:
+        segment_text = unquote(row['segment_text'], encoding='utf-8', errors='replace')
+    
+    return segment_text
+
 def get_policy_text(policy_id):
     """Function to extract policy text from the policy table.
 

@@ -6,10 +6,31 @@ select_cleaned_policies = """
     WHERE `cleaned_html` IS NOT NULL
     AND `cleaned_html` != ''
 """
+
+# SQL statement to select Policy ID, segment ID App ID, and Policy URL from the raw policy table
+select_classified_segments = """
+    SELECT DISTINCT `segment_id`
+    FROM `run_43_all_classifier_results`
+"""
+
+# SQL statement to select Policy ID, segment ID App ID, and Policy URL from the raw policy table
+select_unclassified_segments = """
+    SELECT `id`, `policy_id`
+    FROM `run_43_segment`
+    WHERE `id` NOT IN (SELECT `segment_id` from `run_43_all_classifier_results`)
+"""
+
 # SQL statement to check for an existing entry for a cleaned policy
 select_classified_policy_ids = """
     SELECT DISTINCT(`policy_id`)
     FROM `run_43_segment`
+"""
+
+# SQL statement to get policy text for the current policy ID
+select_segment_text = """
+    SELECT `segment_text`
+    FROM `run_43_segment`
+    WHERE id = %s
 """
 
 # SQL statement to get policy text for the current policy ID
