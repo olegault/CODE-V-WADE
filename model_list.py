@@ -253,7 +253,7 @@ class Model:
         }
         
         # User Type
-        user_type_model = self.load_model('User Type', 4)
+        user_type_model = self.load_model('User Type', 3)
         user_type_labels = list(dp.attr_value_labels('User Type'))
         models['User Type'] = {
             'model': user_type_model,

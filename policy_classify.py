@@ -11,7 +11,7 @@ from status_email import StatusEmail
 from time import sleep
 from time_log import TimeLog, seconds_to_string
 from policy_list import PolicyList
-from policy import Policy
+# from policy import Policy
 from segment import Segment
 from model_list import Model
 import urllib.parse
@@ -156,13 +156,13 @@ class PolicyClassify:
 
             # # Instantiate the policy class
             # policy = Policy(self.logger, self.models, self.dictionary, policy_id, policy_text, policy_html)
-            segment = Segment(self.logger, self.models, self.dictionary, segment['policy_id'], segment['segment_id'], segment_text)
+            segment_to_classify = Segment(self.logger, self.models, self.dictionary, segment['policy_id'], segment['segment_id'], segment_text)
             
             try:
                 
                 self.logger.debug(f'Segment Classification Underway: Policy ID: {str(segment["policy_id"])}, Segment ID: {str(segment["segment_id"])}')
                 # Process the policy text and classify its segments\
-                segment.process_segment()
+                segment_to_classify.process_segment()
             except BaseException as process_policy_predict_exception:
                 # Increment the total number of errors found.
                 self.total_number_of_errors += 1
@@ -228,7 +228,7 @@ class PolicyClassify:
         chunk_counter = 0
 
         # Split the policy list into chunks.
-        for chunked_list in utilities.split_list_into_chunks(self.segment_list, self.policy_list_chunk_size):
+        for chunked_list in utilities.split_list_into_chunks(self.segment_list, self.segment_list_chunk_size):
             
             # Process the individual policy list chunks.
             self.process_policy_list_chunk(chunked_list)

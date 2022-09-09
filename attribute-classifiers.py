@@ -45,8 +45,8 @@ nltk.download('punkt')
 # In[5]:
 
 
-current_attribute = 'Third Party Entity'
-current_num_levels = 6
+current_attribute = 'Do Not Track Policy'
+current_num_levels = 5
 
 
 # # 2. Pretrained Embeddings
