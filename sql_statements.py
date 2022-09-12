@@ -4,7 +4,7 @@ select_cleaned_policies = """
     SELECT `id`
     FROM `run_43_raw_policy`
     WHERE `cleaned_html` IS NOT NULL
-    AND `cleaned_html` != ''
+    AND `id` NOT IN (SELECT policy_id FROM `run_43_all_classifier_results`);
 """
 
 # SQL statement to select Policy ID, segment ID App ID, and Policy URL from the raw policy table
@@ -18,13 +18,12 @@ select_unclassified_segments = """
     SELECT `id`, `policy_id`
     FROM `run_43_segment`
     WHERE `id` NOT IN (SELECT `segment_id` from `run_43_all_classifier_results`)
-    AND `policy_id` IN (SELECT DISTINCT `policy_id` FROM `apps_with_label_and_policy`);
 """
 
 # SQL statement to check for an existing entry for a cleaned policy
 select_classified_policy_ids = """
     SELECT DISTINCT(`policy_id`)
-    FROM `run_43_segment`
+    FROM `run_43_all_classifier_results`
 """
 
 # SQL statement to get policy text for the current policy ID
@@ -84,7 +83,6 @@ segment_insert = """
 large_segment_insert = """
     INSERT INTO `run_43_all_classifier_results` (
         `policy_id`,
-        `segment_id`,
         `main_category_label_first_party`,
         `main_category_label_third_party`,
         `main_category_label_user_access_edit_deletion`,
@@ -223,7 +221,7 @@ large_segment_insert = """
         `do_not_track_honored`,
         `do_not_track_not_honored`,
         `do_not_track_mentioned_unclear_if_honored`,
-        `do_not_track_other`
+        `do_not_track_other`,
     )
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 """
