@@ -76,7 +76,7 @@ class PolicyClassify:
 
         # Retrieve IDs for previously cleaned policies
         # self.classified_policy_ids = PolicyList(self.logger).get_classified_policy_ids()
-        self.classified_segment_ids = PolicyList(self.logger).get_classified_segment_ids()
+        self.classified_segment_ids = list(PolicyList(self.logger).get_classified_segment_ids())
 
         # Retrieve dictionary for word embeddings
         self.dictionary = Model(self.logger).get_dictionary()
@@ -228,7 +228,7 @@ class PolicyClassify:
         chunk_counter = 0
 
         # Split the policy list into chunks.
-        for chunked_list in utilities.split_list_into_chunks(self.segment_list, self.segment_list_chunk_size):
+        for chunked_list in utilities.split_list_into_chunks(self.segment_list, self.policy_list_chunk_size):
             
             # Process the individual policy list chunks.
             self.process_policy_list_chunk(chunked_list)

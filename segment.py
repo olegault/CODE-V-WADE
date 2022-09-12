@@ -45,7 +45,7 @@ class Segment:
         :return:
         """
         
-        self.logger.debug(f'Adding Results to Database: {str(self.policy_logger_dict)}')
+        self.logger.debug(f'Adding Results to Database: {str(self.segment_logger_dict)}')
 
         # Establish a database connection
         database_connection = Database().get_database_connection()
@@ -213,7 +213,7 @@ class Segment:
     def process_segment(self):
         
         try: 
-            self.logger.debug(f'Creating Policy Segments: {str(self.policy_logger_dict)}')
+            self.logger.debug(f'Creating Policy Segments: {str(self.segment_logger_dict)}')
             # Vectorize segment
             segment_tensor = dp.process_policy_of_interest(self.dictionary, [self.segment_text,])
         except BaseException as segment_tensor_exception:
@@ -275,7 +275,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -303,7 +303,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -331,7 +331,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -359,7 +359,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -387,7 +387,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -415,7 +415,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -443,7 +443,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -471,7 +471,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
@@ -499,7 +499,7 @@ class Segment:
                 if attribute in predicted_attributes:
                     continue
                 
-                self.logger.debug(f'Making {attribute} Predictions: {str(self.policy_logger_dict)}')
+                self.logger.debug(f'Making {attribute} Predictions: {str(self.segment_logger_dict)}')
 
                 # Instantiate attribute model.
                 attribute_model = self.models[attribute]['model']
