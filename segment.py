@@ -61,6 +61,7 @@ class Segment:
                         # Insert a row in the segment table.
                         cursor.execute(sql_statements.large_segment_insert,
                                     (self.policy_id
+                                        , segment['segment_text']
                                         , int('First Party Collection/Use' in segment['main'])
                                         , int('Third Party Sharing/Collection' in segment['main'])
                                         , int('User Access, Edit and Deletion' in segment['main'])
@@ -235,18 +236,23 @@ class Segment:
         self.logger.debug(f'Making Category Predictions: {str(self.policy_logger_dict)}')
 
         # Make predictions using the CNN model
-        main_predictions = self.models['Main']['model'].predict_proba(segments_tensor)
+        predictions = self.models['Main']['model'].predict_proba(segments_tensor)
 
         # Filter predictions to include labels with >50% probability
-        main_predictions = main_predictions > 0.5
+        y_pred = predictions > 0.5
 
         result = []
 
         # Append result for each segment to the result list
         for result_row in range(len(self.policy_text)):
+            
+            segment_text = self.policy_text[result_row]
+            
+            if (segment_text == '' or len(segment_text.split()) <= 3):
+                continue
 
             # Extract main label predictions for current segment.
-            main_predictions = main_predictions[result_row, :]
+            main_predictions = y_pred[result_row, :]
 
             # Initialize main label classification to empty.
             main_labels = []
@@ -259,10 +265,12 @@ class Segment:
             if (len(main_labels) == 0):
                 continue
 
-            segment_tensor = dp.process_policy_of_interest(self.dictionary, [self.policy_text[result_row],])
+            segment_tensor = dp.process_policy_of_interest(self.dictionary, [segment_text,])
+
             
             # Instantiate result dictionary for current segment
             current_segment = {
+                'segment_text' : segment_text,
                 'main': main_labels,
                 'Does or Does Not': [],
                 'Identifiability': [],
