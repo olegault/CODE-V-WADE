@@ -14,6 +14,7 @@ from policy_list import PolicyList
 from segment import Segment
 from model_list import Model
 import urllib.parse
+from nltk.tokenize import sent_tokenize
 
 # Importing values to handle timeout signals.
 import signal
@@ -107,23 +108,27 @@ class PolicyClassify:
 
             (policy_text, policy_html) = utilities.get_policy_text(policy_id)
 
-            policy_text = policy_text.splitlines()
+            policy_text_list = policy_text.splitlines()
 
-            if (len(policy_text) < 3):
+            if (len(policy_text_list) < 3):
                 
-                self.logger.debug(f'Policy Too Small: id: {str(policy_id)}')
+                policy_text_list = sent_tokenize(policy_text)
                 
-                # Increment the total number of small found.
-                self.total_number_of_small_or_empty_policies += 1
+                if (len(policy_text_list) < 3):
+                
+                    self.logger.debug(f'Policy Too Small: id: {str(policy_id)}')
 
-                # Append the policy ID to the policies with errors during processing list.
-                self.policies_with_errors_during_processing.append(policy_id)
+                    # Increment the total number of small found.
+                    self.total_number_of_small_or_empty_policies += 1
 
-                return
+                    # Append the policy ID to the policies with errors during processing list.
+                    self.policies_with_errors_during_processing.append(policy_id)
+
+                    return
             
 
             # Instantiate the policy class
-            policy = Segment(self.logger, self.models, self.dictionary, policy_id, policy_text, policy_html)
+            policy = Segment(self.logger, self.models, self.dictionary, policy_id, policy_text_list, policy_html)
             
             try:
                 
