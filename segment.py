@@ -223,23 +223,8 @@ class Segment:
         self.logger.debug(f'Filtering Headings: {str(self.policy_logger_dict)}')
         # Remove header-related text
         self.policy_text = utilities.filter_out_headings(self.policy_text, self.policy_html)
-        
-
-        try: 
-            self.logger.debug(f'Creating Policy Segments: {str(self.policy_logger_dict)}')
-            # Vectorize segment
-            segments_tensor = dp.process_policy_of_interest(self.dictionary , self.policy_text)
-            # segment_tensor = dp.process_policy_of_interest(self.dictionary, [self.segment_text,])
-        except BaseException as segment_tensor_exception:
-            raise Exception(f"Exception while creating segment tensor. Error Message: {segment_tensor_exception}")
 
         self.logger.debug(f'Making Category Predictions: {str(self.policy_logger_dict)}')
-
-        # Make predictions using the CNN model
-        predictions = self.models['Main']['model'].predict_proba(segments_tensor)
-
-        # Filter predictions to include labels with >50% probability
-        y_pred = predictions > 0.5
 
         result = []
 
@@ -250,9 +235,23 @@ class Segment:
             
             if (segment_text == '' or len(segment_text.split()) <= 3):
                 continue
+            
+            try: 
+                self.logger.debug(f'Creating Policy Segment: {str(self.policy_logger_dict)}')
+                # Vectorize segment
+                segment_tensor = dp.process_policy_of_interest(self.dictionary, [segment_text,])
+            except BaseException as segment_tensor_exception:
+                self.logger.debug(f'Exception while creating segment tensor: {str(self.policy_logger_dict)} Error Message: {segment_tensor_exception}')
+                continue
+
+            # Make predictions using the CNN model
+            predictions = self.models['Main']['model'].predict_proba(segment_tensor)
+
+            # Filter predictions to include labels with >50% probability
+            y_pred = predictions > 0.5
 
             # Extract main label predictions for current segment.
-            main_predictions = y_pred[result_row, :]
+            main_predictions = y_pred[0, :]
 
             # Initialize main label classification to empty.
             main_labels = []
@@ -264,8 +263,6 @@ class Segment:
 
             if (len(main_labels) == 0):
                 continue
-
-            segment_tensor = dp.process_policy_of_interest(self.dictionary, [segment_text,])
 
             
             # Instantiate result dictionary for current segment
