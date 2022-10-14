@@ -9,7 +9,6 @@ from collections import OrderedDict
 from torch import tensor
 def get_number_segments(folder):
     """
-    
     Computes the number of segments in the files inside the folder
     
     Args:

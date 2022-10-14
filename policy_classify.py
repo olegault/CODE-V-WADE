@@ -11,12 +11,10 @@ from status_email import StatusEmail
 from time import sleep
 from time_log import TimeLog, seconds_to_string
 from policy_list import PolicyList
-from segment import Segment
-from model_list import Model
 import urllib.parse
 from nltk.tokenize import sent_tokenize
 
-# Importing values to handle timeout signals.
+# Importing values to handle timeout signals. 
 import signal
 import time
 import os
@@ -64,18 +62,23 @@ class PolicyClassify:
         self.policies_with_errors_during_processing = []
 
         # Retrieve Pre-trained models.
-        self.models = Model(self.logger).get_additional_models()
+        # self.models = Model(self.logger).get_additional_models()
 
         # Retrieve the Policy list.
         self.policy_list = PolicyList(self.logger).get_policies()
 
         # Retrieve IDs for previously cleaned policies
-        self.classified_policy_ids = PolicyList(self.logger).get_classified_policy_ids()
+        # self.classified_policy_ids = PolicyList(self.logger).get_classified_policy_ids()
+        self.classified_policy_ids = []
 
         # Retrieve dictionary for word embeddings
-        self.dictionary = Model(self.logger).get_dictionary()
+        # self.dictionary = Model(self.logger).get_dictionary()
 
         # Statistical variables to keep track of the total number of processed policies, and errors.
+        self.total_number_of_empty_policies = 0
+        self.empty_policies_list = []
+        self.total_number_of_small_policies = 0
+        self.small_policies_list = []
         self.total_number_of_policies_classified = 0
         self.total_number_of_small_or_empty_policies = 0
         self.total_number_of_errors = 0
@@ -101,66 +104,48 @@ class PolicyClassify:
         
         self.logger.debug(f'Starting Processing Policy ID: {str(policy_id)}')
         
-        try:
 
-            if (policy_id in self.classified_policy_ids):
-                return
-
-            (policy_text, policy_html) = utilities.get_policy_text(policy_id)
-
-            policy_text_list = policy_text.splitlines()
-
-            if (len(policy_text_list) < 3):
-                
-                policy_text_list = sent_tokenize(policy_text)
-                
-                if (len(policy_text_list) < 3):
-                
-                    self.logger.debug(f'Policy Too Small: id: {str(policy_id)}')
-
-                    # Increment the total number of small found.
-                    self.total_number_of_small_or_empty_policies += 1
-
-                    # Append the policy ID to the policies with errors during processing list.
-                    self.policies_with_errors_during_processing.append(policy_id)
-
-                    return
+        (policy_text, policy_html) = utilities.get_policy_text(policy_id)
+        
+        if (policy_text == ''):
+            self.total_number_of_empty_policies += 1
+            self.total_number_of_small_or_empty_policies += 1
+            self.empty_policies_list.append(policy_id)
+            self.logger.debug(f'Policy Empty: id: {str(policy_id)}')
+            return
+    
+        policy_text = policy_text.splitlines()
             
+        # If readabability couldn't divide the policy into segments, it's possible they have just 1 or 2 long segments.
+        if (len(policy_text) < 3):
 
-            # Instantiate the policy class
-            policy = Segment(self.logger, self.models, self.dictionary, policy_id, policy_text_list, policy_html)
-            
-            try:
+            # Flatten the list
+            flattened_list = [item for sublist in policy_text for item in sublist]
+
+            flattened_string = '\n'.join(flattened_list)
+
+            policy_text = sent_tokenize(flattened_string)
                 
-                self.logger.debug(f'Policy Classification Underway: id: {str(policy_id)}')
-                # Process the policy text and classify its segments\
-                policy.process_policy()
-            except BaseException as process_policy_predict_exception:
-                # Increment the total number of errors found.
-                self.total_number_of_errors += 1
+        # If the policy is small despite sentence tokenization, then skip it.    
+        if (len(policy_text) < 3):
+                
+            if (len(policy_text) == 0):
+                self.total_number_of_empty_policies += 1
+                self.empty_policies_list.append(policy_id)
+            else:
+                self.total_number_of_small_policies += 1
+                self.small_policies_list.append(policy_id)
 
-                # Append the policy ID to the policies with errors during processing list.
-                self.policies_with_errors_during_processing.append(policy_id)
+            self.logger.debug(f'Policy Too Small: id: {str(policy_id)}')
 
-                self.logger.info(f'Failed to process policy ID = {policy_id}.', exc_info=process_policy_predict_exception)
-
-                return
-            finally:
-                signal.alarm(0)
-
-            # Increment the policy counter for each policy processed.
-            self.total_number_of_policies_classified += 1
-
-        except Exception as process_policy_exception:
-            # Increment the total number of errors found.
-            self.total_number_of_errors += 1
+            # Increment the total number of small found.
+            self.total_number_of_small_or_empty_policies += 1
 
             # Append the policy ID to the policies with errors during processing list.
             self.policies_with_errors_during_processing.append(policy_id)
-
-            self.logger.info(f'Failed to process policy ID = {policy_id}.', exc_info=process_policy_exception)
             
-            return
+        return
+
 
     def process_policy_list_chunk(self, policy_list_chunk):
         """Method to process policy list chunks using a thread pool.
@@ -215,6 +200,18 @@ class PolicyClassify:
     
     def build_status_information_string(self):
         """Method to build the status information string for logging and emailing status information."""
+        
+        with open('small-policies.txt', 'w') as fp:
+            for item in self.small_policies_list:
+                # write each item on a new line
+                fp.write("%s\n" % item)
+            print('Done')
+            
+        with open('empty-policies.txt', 'w') as fp:
+            for item in self.empty_policies_list:
+                # write each item on a new line
+                fp.write("%s\n" % item)
+            print('Done')
 
         # Create a log line of 40 equals signs.
         line = "=" * 40
@@ -224,14 +221,14 @@ class PolicyClassify:
 
         # Build the status string.
         status = newline \
-            + "UIC Apple App Privacy Policy Classification Status" + newline \
+            + "UIC Apple App Small and Empty Policy Detection Status" + newline \
             + line + newline \
             + "Start time: " + self.time_log.start_program_time_string + newline \
             + "Current time: " + seconds_to_string() + newline \
             + "Elapsed time: " + self.time_log.calculate_elapsed_time() + newline \
-            + "Number of policies: " + str(self.total_number_of_policies_classified) + newline \
             + "Number of small or empty policies: " + str(self.total_number_of_small_or_empty_policies) + newline \
-            + "Number of policies that failed to process: " + str(self.total_number_of_errors) + newline \
+            + "Number of small policies: " + str(self.total_number_of_small_policies) + newline \
+            + "Number of empty policies: " + str(self.total_number_of_empty_policies) + newline \
             + line
 
         return status 

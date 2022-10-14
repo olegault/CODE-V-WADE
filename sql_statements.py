@@ -1,11 +1,23 @@
 
 # SQL statement to select Policy ID, App ID, and Policy URL from the raw policy table
+# select_cleaned_policies = """
+#     SELECT `id`
+#     FROM `run_43_raw_policy`
+#     WHERE `cleaned_html` IS NOT NULL
+#     AND `id` NOT IN (SELECT policy_id FROM `run_43_all_classifier_results`)
+#     AND `id` IN (SELECT policy_id FROM `app_to_policy`);
+# """
+
+# New SQL statement to select policies from `run_43_raw_policy` & `run_43_app_store_label` to check if small/empty
 select_cleaned_policies = """
-    SELECT `id`
+    SELECT DISTINCT `id`
     FROM `run_43_raw_policy`
-    WHERE `cleaned_html` IS NOT NULL
-    AND `id` NOT IN (SELECT policy_id FROM `run_43_all_classifier_results`)
-    AND `id` IN (SELECT policy_id FROM `apps_with_label_and_policy`);
+    WHERE `id` IN (
+        SELECT policy_id
+        FROM
+            `app_to_policy`
+            JOIN `run_43_app_store_labels` ON `run_43_app_store_labels`.`app_id` = `app_to_policy`.`app_table_id`
+    );
 """
 
 # SQL statement to select Policy ID, segment ID App ID, and Policy URL from the raw policy table

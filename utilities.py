@@ -98,6 +98,10 @@ def get_policy_text(policy_id):
 
     # Parse the returned list and extract a single element
     for row in result_rows:
+        if (row['cleaned_text'] is None or row['cleaned_text'] == ''):
+            policy_text = ''
+            policy_html = ''
+            continue
         policy_text = unquote(row['cleaned_text'], encoding='utf-8', errors='replace')
         policy_html = unquote(row['cleaned_html'], encoding='utf-8', errors='replace')
     
