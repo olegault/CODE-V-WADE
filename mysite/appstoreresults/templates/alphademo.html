@@ -46,32 +46,7 @@
                                         <span class="display-4 fw-bold">App Store</span>
                                     </div>
                                     <ul class="list-unstyled mb-4">
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            5GB storage
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            5GB storage
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            Unlimited public projects
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            Community access
-                                        </li>
-                                        <li class="mb-2 text-muted">
-                                            <i class="bi bi-x"></i>
-                                            Unlimited private projects
-                                        </li>
-                                        <li class="mb-2 text-muted">
-                                            <i class="bi bi-x"></i>
-                                            Dedicated support
-                                        </li>
                                     </ul>
-                                    <div class="d-grid"><img class="img-fluid rounded mb-5 mb-lg-0" src="/loading.png" alt="..." /></div>
                                     <div class="d-grid"><a class="btn btn-outline-primary" href="#appstore">Check it out</a></div>
                                 </div>
                             </div>
@@ -86,33 +61,8 @@
                                         <span class="display-4 fw-bold">NLP</span>
                                     </div>
                                     <ul class="list-unstyled mb-4">
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            <strong>5 users</strong>
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            5GB storage
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            Unlimited private projects
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            Dedicated support
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            Free linked domain
-                                        </li>
-                                        <li class="text-muted">
-                                            <i class="bi bi-x"></i>
-                                            Monthly status reports
-                                        </li>
                                     </ul>
-                                    <div class="d-grid"><img class="img-fluid rounded mb-5 mb-lg-0" src="/loading.png" alt="..." /></div>
-                                    <div class="d-grid"><a class="btn btn-outline-primary" href="#appstore">Check it out</a></div>
+                                    <div class="d-grid"><a class="btn btn-outline-primary" href="#nlp">Check it out</a></div>
                                 </div>
                             </div>
                         </div>
@@ -121,53 +71,62 @@
                             <div class="card">
                                 <div class="card-body p-5">
                                     <div class="mb-3">
-                                        <span class="display-4 fw-bold">Packet Analysis</span>
+                                        <span class="display-4 fw-bold">Packet Tracing</span>
                                     </div>
                                     <ul class="list-unstyled mb-4">
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            <strong>Unlimited users</strong>
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            5GB storage
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            Unlimited public projects
-                                        </li>
-                                        <li class="mb-2">
-                                            <i class="bi bi-check text-primary"></i>
-                                            <strong>Unlimited</strong>
-                                            linked domains
-                                        </li>
-                                        <li class="text-muted">
-                                            <i class="bi bi-check text-primary"></i>
-                                            Monthly status reports
-                                        </li>
+                                        
                                     </ul>
-                                    <div class="d-grid"><img class="img-fluid rounded mb-5 mb-lg-0" src="/loading.png" alt="..." /></div>
-                                    <div class="d-grid"><a class="btn btn-outline-primary" href="#appstore">Check it out</a></div>
+                                    <div class="d-grid"><a class="btn btn-outline-primary" href="#packet">Check it out</a></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <!--descriptions-->
             <section class="py-5" id ="appstore">
                 <div class="container px-5 my-5">
                     <div class="row gx-5 align-items-center">
-                        <div class="col-lg-6">
-                            <h2 class="fw-bolder">Choose an app to review results:</h2>
-                            {% for app in apps %}
-                                <span>{{ app.title }} {{ app.developer }}</span>
-                            {% endfor %}
+                            <h2 class="fw-bolder">App Store Scraping Progress</h2>
+                            <p class="lead fw-normal text-muted mb-0">Returns database of app descriptors and permissions tags.</p>
+                            <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/media/ap1.png"/></div>
+                            <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/media/ap2.png"/></div>
+
                         </div>
                     </div>
-                </div> 
+                </div>
             </section>
 
-            <!-- collapsible subsection-->
+            <section class="py-5" id ="nlp">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 align-items-center">
+                        <div class="col-lg-6">
+                            <h2 class="fw-bolder">NLP Progress</h2>
+                            <p class="lead fw-normal text-muted mb-0">diagrams of workflow for NLP collection and training. Existing repos and new dataset</p>
+                            <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/media/sc1.png" alt="..." /></div>
+                            <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/media/sc2.png" alt="..." /></div>
+                            <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/media/sc3.png" alt="..." /></div>
+                            <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/media/sc4.png" alt="..." /></div>
+                            <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/media/unnamed.png" alt="..." /></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-5" id ="packet">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 align-items-center">
+                        <div class="col-lg-6">
+                            <h2 class="fw-bolder">Packet Analysis Progress</h2>
+                            <p class="lead fw-normal text-muted mb-0">Intercepting and decrypting packets from mobile apps.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 
             <section class="py-5" id = "collapse-table">
                 <div class="container px-5 my-5">
                     <button class="collapse-btn">Flo</button>
@@ -177,7 +136,6 @@
                 </div>
             </section>
 
-            <!-- get input for google play request-->
             <section class="py-5">
                 <div class="container px-5 my-5">
                     <div class="row gx-5 justify-content-center">
@@ -198,7 +156,6 @@
                 </div>
             </section>
 
-            <!-- hide element script-->
             <script>
                 var btn = document
                     .getElementsByClassName("collapse-btn");
@@ -214,6 +171,8 @@
                 });
             </script>
         </main>
+
+    -->
 
         <!-- Footer-->
         <footer class="bg-dark py-4 mt-auto">

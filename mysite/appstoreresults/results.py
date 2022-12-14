@@ -34,7 +34,6 @@ try:
         for v in values:
             arr.append(v)
         print(arr[0])
-        #sqlite_insert_query = '''INSERT INTO app ('appID', 'title', 'rating', 'genre', 'price', 'developer', 'downloads') VALUES (?,?,?,?,?,?,?)'''
         count = cursor.execute('''INSERT INTO apps ('appID', 'title', 'rating', 'genre', 'price', 'developer', 'downloads') VALUES (?,?,?,?,?,?,?)''', arr)
         sqliteConnection.commit()
         print("Record inserted successfully into apps table ", cursor.rowcount)
@@ -48,6 +47,7 @@ finally:
     if sqliteConnection:
         sqliteConnection.close()
         print("The SQLite connection is closed")
+
 
 
 
