@@ -1,7 +1,7 @@
 from readabilipy import simple_json_from_html_string
 from urllib.parse import quote, unquote
 import utilities
-from database import Database
+from database import Database#read scrape
 import requests
 #basic readability lib from npm for js
 html_string = requests.get("https://enduco.app/en/privacy-policy-app/")
