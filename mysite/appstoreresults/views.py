@@ -42,3 +42,6 @@ def scorecard(request):
 def contact(request):
     return render(request, "contact.html")
 
+def writing4(request):
+    return render(request, "writing4.html")
+
