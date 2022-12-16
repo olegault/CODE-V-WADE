@@ -172,13 +172,7 @@ async function fetchPolicy (app_table_values) {
         }
         await addPolicyToDb(app_table_values[i].privacy_policy_url, pageContent);
     }
-    await browser.close();
-    await xvfb.stop(function(error) {
-        logger.error(`
-                    Xvfb Error.
-                    Error Message: ${error}`
-                );
-    });
+
 }
 
 async function checkIfExists(privacy_policy_url) {
@@ -247,12 +241,7 @@ async function checkIfExists(privacy_policy_url) {
         return false;
     } 
 
-    logger.debug(
-        `
-        Policy exists in the database.
-        Privacy Policy URL: ${privacy_policy_url}
-        `);
-
+    
     return true;
     
 }
