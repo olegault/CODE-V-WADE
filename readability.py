@@ -10,8 +10,7 @@ html_string = utilities.get_raw_html(128)
 
 print(html_string)
 
-# with open('policyWithXvfb.html', 'r', encoding="utf-8", errors='ignore') as fp:
-#     html_string = fp.read()
+
 
 article = simple_json_from_html_string(html_string, use_readability=True)
 
@@ -23,9 +22,7 @@ for element in article['plain_text']:
 with open("cleaned.html", "w", encoding="utf-8", errors="ignore") as fp:
     fp.write(plain_text)
 
-quoted_article = quote(plain_text, encoding='utf-8', errors='replace')
-with open("cleaned-quote.html", "w", encoding="utf-8", errors="ignore") as fp:
-    fp.write(quoted_article)
+
 
 unquoted_article = unquote(quoted_article, encoding='utf-8', errors='replace')
 with open("cleaned-unquote.html", "w", encoding="utf-8", errors="ignore") as fp:
