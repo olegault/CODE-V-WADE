@@ -1,2 +1,2 @@
 # CODE-V-WADE
-Current public host url: https://github.com/olegault/CODE-V-WADE.git
+Current public host url: https://olegault.github.io/CODE-V-WADE/
