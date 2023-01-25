@@ -34,6 +34,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 ALLOWED_HOSTS = ['ec2-3-93-132-174.compute-1.amazonaws.com']
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appstoreresults',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

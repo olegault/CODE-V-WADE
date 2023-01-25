@@ -44,4 +44,3 @@ def contact(request):
 
 def writing4(request):
     return render(request, "writing4.html")
-
