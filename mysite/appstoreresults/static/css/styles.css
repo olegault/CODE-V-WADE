@@ -659,7 +659,6 @@ progress {
 .row {
     height: 20vh;
     width: 100%;
-    background: #e0ffff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -670,10 +669,6 @@ progress {
     margin-top: calc(-1 * var(--bs-gutter-y));
     margin-right: calc(-0.5 * var(--bs-gutter-x));
     margin-left: calc(-0.5 * var(--bs-gutter-x));
-    transition: all ease 0.2s;
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-    transform: translateY(-5px);
-    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
 }
 
 .row > * {

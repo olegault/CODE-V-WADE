@@ -11,10 +11,10 @@
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/static/css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="static/css/styles.css"/>
     </head>
      <!-- Navigation-->
-     <nav class="navbar navbar-expand-lg navbar-dark bg-tealnav">
+     <nav class="fixed-top navbar navbar-expand-lg navbar-dark" style="background:#292442;">
         <div class="container px-5">
             <a class="navbar-brand" href="/">CODE-V-WADE</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -29,25 +29,44 @@
             </div>
         </div>
     </nav>
-
-     <!-- Header -->
-    <div class="py-5 text-center bg-lgrey">
-        <h6 class="mb-3">Top Apps</h1>
-        <h5 class="mb-3">these are the scores for the top popular apps. change redirect of button</h4>
-        <a class="btn bg-tealnav text-white" href="" role="button">Search</a>
-    </div>
-
-    <!-- Page content-->
-    <section class="flex-fill text-center bg-lgrey">
-       <div class ="py-2"><img class="text-secondary" src="/static/media/rect.png" alt="..."></div>
-       <div class ="py-2"><img class="text-secondary" src="/static/media/rect.png" alt="..."></div>
-       <div class ="py-2"><img class="text-secondary" src="/static/media/rect.png" alt="..."></div>
-       <div class ="py-2"><img class="text-secondary" src="/static/media/rect.png" alt="..."></div>
-       <div class ="py-2"><img class="text-secondary" src="/static/media/rect.png" alt="..."></div>
-    </section>
-            
+    <!-- Body-->
+    <body>
+        <div class="h-100 row">
+            <!-- Sidebar-->
+            <div class="col-sm-4" style="background-color:#759AAB; height:100%;">
+            <!-- inner card 1-->
+            <div class="rounded card" style="margin-top: 20%; margin-bottom: 10%; width:75%; margin-left:10%; height:33%">
+                    <div class="card-body" style="background-color:#ccdae0">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                  </div>
+            <!-- inner card 2-->
+            <div class="card rounded" style="margin-top: 10%; margin-bottom: 10%; width:75%; margin-left:10%; height:33%">
+                <div class="card-body" style="background-color:#ccdae0">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                  </div>
+            </div>
+            <!-- Main Content-->
+            <div class="col-sm-8" style="background-color:#F3F2F8; height: 100%;">
+                <!-- inner card 1-->
+            <div class="card" style="margin-top: 10%; margin-bottom: 10%; margin-left: 5%; margin-right:5%; height: 50%; background:#DAD8E9">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+        </div>
+    </body>
+ 
     <!-- Footer-->
-    <footer class="bg-dark py-4 mt-auto">
+    <footer class="fixed-bottom bg-dark py-4 mt-auto">
         <div class="container px-5">
                 <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2022</div></div>
                 <div class="col-auto">
