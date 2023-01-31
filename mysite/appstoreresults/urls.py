@@ -11,4 +11,5 @@ urlpatterns = [
     path('scorecard', views.scorecard, name='scorecard'),
     path('contact', views.contact, name='contact'),
     path('writing4', views.writing4, name='writing4'),
+    path('apppage', views.apppage, name='apppage'),
 ]

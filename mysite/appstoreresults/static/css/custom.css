@@ -1,0 +1,8 @@
+.app-icon {
+    border: 2px solid black;
+    border-radius: 1rem;
+}
+
+.app-title {
+    font-size: 3rem;
+}

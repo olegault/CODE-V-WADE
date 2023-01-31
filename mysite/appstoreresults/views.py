@@ -45,3 +45,6 @@ def contact(request):
 def writing4(request):
     return render(request, "writing4.html")
 
+def apppage(request):
+    return render(request, "apppage.html")
+
