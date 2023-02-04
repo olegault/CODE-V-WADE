@@ -47,4 +47,3 @@ def writing4(request):
 
 def apppage(request):
     return render(request, "apppage.html")
-
