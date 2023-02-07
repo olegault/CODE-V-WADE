@@ -44,14 +44,17 @@
             <div class="container">
                 <div class="card" style="border-radius:2.5rem; margin-top:3%; padding-top: 3%;padding-bottom: 5%; padding-left: 2%; background:#758BFD; margin-bottom:10%;">
                     <!-- Top 10-->
-                    {% for item in app_list %}
-                    <div class="card" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
+                    {% for item in res.items %}
+                    <div class="card" style="border-radius:2.5rem;margin-top: 5%; width: 95%; background-color: #F3F2F8;">
                         <div class="rounded-pill row">
-                            <div class="column float-left">
-                                <img src="{{ icon_list.item }}" style="width:10%">
+                            <div class="col-sm-2 text-center">
+                                <img src="{{ item.1 }}" style="width:60%; border-radius:30% ">
                             </div>
-                            <div class="column float-right">
-                                <h4 class="card-title float-right">{{ item }}</h4>
+                            <div class="col-sm-8">
+                                <h1>{{ item.0 }}</h1>
+                            </div>
+                            <div class="col-sm-2">
+                                <p>score</p>
                             </div>
                         </div>
                     </div>
@@ -91,5 +94,6 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
+
 </body>
 </html>
