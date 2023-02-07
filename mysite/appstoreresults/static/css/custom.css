@@ -1,3 +1,8 @@
+:root {
+    --cvw-lavender: #758BFD;
+    --cvw-hot-pink: #ff50c8;
+}
+
 .app-icon {
     border: 2px solid black;
     border-radius: 1rem;
@@ -5,4 +10,14 @@
 
 .app-title {
     font-size: 3rem;
+}
+
+.info-icon {
+    color: var(--cvw-hot-pink) !important;
+    font-family: Cascadia, monospace;
+}
+
+.metric-row {
+    height: 3em !important;
+    font-weight: light !important;
 }
