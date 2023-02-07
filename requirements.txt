@@ -1,4 +1,4 @@
-djanjo
+django
 django-admin-argon-dashboard
 google-play-scraper
 appnope==0.1.0
