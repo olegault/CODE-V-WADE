@@ -65,7 +65,7 @@
 
 @font-face {
     font-family: myFirstFont;
-    src: url(/static/media/LibreBaskerville-Regular.ttf);
+    src: url(/static/media/Oswald-VariableFont_wght.ttf);
 }
 
 *, *::before, *::after {
@@ -108,10 +108,14 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     margin-bottom: 0.5rem;
     font-weight: 500;
     line-height: 1.2;
+    font-family: myFirstFont;
+
 }
 
 h1, .h1 {
     font-size: calc(1.375rem + 1.5vw);
+    font-family: myFirstFont;
+
 }
 
 @media (min-width: 1200px) {

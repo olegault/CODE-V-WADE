@@ -34,7 +34,7 @@ try:
         for v in values:
             arr.append(v)
         print(arr[0])
-        count = cursor.execute('''INSERT INTO apps ('appID', 'title', 'rating', 'genre', 'price', 'developer', 'downloads') VALUES (?,?,?,?,?,?,?)''', arr)
+        count = cursor.execute('''INSERT INTO apps ('appID', 'title', 'rating', 'genre', 'price', 'developer', 'downloads','icon') VALUES (?,?,?,?,?,?,?,?)''', arr)
         sqliteConnection.commit()
         print("Record inserted successfully into apps table ", cursor.rowcount)
     cursor.close()

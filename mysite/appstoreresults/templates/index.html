@@ -13,9 +13,10 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/static/css/styles.css" rel="stylesheet"/>
     </head>
+    <body class="d-flex flex-column">
         <main class="flex-shrink-0">
-          <!-- Navigation-->
-          <nav class="navbar navbar-expand-lg navbar-dark" style="background:#060E07;">
+            <!-- Navigation-->
+         <nav class="navbar navbar-expand-lg navbar-dark" style="background:#060E07;">
             <div class="container px-5">
                 <a class="navbar-brand" href="/">CODE-V-WADE</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -23,10 +24,7 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/alphademo">Alpha Demo</a></li>
                         <li class="nav-item"><a class="nav-link" href="/scorecard">Try It</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/writing4">Writing 4</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -34,209 +32,33 @@
         <!-- Header-->
         <body class="d-flex flex-column" style="background:#F3F2F8">
             <section class="py-5" style="background-color: #F3F2F8; height: 10%;">
-                                <div class="text-center my-5">
-                                    <h1 class="fw-bolder mb-2">CODE V WADE</h1>
-                                    <p class="lead fw-normal mb-4">Take Control of Your Reproductive Health Privacy</p>
-                                    <a class="btn btn-lg px-4 text-light me-sm-3" style="background-color:#758BFD" href="/scorecard">Try It</a>
-                                </div>
-                            </section>
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder mb-2">CODE V WADE</h1>
+                    <p class="lead fw-normal mb-4">Take Control of Your Reproductive Health Privacy</p>
+                    <a class="btn btn-lg px-4 text-light me-sm-3" style="background-color:#758BFD" href="/scorecard">Try It</a>
+                </div>
+            </section>
+            
 
             <!-- Main Content-->
             <div class="container">
                 <div class="card" style="border-radius:2.5rem; margin-top:3%; padding-top: 3%;padding-bottom: 5%; padding-left: 2%; background:#758BFD; margin-bottom:10%;">
                     <!-- Top 10-->
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
+                    {% for item in app_list %}
+                    <div class="card" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
+                        <div class="rounded-pill row">
+                            <div class="column float-left">
+                                <img src="{{ icon_list.item }}" style="width:10%">
+                            </div>
+                            <div class="column float-right">
+                                <h4 class="card-title float-right">{{ item }}</h4>
                             </div>
                         </div>
                     </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                        <div class="rounded-pill card-body">
-                            <div class="rounded-pill card text-center">
-                                <div class="rounded-pill card-body">
-                                    <div class="container">
-                                        <div class="row" style="height:auto">
-                                            <div class="container flex-column" style="width:25%">
-                                                <h4 class="card-title">App 1</h4>
-                                            </div>
-                                            <div class="container flex-column" style="width:75%">
-                                                <p class="card-text">Some quick example text</p>
-                                            </div>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
+
 
     <!-- Footer-->
     <footer class=" py-4 mt-auto" style="background:#060E07;">
@@ -256,6 +78,5 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
 </body>
 </html>
