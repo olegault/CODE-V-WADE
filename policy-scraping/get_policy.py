@@ -1,4 +1,5 @@
 from google_play_scraper import app
+import urllib.request
 
 link = input("Enter Play Store Link: ")
 # link = 'https://play.google.com/store/apps/details?id=com.clue.android&hl=en_US&gl=US'
@@ -14,3 +15,9 @@ result = app(
 
 policy_link = result['privacyPolicy']
 print(policy_link)
+
+
+html = uf.read
+
+
+
