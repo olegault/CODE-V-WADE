@@ -14,8 +14,9 @@ result = app(
 )
 
 policy_link = result['privacyPolicy']
-print(policy_link)
+#print(policy_link)
 
+uf = urllib.request.urlopen(policy_link)
 
 html = uf.read
 
