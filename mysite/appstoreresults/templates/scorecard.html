@@ -3,7 +3,7 @@
 {% block content %}
     <div class="h-100 row" style="background-color:#363636; font-family: Cascadia, monospace;">
         <!-- Sidebar-->
-        <div class="col-sm-3" style="background-color:var(--cvw-lavender); height:100%;" align="center">
+        <div class="col-sm-3 py-0 my-0" style="background-color:var(--cvw-lavender); height:100%;" align="center">
             <!-- inner card 1-->
             <div class="card mt-3" style="border-radius:2.5rem; width:90%; background-color: #F3F2F8;">
                 <div class="card-body">
@@ -47,29 +47,33 @@
         </div>
 
 
-        <div class="col-sm-9" style="height:100%;">
+        <div class="col-sm-9" style="height:100%; padding-bottom: 4%;">
 
-            <div class="container mt-3" style="background-color:var(--cvw-lavender); width:95%; border-radius:1.5rem; height:100%;">
-                <div class="row pt-1">
-                    <div class="col-md-2 mt-2">
-                        <img class="img-fluid app-icon" src="./static/media/clue-icon.png" alt="Icon for Clue">
-                    </div>
-                    <div class="col-sm-7 pt-3" style="padding-left:3%;">
-                        <h1 class="" id="app-title" style="font: 3em Cascadia, monospace;">{{ title }}</h1>
-                        <h3 class="" id="downloads" style="font: 1.5em Cascadia, monospace;">{{ downloads }}</h3>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="">
-                            <!-- card content -->
-                            <h2 class="text-center" id="overall-score" style="font: 4em Cascadia, monospace;">83</h2>
-                            <h3 class="text-center" id="overall-grade" style="font: 3em Cascadia, monospace;">Good</h3>
-                            <h4 class="text-center" id="overall-grade" style="font: 0.7em Cascadia, monospace;">Last updated Feb 6, 2023</h4>
+            <div class="container my-3 pt-3" style="background-color:var(--cvw-lavender); width:95%; border-radius:1.5em; height:100%;">
+                <div class="card py-2 mx-auto my-2 rounded-3" style="background-color: #FFFFFF;">
+                    <div class="row mx-auto pb-3" style="padding-left:2em;">
+                        <div class="col-md-2 mt-2">
+                            <img class="img-fluid app-icon" src="./static/media/clue-icon.png" alt="Icon for Clue">
+                        </div>
+                        <div class="col-sm-7 pt-3" style="padding-left:3%;">
+                            <h1 class="" id="app-title" style="font: 3em Cascadia, monospace;">{{ title }}</h1>
+                            <h3 class="" id="downloads" style="font: 1.5em Cascadia, monospace;">{{ downloads }}</h3>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="text-center">
+                                <!-- card content -->
+                                <div class="score score-okay">
+                                    <h2 id="overall-score" style="font: 4em Cascadia, monospace;">83</h2>
+                                    <h3 id="overall-grade" style="font: 3em Cascadia, monospace;">Good</h3>
+                                </div>
+                                <h4 class="text-center" id="overall-grade" style="font: 0.7em Cascadia, monospace;">Last updated Feb 6, 2023</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card py-0" style="margin-top: 3%; margin-bottom: 5%; background:#FFFFFF;">
+                <div class="card py-0" style="margin-top: 2%; background:#F3F2F8;">
                     <div class="accordion accordion-flush py-0 rounded-4" id="accordionFlushExample">
-                        <!-- Category dropdown -->
+                        <!-- Category dropdown - Third Party Data Sharing-->
                         <div class="accordion-item py-0">
                             <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingOne">
                                 <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -83,11 +87,12 @@
                                     </div>
                                 </button>
                             </h2>
-                            <div id="flush-collapseOne" class="accordion-collapse collapse show py-0" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseOne" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
                                     <div class="row metric-row">
                                         <div class="col-sm-9">
-                                            <h4 class="fw-light">Shares with third party advertisers</h4>
+                                            <h4 class="fw-light">Permits sharing with advertisers</h4>
                                         </div>
                                         <div class="col-sm-3">
                                             <h4 class="fw-bold" style="text-align: right;">Yes</h4>
@@ -95,7 +100,166 @@
                                     </div>
                                     <div class="row" style="height: 3em;">
                                         <div class="col-sm-9">
-                                            <h4 class="fw-light">Shares with law enforcement</h4>
+                                            <h4 class="fw-light">Permits sharing with law enforcement</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Permits sharing with data brokers</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Permits sharing with provider partners</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category dropdown - Data Encryption -->
+                        <div class="accordion-item py-0">
+                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    <div class="row">
+                                        <div class="col-sm-7" style="text-align: left;">
+                                            <h3>Data Encryption &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
+                                        </div>
+                                        <div class="col-sm-4" style="text-align: right;">
+                                            <h3>Good</h3>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Personal data is encrypted in transit</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Personal data is encrypted on the device</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Metadata is encrypted</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category dropdown  - Sensitive data -->
+                        <div class="accordion-item py-0">
+                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingThree">
+                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                    <div class="row">
+                                        <div class="col-sm-7" style="text-align: left;">
+                                            <h3>Sensitive Data Collection &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
+                                        </div>
+                                        <div class="col-sm-4" style="text-align: right;">
+                                            <h3>Good</h3>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseThree" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Collects basic personal identifying information (name, email, etc.)</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Collects personal non-reproductive health information</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Collects personal reproductive health information (pregnancy, period, etc.)</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category dropdown  - Transparency and Agency -->
+                        <div class="accordion-item py-0">
+                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingFour">
+                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                    <div class="row">
+                                        <div class="col-sm-7" style="text-align: left;">
+                                            <h3>Transparency and Agency &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
+                                        </div>
+                                        <div class="col-sm-4" style="text-align: right;">
+                                            <h3>Good</h3>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseFour" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can request a copy of your data</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can request deletion of personal data</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can control which data the app collects</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can control who your data is shared with</h4>
                                         </div>
                                         <div class="col-sm-3">
                                             <h4 class="fw-bold" style="text-align: right;">No</h4>

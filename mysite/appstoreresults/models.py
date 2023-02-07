@@ -10,9 +10,14 @@ class AppM3(models.Model):
     downloads = models.CharField(max_length=50)
     appIcon = models.CharField(max_length=200)
     overallScore = models.IntegerField()
+
     thirdPartySharingScore = models.IntegerField()
+    shareLawEnforcement = models.BooleanField()
+
     dataEncryptionScore = models.IntegerField()
+
     sensitiveDataScore = models.IntegerField()
+    
     transparencyScore = models.IntegerField()
 
     class Meta:

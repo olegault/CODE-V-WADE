@@ -1,99 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Modern Business - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/static/css/styles.css" rel="stylesheet"/>
-    </head>
-    <body class="d-flex flex-column">
-        <main class="flex-shrink-0">
-            <!-- Navigation-->
-         <nav class="navbar navbar-expand-lg navbar-dark" style="background:#060E07;">
-            <div class="container px-5">
-                <a class="navbar-brand" href="/">CODE-V-WADE</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/scorecard">Try It</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Header-->
-        <body class="d-flex flex-column" style="background:#F3F2F8">
-            <section class="py-5" style="background-color: #F3F2F8; height: 10%;">
-                <div class="text-center my-5">
-                    <h1 class="fw-bolder mb-2">CODE V WADE</h1>
-                    <p class="lead fw-normal mb-4">Take Control of Your Reproductive Health Privacy</p>
-                    <a class="btn btn-lg px-4 text-light me-sm-3" style="background-color:#758BFD" href="/scorecard">Try It</a>
-                </div>
-            </section>
-            
+{% extends "base.html" %}
 
-            <!-- Main Content-->
-            <div class="container">
-                <div class="card" style="border-radius:2.5rem; margin-top:3%; padding-top: 3%;padding-bottom: 5%; padding-left: 2%; background:#758BFD; margin-bottom:10%;">
-                    <!-- Top 10-->
-                    {% for item in res.items %}
-                    <div class="card" style="border-radius:2.5rem;margin-top: 5%; width: 95%; background-color: #F3F2F8;">
-                        <div class="rounded-pill row">
-                            <div class="col-sm-2 text-center">
-                                <img src="{{ item.1 }}" style="width:60%; border-radius:30% ">
-                            </div>
-                            <div class="col-sm-8">
-                                <h1>{{ item.0 }}</h1>
-                            </div>
-                            <div class="col-sm-2">
-                                <p>score</p>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="card text-center" style="border-radius:2.5rem;margin-top: 5%; width: 75%; background-color: #F3F2F8;">
-                <div class="rounded-pill card-body">
-                    <div class="rounded-pill card text-center">
-                        <div class="rounded-pill card-body">
-                            <div class="container">
-                                <div class="row" style="height:auto">
-                                    <div class="container flex-column" style="width:25%">
-                                        <h4 class="card-title">App 1</h4>
-                                    </div>
-                                    <div class="container flex-column" style="width:75%">
-                                        <p class="card-text">Some quick example text</p>
-                                    </div>
-                                </div> 
-
-
-    <!-- Footer-->
-    <footer class=" py-4 mt-auto" style="background:#060E07;">
-        <div class="container px-5">
-            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2022</div></div>
-                <div class="col-auto">
-                    <a class="link-light small" href="#!">Privacy</a>
-                    <span class="text-white mx-1">&middot;</span>
-                    <a class="link-light small" href="#!">Terms</a>
-                    <span class="text-white mx-1">&middot;</span>
-                    <a class="link-light small" href="#!">Contact</a>
-                </div>
-            </div>
+{% block content %}
+<!-- Header-->
+<div class="d-flex flex-column" style="background:#F3F2F8; height:100%; overflow: auto;">
+    <section class="py-3" style="background-color: #F3F2F8;">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder mb-2" style="font-size: 4em;">CODE V WADE</h1>
+            <p class="lead fw-normal mb-4">Take Control of Your Reproductive Health Privacy</p>
+            <a class="btn btn-lg px-4 text-light me-sm-3" style="background-color:#758BFD" href="/apppage">Try It</a>
         </div>
-    </footer>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
+    </section>
+    
 
-</body>
-</html>
+    <!-- Main Content-->
+    <div class="container">
+        <div class="col-md-12 mb-5 py-1" style="border-radius:2.5rem; padding-bottom: 5%; background:#758BFD;">
+            <!-- Top 10-->
+            {% for item in res.items %}
+            <div class="card py-0 mx-auto my-5" style="border-radius:2rem; width: 95%; background-color: #F3F2F8;">
+                <div class="rounded-3 row">
+                    <div class="col-sm-2 text-center">
+                        <img src="{{ item.1 }}" style="width:60%; border-radius:30% ">
+                    </div>
+                    <div class="col-sm-8">
+                        <h3>{{ item.0 }}</h3>
+                    </div>
+                    <div class="col-sm-2">
+                        <p>score</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
