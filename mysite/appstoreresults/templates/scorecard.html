@@ -1,169 +1,276 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Modern Business - Start Bootstrap Template</title>
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="static/css/styles.css" rel="stylesheet"/>
-    </head>
-    <body class="d-flex flex-column">
-        <main class="flex-shrink-0">
-            <!-- Navigation-->
-         <nav class="navbar navbar-expand-lg navbar-dark" style="background:#060E07;">
-            <div class="container px-5">
-                <a class="navbar-brand" href="/">CODE-V-WADE</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/scorecard">Try It</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    <!-- Body-->
-    <body>
-        <div class="h-100 row">
-            <!-- Sidebar-->
-            <div class="col-sm-4" style="background-color:#758BFD; height:100%;">
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="h-100 row" style="background-color:#363636; font-family: Cascadia, monospace;">
+        <!-- Sidebar-->
+        <div class="col-sm-3 py-0 my-0" style="background-color:var(--cvw-lavender); height:100%;" align="center">
             <!-- inner card 1-->
-            <div class="card" style="border-radius:2.5rem;margin-top: 10%;  width:80%; height:30%;margin-left:10%;background-color: #F3F2F8;">
-              <div class="card-body" style="border-radius:2.5rem;background-color:#F3F2F8">
-                  <div class="card text-center" style="background-color: #F3F2F8; border: #F3F2F8;">
-                      <div class="card-body">
-                          <div class="container" style="padding-bottom: 10%;">
-                            <div class="row"style="height:20%;">
-                              <div class="col text-center h2">Popular Apps</div>
+            <div class="card mt-3" style="border-radius:2.5rem; width:90%; background-color: #F3F2F8;">
+                <div class="card-body">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div class="container">
+                                <h5 class="card-title">Top 10 apps</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                             </div>
-                          </div>
-                          <div class="container" style="padding-bottom: 10%;">
-                            <div class="row"style="height:20%;">
-                              <div class="col">icon</div>
-                              <div class="col">name</div>
-                              <div class="col">rank</div>
-                            </div>
-                          </div>
-                          <div class="container">
-                            <div class="row"style="height:20%;">
-                              <div class="col">icon</div>
-                              <div class="col">name</div>
-                              <div class="col">rank</div>
-                            </div>
-                          </div>
-                      </div>
+                        </div>
                     </div>
-                  </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div class="container">
+                                <h5 class="card-title">Click here</h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
             <!-- inner card 2-->
-            <div class="card" style="border-radius:2.5rem;margin-top: 10%;  width:80%; height:30%;margin-left:10%;background-color: #F3F2F8;">
-              <div class="card-body" style="border-radius:2.5rem;background-color:#F3F2F8">
-                <div class="card text-center" style="background-color: #F3F2F8; border: #F3F2F8;">
-                  <div class="card-body">
-                          <div class="container" style="padding-bottom: 10%;">
-                            <div class="row"style="height:20%;">
-                              <div class="col text-center h2">Best Period Trackers</div>
+            <div class="card" style="border-radius:2.5rem; margin-top: 10%;  width:90%; height:30%; background-color: #F3F2F8;">
+                <div class="card-body" style="border-radius:2.5rem;background-color:#F3F2F8">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div class="container">
+                                <h5 class="card-title">Top Apps For Privacy</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                             </div>
-                          </div>
-                          <div class="container" style="padding-bottom: 10%;">
-                            <div class="row"style="height:20%;">
-                              <div class="col">icon(change to get from sqlite table)</div>
-                              <div class="col">name</div>
-                              <div class="col">rank</div>
-                            </div>
-                          </div>
-                          <div class="container">
-                            <div class="row"style="height:20%;">
-                              <div class="col">icon</div>
-                              <div class="col">name</div>
-                              <div class="col">rank</div>
-                            </div>
-                          </div>
-                      </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-            </div>
-
-
-            <div class="col-sm-8" style="background-color:#F3F2F8; height:100%;">
-
-            <div class="container" style="background-color:#758BFD; margin-top: 5%; padding-top:1%; width:90%; border-radius:2.5rem;">
-              <div class="card" style="border-radius:2.5rem;margin-top: 5%;  width:100%; height:20%;background-color: #F3F2F8;">
-                <div class="card-body" style="border-radius:2.5rem;background-color:#F3F2F8;border: #F3F2F8;">
-                    <div class="card-body">
-                            <div class="container" style="padding-bottom: 10%;">
-                              <div class="row text-center">
-                                <div class="col h1">Icon</div>
-                                  <div class="col h1">name</div>
-                                  <div class="col h1">rank</div>
-                              </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div class="container">
+                                <h5 class="card-title">Click here</h5>
                             </div>
                         </div>
-                      </div>
                     </div>
-
-
-                    <div class="card" style="border-radius:2rem; margin-top: 5%; margin-bottom: 10%; background:#F3F2F8;">
-                      <div class="row text-center">
-                        <div class="col h3">Encrypted Data</div>
-                        <div class="col h3">Encrypted Data</div>
-                        <div class="col h3">Encrypted Data</div>
-                      </div>  
-                      <div class="row text-center">
-                        <div class="col h3">Encrypted Data</div>
-                        <div class="col h3">Encrypted Data</div>
-                        <div class="col h3">Encrypted Data</div>
-                      </div> 
-                      <div class="row text-center">
-                        <div class="col h3">Encrypted Data</div>
-                        <div class="col h3">Encrypted Data</div>
-                        <div class="col h3">Encrypted Data</div>
-                      </div> 
-                      <div class="row text-center">
-                        <div class="container" style="width:25%">
-                            <h4 class="card-title text-center">Transparency</h4>
-                        </div>
-                        <div class="container" style="width:50%">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                        <div class="container" style="width:25%">
-                            <p class="card-text">6/10</p>
-                        </div>
-                    </div>      
-                  </div>
-                  </div>
-                  
-
-
-        
-    
-                    </div>
-                     
-                </div>
-             </div>
-        </div>
-     <!-- Footer-->
-     <footer class=" py-4 mt-auto" style="background:#060E07;">
-        <div class="container px-5">
-            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2022</div></div>
-                <div class="col-auto">
-                    <a class="link-light small" href="#!">Privacy</a>
-                    <span class="text-white mx-1">&middot;</span>
-                    <a class="link-light small" href="#!">Terms</a>
-                    <span class="text-white mx-1">&middot;</span>
-                    <a class="link-light small" href="#!">Contact</a>
                 </div>
             </div>
         </div>
-    </footer>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
-</body>
-</html>
+
+
+        <div class="col-sm-9" style="height:100%; padding-bottom: 4%;">
+
+            <div class="container my-3 pt-3" style="background-color:var(--cvw-lavender); width:95%; border-radius:1.5em; height:100%;">
+                <div class="card py-2 mx-auto my-2 rounded-3" style="background-color: #FFFFFF;">
+                    <div class="row mx-auto pb-3" style="padding-left:2em;">
+                        <div class="col-md-2 mt-2">
+                            <img class="img-fluid app-icon" src="./static/media/clue-icon.png" alt="Icon for Clue">
+                        </div>
+                        <div class="col-sm-7 pt-3" style="padding-left:3%;">
+                            <h1 class="" id="app-title" style="font: 3em Cascadia, monospace;">{{ title }}</h1>
+                            <h3 class="" id="downloads" style="font: 1.5em Cascadia, monospace;">{{ downloads }}</h3>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="text-center">
+                                <!-- card content -->
+                                <div class="score score-okay">
+                                    <h2 id="overall-score" style="font: 4em Cascadia, monospace;">83</h2>
+                                    <h3 id="overall-grade" style="font: 3em Cascadia, monospace;">Good</h3>
+                                </div>
+                                <h4 class="text-center" id="overall-grade" style="font: 0.7em Cascadia, monospace;">Last updated Feb 6, 2023</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card py-0" style="margin-top: 2%; background:#F3F2F8;">
+                    <div class="accordion accordion-flush py-0 rounded-4" id="accordionFlushExample">
+                        <!-- Category dropdown - Third Party Data Sharing-->
+                        <div class="accordion-item py-0">
+                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingOne">
+                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    <div class="row">
+                                        <div class="col-sm-7" style="text-align: left;">
+                                            <h3>Third Party Sharing &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
+                                        </div>
+                                        <div class="col-sm-4" style="text-align: right;">
+                                            <h3>Good</h3>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseOne" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Permits sharing with advertisers</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Permits sharing with law enforcement</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Permits sharing with data brokers</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Permits sharing with provider partners</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category dropdown - Data Encryption -->
+                        <div class="accordion-item py-0">
+                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    <div class="row">
+                                        <div class="col-sm-7" style="text-align: left;">
+                                            <h3>Data Encryption &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
+                                        </div>
+                                        <div class="col-sm-4" style="text-align: right;">
+                                            <h3>Good</h3>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Personal data is encrypted in transit</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Personal data is encrypted on the device</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Metadata is encrypted</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category dropdown  - Sensitive data -->
+                        <div class="accordion-item py-0">
+                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingThree">
+                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                    <div class="row">
+                                        <div class="col-sm-7" style="text-align: left;">
+                                            <h3>Sensitive Data Collection &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
+                                        </div>
+                                        <div class="col-sm-4" style="text-align: right;">
+                                            <h3>Good</h3>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseThree" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Collects basic personal identifying information (name, email, etc.)</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Collects personal non-reproductive health information</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">Collects personal reproductive health information (pregnancy, period, etc.)</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category dropdown  - Transparency and Agency -->
+                        <div class="accordion-item py-0">
+                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingFour">
+                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                    <div class="row">
+                                        <div class="col-sm-7" style="text-align: left;">
+                                            <h3>Transparency and Agency &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
+                                        </div>
+                                        <div class="col-sm-4" style="text-align: right;">
+                                            <h3>Good</h3>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <!-- Detailed metrics view -->
+                            <div id="flush-collapseFour" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can request a copy of your data</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row metric-row">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can request deletion of personal data</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can control which data the app collects</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="height: 3em;">
+                                        <div class="col-sm-9">
+                                            <h4 class="fw-light">You can control who your data is shared with</h4>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

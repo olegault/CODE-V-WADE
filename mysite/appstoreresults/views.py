@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import loader
+import sqlite3 as lite
+from .models import AppM3
 import numpy as np
 import sqlite3
-from django.template import loader
-
 
 def index(request):
 
@@ -44,3 +45,14 @@ def about(request):
 def contact(request):
     return render(request, "contact.html")
 
+def writing4(request):
+    return render(request, "writing4.html")
+
+def apppage(request):
+    # data = AppM3.objects.all()
+
+    template = loader.get_template("scorecard.html")
+    context = {'title': "Clue Period & Cycle Tracker",
+               'downloads': '10M+ downloads'}
+
+    return HttpResponse(template.render(context, request))
