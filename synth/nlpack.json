@@ -1,7 +1,9 @@
 {
     "app" [
         {
-            "packet_header_ecnrypt":"0",
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"0",
+            "rest_ecnrypt":"0",
             "Access Scope":"limited",
             "Access Type":"editable",
             "Action First-Party":"store, view",
@@ -13,7 +15,9 @@
 
         }
         {
-            "packet_header_ecnrypt":"0",
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"1",
+            "rest_ecnrypt":"0",
             "Access Scope":"all",
             "Access Type":"not editable",
             "Action First-Party":"view",
@@ -25,7 +29,9 @@
 
         }
         {
-            "packet_header_ecnrypt":"0",
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"1",
+            "rest_ecnrypt":"1",
             "Access Scope":"all",
             "Access Type":"editable",
             "Action First-Party":"store",
@@ -37,7 +43,9 @@
 
         }
         {
-            "packet_header_ecnrypt":"0",
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"1",
+            "rest_ecnrypt":"1",
             "Access Scope":"all",
             "Access Type":"editable",
             "Action First-Party":"store, view",
@@ -49,7 +57,9 @@
 
         }
         {
-            "packet_header_ecnrypt":"1",
+            "packet_metadata_ecnrypt":"1",
+            "transit_ecnrypt":"0",
+            "rest_ecnrypt":"1",
             "Access Scope":"limited",
             "Access Type":"editable",
             "Action First-Party":"store, view",
