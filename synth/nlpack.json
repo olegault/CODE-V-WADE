@@ -1,0 +1,64 @@
+{
+    "app" [
+        {
+            "packet_header_ecnrypt":"0",
+            "Access Scope":"limited",
+            "Access Type":"editable",
+            "Action First-Party":"store, view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 13",
+            "Change Type":"available by email",
+            "Choice Type":"you can choose to provide less information but may not get all services",
+            "Reproductive":"collects period cycle, shares"
+
+        }
+        {
+            "packet_header_ecnrypt":"0",
+            "Access Scope":"all",
+            "Access Type":"not editable",
+            "Action First-Party":"view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 18",
+            "Change Type":"available by mail",
+            "Choice Type":"you can choose to provide less information but may not get all services",
+            "Reproductive":"collects period cycle, shares"
+
+        }
+        {
+            "packet_header_ecnrypt":"0",
+            "Access Scope":"all",
+            "Access Type":"editable",
+            "Action First-Party":"store",
+            "Action Third-Party":"store",
+            "Audience Type":"over 18",
+            "Change Type":"available by email",
+            "Choice Type":"you can choose to provide less information but may not get all services",
+            "Reproductive":"collects period cycle and cal"
+
+        }
+        {
+            "packet_header_ecnrypt":"0",
+            "Access Scope":"all",
+            "Access Type":"editable",
+            "Action First-Party":"store, view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 13",
+            "Change Type":"available by email",
+            "Choice Type":"you cannot choose to provide less information",
+            "Reproductive":"collects period cycle, shares"
+
+        }
+        {
+            "packet_header_ecnrypt":"1",
+            "Access Scope":"limited",
+            "Access Type":"editable",
+            "Action First-Party":"store, view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 18",
+            "Change Type":"available by email",
+            "Choice Type":"you can choose to provide less information ",
+            "Reproductive":"collects period cycle, shares"
+
+        }
+    ]
+}
