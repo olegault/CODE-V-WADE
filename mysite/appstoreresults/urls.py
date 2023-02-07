@@ -7,9 +7,6 @@ from .views import index
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('alphademo', views.alphademo, name='alphademo'),
     path('about', views.about, name='about'),
-    path('scorecard', views.scorecard, name='scorecard'),
     path('contact', views.contact, name='contact'),
-    path('writing4', views.writing4, name='writing4'),
 ] 
