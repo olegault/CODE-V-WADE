@@ -156,7 +156,6 @@ class ElementSpecs:
     )
     Searchresult = {
         "appId": ElementSpec(None, [0,0,0]),
-        #"icon": ElementSpec(None, [0,1,3,2]),
         #"screenshots": ElementSpec(None, [0,2], lambda container: [item[3][2]
                                                                     #for item in container], []),
         "title": ElementSpec(None, [0,3]),
@@ -172,5 +171,7 @@ class ElementSpecs:
         #"description": ElementSpec(None, [0,13,1], unescape_text),
         #"descriptionHTML": ElementSpec(None, [0,13,1]),
         "developer": ElementSpec(None, [0,14]),
-        "installs": ElementSpec(None, [0,15])
+        "installs": ElementSpec(None, [0,15]),
+        "icon": ElementSpec(None, [0,1,3,2])
+
     }

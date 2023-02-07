@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from appstoreresults import views
+from django.http import HttpResponse
 from .views import index
 
 urlpatterns = [
