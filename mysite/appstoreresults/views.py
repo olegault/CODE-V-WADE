@@ -54,3 +54,8 @@ def apppage(request):
                'downloads': '10M+ downloads'}
 
     return HttpResponse(template.render(context, request))
+
+
+def search(request):
+    template = loader.get_template("search.html")  
+    return render(request, "search.html")
