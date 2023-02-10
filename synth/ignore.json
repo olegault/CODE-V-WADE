@@ -1,0 +1,84 @@
+{
+    "app" [
+        {
+            "appid":"0192912",
+            "name":"Clue",
+            "date":"01/12/2023"
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"0",
+            "rest_ecnrypt":"0",
+            "Access Advertisers":"limited",
+            "Access Law Ennforcemment":"editable",
+            "Action First-Party":"store, view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 13",
+            "Change Type":"available by email",
+            "Choice Type":"you can choose to provide less information but may not get all services",
+            "Reproductive":"collects period cycle, shares"
+
+        }
+        {
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"1",
+            "rest_ecnrypt":"0",
+            "Access Advertisers":"all",
+            "Access Law Enforcement":"not editable",
+            "Action First-Party":"view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 18",
+            "Change Type":"available by mail",
+            "Choice Type":"you can choose to provide less information but may not get all services",
+            "Reproductive":"collects period cycle, shares"
+
+        }
+        {
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"1",
+            "rest_ecnrypt":"1",
+            "Access Advertisers":"all",
+            "Access Law Enforcement":"editable",
+            "Action First-Party":"store",
+            "Action Third-Party":"store",
+            "Audience Type":"over 18",
+            "Change Type":"available by email",
+            "Choice Type":"you can choose to provide less information but may not get all services",
+            "Reproductive":"collects period cycle and cal"
+
+        }
+        {
+            "packet_metadata_ecnrypt":"0",
+            "transit_ecnrypt":"1",
+            "rest_ecnrypt":"1",
+            "Access Advertisers":"all",
+            "Access Law Enforcement":"editable",
+            "Action First-Party":"store, view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 13",
+            "Change Type":"available by email",
+            "Choice Type":"you cannot choose to provide less information",
+            "Reproductive":"collects period cycle, shares"
+            
+            "Permits sharing with advertisers"
+            "Permits sharing with law enforcement"
+            "Permits sharing with law enforcement"
+            "Permits sharing with data brokers"
+            "Permits sharing with provider partners"
+            
+
+        }
+        {
+            "packet_metadata_ecnrypt":"1",
+            "transit_ecnrypt":"0",
+            "rest_ecnrypt":"1",
+            "Access Advertisers":"limited",
+            "Access Law Enforcemet":"editable",
+            "Action First-Party":"store, view",
+            "Action Third-Party":"store",
+            "Audience Type":"over 18",
+            "Change Type":"available by email",
+            "Choice Type":"you can choose to provide less information ",
+            "Reproductive":"collects period cycle, shares"
+
+        }
+    ]
+}

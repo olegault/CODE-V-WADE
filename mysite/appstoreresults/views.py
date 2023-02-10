@@ -38,8 +38,6 @@ def index(request):
 
 
 
-
-
 def about(request):
     return render(request, "about.html")
 
@@ -64,3 +62,8 @@ def scorecard(request):
                'transparencyScore': 50}
 
     return HttpResponse(template.render(context, request))
+
+
+def search(request):
+    template = loader.get_template("search.html")  
+    return render(request, "search.html")
