@@ -29,6 +29,7 @@ class AppMetrics(models.Model):
     collectPII = models.BooleanField()
     collectHealthInfo = models.BooleanField()
     collectReproductiveInfo = models.BooleanField()
+    collectPeriodCalendarInfo = models.BooleanField()
 
     transparencyScore = models.IntegerField()
     requestData = models.BooleanField()

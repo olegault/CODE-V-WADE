@@ -10,5 +10,5 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('contact', views.contact, name='contact'),
     path('writing4', views.writing4, name='writing4'),
-    path('apppage', views.apppage, name='apppage'),
+    path('scorecard', views.scorecard, name='scorecard'),
 ]
