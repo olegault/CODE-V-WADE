@@ -7,11 +7,10 @@ try:
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
     
-    for i in range(150):
+    for i in range(30):
         val = random.randint(30, 95) 
         print(val)
-        cursor = sqliteConnection.execute('''UPDATE apps SET('overallScore') = (?)''', (val,))
-        
+        cursor = sqliteConnection.execute('''UPDATE apps SET('transparencyScore') = (?)''', (random.randint(30,95),))
     sqliteConnection.commit()
     cursor.close()
 
