@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block extrahead%}
+<link href="./static/css/custom.css"rel="stylesheet" />
+{% endblock %}
+    
+{% block content %}
+<div class="container text-center" style="padding-top: 3%">
+    <section class="py-3">
+        <div class="text-center mt-5">
+            <h1 class="fw-bolder mb-2 pb-3" style="font-size: 3em;">Submit an App to Code V. Wade</h1>
+            <p class="mx-auto w-75">We want Code v. Wade to be a comprehensive resource of every reproductive health application out there!
+               If you are curious about an app that we haven't yet investigated, follow these steps to help us provide valuable privacy information to the people!</p>
+        </div>
+    </section>
+    <div class="card py-0 mx-auto" style="width: 80%;">
+        <div class="accordion accordion-flush py-0 rounded-4" id="accordionFlushExample">
+            <!-- Category dropdown - Google Play Search-->
+            <div class="accordion-item py-0">
+                <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingOne">
+                    <button class="accordion-button collapsed" style="height: 4em!important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <h5 class="clickable">1) Find the app on the Google Play Store</h5>
+                    </button>
+                </h2>
+                <!-- Detailed instructions-->
+                <div id="flush-collapseOne" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body" style="text-align: left; overflow: auto; height: 700px;">
+                        <div class="row pb-5">
+                            <div class="col-4">
+                                <ul>
+                                    <li>Go to the <a href="https://play.google.com/store/apps?hl=en_US&gl=US" class="cvw-link">Google Play Store</a></li>
+                                    <li>Use the search bar to find the app</li>
+                                </ul>
+                            </div>
+                            <div class="col-8">
+                                <img class="img-fluid" src="../static/media/submit-1.png" alt="">
+                                <img class="img-fluid" src="../static/media/submit-2.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item py-0">
+                <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" style="height: 4em!important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <h5>2) Copy the link to the app's page</h5>
+                    </button>
+                </h2>
+                <!-- Detailed instructions-->
+                <div id="flush-collapseTwo" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body" style="text-align: left; overflow: auto; height: 380px;">
+                        <div class="row pb-5">
+                            <div class="col-4">
+                                <ul>
+                                    <li>Right click the app and select "Copy link"</li>
+                                </ul>
+                            </div>
+                            <div class="col-8">
+                                <img class="img-fluid" src="../static/media/submit-3.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item py-0">
+                <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingThree">
+                    <button class="accordion-button collapsed" style="height: 4em!important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        <h5>3) Paste the link into the form below</h5>
+                    </button>
+                </h2>
+                <!-- Detailed instructions-->
+                <div id="flush-collapseThree" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body" style="text-align: left; overflow: auto; height: 380px;">
+                        <div class="row pb-5">
+                            <div class="col-4">
+                                <ul>
+                                    <li>Paste the link and click "Submit"</li>
+                                </ul>
+                            </div>
+                            <div class="col-8">
+                                <img class="img-fluid" src="../static/media/submit-4.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item py-0">
+                <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingFour">
+                    <button class="accordion-button collapsed" style="height: 4em!important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                        <h5>4) Wait for our team to review the app</h5>
+                    </button>
+                </h2>
+                <!-- Detailed instructions-->
+                <div id="flush-collapseFour" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <ul style="text-align: left;">
+                            <li>In order to conduct an in-depth investigation into the privacy of reproductive health apps, <span class="cvw-emph"> our analysis can take some time to complete.</span> </li>
+                            <li>Some parts of our analysis can be done immediately, such as gathering information on the permissions that an app requests.</li>
+                            <li>Other parts involve manual analysis by a member of our team, such as determining if data is encrypted in transit.</li>
+                            <li>Submitting an app triggers the automatic analysis of the app and <span class="cvw-emph">notifies the Code v. Wade team</span> that some manual analysis is required.</li>
+                            <li class="cvw-emph"> No information about you will be sent to the team or stored other than the link to the app that was submitted</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="input-group w-75 mt-5" style="margin: auto">
+        <input type="search" class="form-control rounded" placeholder="Paste the link to a reproductive health app" aria-label="Submit" aria-describedby="search-addon" />
+        <button class="btn btn-secondary"style="background: #758BFD;">Submit</button>
+    </div>
+    </br>
+</div>
+
+{% endblock %}
