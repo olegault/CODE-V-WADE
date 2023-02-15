@@ -24,8 +24,7 @@ def index(request):
         icon_list =[]
         id_list = []
 
-        #if(val=='y'):
-        sql = ("SELECT title, icon, appID, rating FROM apps ORDER BY rating desc limit 10".format(seq=','.join(['?']*len(args))))
+        sql = ("SELECT title, icon, appID, rating FROM apps ORDER BY rating asc limit 10".format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
         for row in rows:
             print(row)
