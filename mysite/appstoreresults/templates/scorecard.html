@@ -10,8 +10,8 @@
                     <div class="card text-center">
                         <div class="card-body">
                             <div class="container">
-                                <h5 class="card-title">Top 10 apps</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h5 class="card-title">Most Popular Apps</h5>
+                                <p class="card-text">The most popular reproductive health apps on the Google Play Store.</p>
                             </div>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="container">
                                 <h5 class="card-title">Top Apps For Privacy</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <p class="card-text">The highest rated apps for reproductive privacy.</p>
                             </div>
                         </div>
                     </div>
@@ -62,9 +62,9 @@
                         <div class="col-sm-3">
                             <div class="text-center">
                                 <!-- card content -->
-                                <div class="score score-okay">
-                                    <h2 id="overall-score" style="font: 4em Cascadia, monospace;">83</h2>
-                                    <h3 id="overall-grade" style="font: 3em Cascadia, monospace;">Good</h3>
+                                <div class="score {{overallClass }}">
+                                    <h2 id="overall-score" style="font: 4em Cascadia, monospace;">{{ overallScore }}</h2>
+                                    <h3 id="overall-grade" style="font: 3em Cascadia, monospace;">{{ overallDesc }}</h3>
                                 </div>
                                 <h4 class="text-center" id="overall-grade" style="font: 0.7em Cascadia, monospace;">Last updated {{ date }}</h4>
                             </div>
@@ -82,7 +82,7 @@
                                             <h3>Third Party Sharing &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
                                         </div>
                                         <div class="col-sm-4" style="text-align: right;">
-                                            <h3>Good</h3>
+                                            <h3>75 | Good</h3>
                                         </div>
                                     </div>
                                 </button>
@@ -95,7 +95,7 @@
                                             <h4 class="fw-light">Permits sharing with advertisers</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ shareAdvertisers }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -103,7 +103,7 @@
                                             <h4 class="fw-light">Permits sharing with law enforcement</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;"> {{ shareLawEnforcement }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -111,7 +111,7 @@
                                             <h4 class="fw-light">Permits sharing with data brokers</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ shareDataBrokers }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -119,7 +119,7 @@
                                             <h4 class="fw-light">Permits sharing with healthcare providers</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ shareHealthCareProvider }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                             <h4 class="fw-light">Personal data is encrypted in transit</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ encryptedTransit }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -156,7 +156,7 @@
                                             <h4 class="fw-light">Personal data is encrypted on the device</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ encryptedOnDevice }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -164,7 +164,7 @@
                                             <h4 class="fw-light">Metadata is encrypted</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ encryptedMetadata }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +193,7 @@
                                             <h4 class="fw-light">Collects basic personal identifying information (name, email, etc.)</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ collectPII }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -201,7 +201,7 @@
                                             <h4 class="fw-light">Collects personal non-reproductive health information</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ collectHealthInfo }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -209,7 +209,7 @@
                                             <h4 class="fw-light">Collects personal reproductive health information (pregnancy, period, etc.)</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ collectReproductiveInfo }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -217,7 +217,7 @@
                                             <h4 class="fw-light">Collects period calendar information</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ collectPeriodCalendarInfo }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -246,7 +246,7 @@
                                             <h4 class="fw-light">You can request a copy of your data</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ requestData }}</h4>
                                         </div>
                                     </div>
                                     <div class="row metric-row">
@@ -254,7 +254,7 @@
                                             <h4 class="fw-light">You can request deletion of personal data</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">Yes</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ requestDeletion }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -262,7 +262,7 @@
                                             <h4 class="fw-light">You can control which data the app collects</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ controlData }}</h4>
                                         </div>
                                     </div>
                                     <div class="row" style="height: 3em;">
@@ -270,7 +270,7 @@
                                             <h4 class="fw-light">You can control who your data is shared with</h4>
                                         </div>
                                         <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">No</h4>
+                                            <h4 class="fw-bold" style="text-align: right;">{{ controlSharing }}</h4>
                                         </div>
                                     </div>
                                 </div>
