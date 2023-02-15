@@ -14,6 +14,7 @@ def index(request):
 
     try:
         sqliteConnection = sqlite3.connect('apptable.db')
+        sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
 
@@ -28,9 +29,9 @@ def index(request):
         rows = cursor.execute(sql, args)
         for row in rows:
             print(row)
-            icon_list.append(row[0]) #img
-            app_list.append(row[3]) #app name
-            id_list.append(row[2])
+            icon_list.append(row['icon']) #img
+            app_list.append(row['title']) #app name
+            id_list.append(row['appID'])
 
         # template = loader.get_template('index.html')
        
