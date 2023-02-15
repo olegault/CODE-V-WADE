@@ -109,3 +109,9 @@ def search(request):
         form = SearchResult()
         return render(request, 'search.html', {'form': form})
 
+
+def submit(request):
+    return render(request, "submit.html")
+
+
+
