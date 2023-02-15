@@ -143,8 +143,7 @@ def search(request):
                     for r in res:
                         icon_list.append(r[0]) 
                         app_list.append(r[1])
-                        id_list.append(r[2])
-                        output = {app_list[i]: [icon_list[i], id_list[i]] for i in range(len(app_list))}
+                        output = {app_list[i]: icon_list[i] for i in range(len(app_list))}
                     
                     return render(request, 'search.html', {'output': output})
                         
