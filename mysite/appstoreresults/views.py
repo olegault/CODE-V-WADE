@@ -22,11 +22,11 @@ def index(request):
         icon_list =[]
         app_dict = {}
         #if(val=='y'):
-        sql = ("SELECT title, icon, rating FROM apps ORDER BY rating desc limit 10".format(seq=','.join(['?']*len(args))))
+        sql = ("SELECT title, rating, icon FROM apps ORDER BY rating ASC limit 10".format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
         for row in rows:
-            icon_list.append(row[0]) #img
-            app_list.append(row[2]) #app name
+            icon_list.append(row[2]) #img
+            app_list.append(row[0]) #app name
 
         template = loader.get_template('index.html')
        
@@ -87,8 +87,8 @@ def search(request):
                     icon_list =[]
 
                     for r in res:
-                        icon_list.append(r[0]) 
-                        app_list.append(r[1])
+                        icon_list.append(r[1]) 
+                        app_list.append(r[0])
                         output = {app_list[i]: icon_list[i] for i in range(len(app_list))}
                     
                     return render(request, 'search.html', {'output':output})
