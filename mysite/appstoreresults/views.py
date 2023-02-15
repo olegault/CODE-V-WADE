@@ -67,3 +67,7 @@ def scorecard(request):
 def search(request):
     template = loader.get_template("search.html")  
     return render(request, "search.html")
+
+def submit(request):
+    template = loader.get_template("submit.html")  
+    return render(request, "submit.html")
