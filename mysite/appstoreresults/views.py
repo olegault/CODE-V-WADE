@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 import sqlite3 as lite
-from .models import AppM3
+from .models import AppMetrics
 import numpy as np
 import sqlite3
 
@@ -17,6 +17,7 @@ def index(request):
         args=[]
         app_list =[]
         icon_list =[]
+        app_dict = {}
         #if(val=='y'):
         sql = ("SELECT title, icon, rating FROM apps ORDER BY rating desc limit 10".format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
@@ -46,12 +47,19 @@ def contact(request):
 def writing4(request):
     return render(request, "writing4.html")
 
-def apppage(request):
+def scorecard(request):
     # data = AppM3.objects.all()
 
     template = loader.get_template("scorecard.html")
-    context = {'title': "Clue Period & Cycle Tracker",
-               'downloads': '10M+ downloads'}
+    context = {'date': 'Feb 7, 2023',
+               'title': "Clue Period & Cycle Tracker",
+               'downloads': '10M+ downloads',
+               'appIcon': 'Hey!',
+               'overallScore': 83,
+               'thirdPartyScore': 80,
+               'dataEncryptionScore': 75,
+               'sensitiveDataScore': 100,
+               'transparencyScore': 50}
 
     return HttpResponse(template.render(context, request))
 
@@ -59,3 +67,7 @@ def apppage(request):
 def search(request):
     template = loader.get_template("search.html")  
     return render(request, "search.html")
+
+def submit(request):
+    template = loader.get_template("submit.html")  
+    return render(request, "submit.html")
