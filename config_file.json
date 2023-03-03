@@ -1,0 +1,48 @@
+{
+    "mysql": {
+        "host": "131.193.34.101",
+        "user": "compaas",
+        "password": "Rr[B+N=%(+2cwCs3",
+        "database": "privacy_policies"
+    },
+	"email": {
+		"host": "smtp.gmail.com",
+		"port": "465",
+		"sender": "mirmasoodali95@gmail.com",
+		"password": "yxsqjdlgxyqigetb",
+		"recipients": [
+			"mali92@uic.edu"
+		],
+		"updateRecipients": [
+			"mali92@uic.edu"
+		]
+	},
+	"logging": {
+		"logDirectory": "log/",
+		"logFormat": "%(filename)s:%(lineno)d [%(levelname)s] %(asctime)-15s %(message)s",
+		"logLevel": "INFO"
+	},
+	"models":{
+		"path": "./trained_models",
+		"dictionaryPath": "./embeddings/word2idx_300.pkl",
+		"weightsMatrixPath": "./embeddings/weights_matrix_300.pkl"
+	},
+	"program": {
+		"numberOfProcessingNodes": 1,
+		"processingNodeId": 1,
+		"threadPoolSize": 1,
+		"policyListChunkSize": 100,
+		"errorPolicyListChunkSize": 20,
+		"sleepTimeBetweenChunkProcessingInSeconds": 0,
+		"source_addresses" : [ 
+			"131.193.34.101",
+			"131.193.34.102",
+			"131.193.34.103",
+			"131.193.34.104",
+			"131.193.34.105",
+			"131.193.34.106",
+			"131.193.34.107",
+			"131.193.34.108"
+		]
+	}
+}

@@ -5,152 +5,141 @@ import pickle
 import numpy as np
 import pandas as pd
 import torch
-import sys
-from functools import reduce
 from collections import OrderedDict
 from torch import tensor
-from IPython.display import display
-
 def get_number_segments(folder):
     """
-
     Computes the number of segments in the files inside the folder
-
+    
     Args:
         folder: string, path to the folder we want to examine
     Returns:
         number_segments: integer, number of segments inside the folder
-
+    
     """
-
-    number_segments = 0
-
+    
+    number_segments = 0 
+    
     files = [join(folder, f) for f in listdir(folder) if isfile(join(folder, f))]
-
+    
     for f in files:
 
         with open(f, "rb") as f_opened:
 
             number_segments += len(pickle.load(f_opened))
-
+            
     return number_segments
 
 def sentence_serialization(sentence, word2idx, lower_case = True):
-    """
-
+    """ 
+    
     Transforms a sentence into a list of integers. No integer will be appended if the token is not present in word2idx.
-
+    
     Args:
         sentence: string, sentence that we want to serialize.
         word2idx: dictionary, dictionary with words as keys and indexes as values.
-        lower_case: boolean, turns all words in the sentence to lower case. Useful if word2idx
-        doesn't support upper case words.
-    Returns:
-        s_sentence: list, list containing the indexes of the words present in the sentence.
+        lower_case: boolean, turns all words in the sentence to lower case. Useful if word2idx doesn't support upper case words.
+    Returns: 
+        s_sentence: list, list containing the indexes of the words present in the sentence. 
         s_sentence stands for serialized sentence.
-
+        
     """
-
+    
     s_sentence = []
-
+    
     not_found = 0
-
-    if lower_case:
-
+    
+    if lower_case: 
+        
         tokens = map(str.lower,nltk.word_tokenize(sentence))
-
+        
     else:
-
+        
         tokens = nltk.word_tokenize(sentence)
-
-    for token in tokens:
-
+    
+    for token in tokens:       
+        
         try:
-
+            
             s_sentence.append(word2idx[token])
-
-
+            
         except KeyError:
-
+            
             not_found += 1
-            #
-            # print("Warning: At least one token is not present in the word2idx dict. For instance: " + token +
-            #
-            #       ". Not found: " + str(not_found))
+
+#             print("Warning: At least one token is not present in the word2idx dict. For instance: " + token + 
+
+#                   ". Not found: " + str(not_found))
 
     return s_sentence
 
 def get_tokens(inputh_path, output_path, read = False):
     """
-
+    
     Checks all the files in filespath and returns a set of all the words found in the files. The function will ignore all the folders inside filespath automatically.
     We set all the words to be lower case. The function will check if the a file with all the tokens is available. In that case this function
-    will be much faster.
-
+    will be much faster. 
+    
     Args:
         filespath: string, path to the folder with all the files containing the words that we want to extract.
         read: boolean, variable that allows us to decide wether to read from pre-processed files or not.
     Returns:
-        dictionary: set, set containing all the different words found in the files.
-
+        dictionary: set, set containing all the different words found in the files. 
+    
     """
 
     dictionary_path = join(output_path, "dictionary.pkl")
+    
+    if isfile(dictionary_path) and read:
+        
+        print("Loading from file dictionary.pkl")
+        
+        with open(dictionary_path,"rb") as dictionary_file:
+        
+            word2idx_dictionary = pickle.load(dictionary_file)
+        
+    else:
+        
+        print("Processing dataset ...")
+    
+        dictionary = set()
 
+        files = [join(inputh_path, f) for f in listdir(inputh_path) if isfile(join(inputh_path, f))]
+        files = [file for file in files if ".keep" not in file]
+        #files.remove(join(inputh_path,".keep"))
+              
+        for f in files:
 
-#     if isfile(dictionary_path) and read:
+            opened_file = open(f,'r', encoding='utf-8', errors='replace')
 
-#         print("Loading from file dictionary.pkl")
+            for i, line in enumerate(opened_file):
+                a = line.split('","')
+                
+                if(len(a) > 1):
+                    a[1] = map(str.lower,set(nltk.word_tokenize(a[1])))
 
-#         with open(dictionary_path,"rb") as dictionary_file:
+                    dictionary = dictionary.union(a[1])
+                
+        dictionary = sorted(dictionary)
+        
+        word2idx_dictionary = {None: 0}
+        
+        for i, word in enumerate(dictionary,1):
+                
+                word2idx_dictionary[word] = i
 
-#             word2idx_dictionary = pickle.load(dictionary_file)
+        with open(dictionary_path, "wb") as dictionary_file:
 
-#     else:
-
-    # print("Processing dataset ...")
-
-    dictionary = set()
-
-    files = [join(inputh_path, f) for f in listdir(inputh_path) if isfile(join(inputh_path, f))]
-    files = [file for file in files if ".keep" not in file]
-    #files.remove(join(inputh_path,".keep"))
-
-    for f in files:
-
-        opened_file = open(f,'r', encoding="utf8", errors='ignore')
-
-        for i, line in enumerate(opened_file):
-
-            a = line.split('","')
-            if len(a) > 1:
-                a[1] = map(str.lower,set(nltk.word_tokenize(a[1])))
-                dictionary = dictionary.union(a[1])
-            else:
-                print(a)
-
-
-
-    dictionary = sorted(dictionary)
-
-    word2idx_dictionary = {None: 0}
-
-    for i, word in enumerate(dictionary,1):
-
-            word2idx_dictionary[word] = i
-
-    with open(dictionary_path, "wb") as dictionary_file:
-
-        pickle.dump(word2idx_dictionary, dictionary_file)
-
+            pickle.dump(word2idx_dictionary, dictionary_file)
+            
     return word2idx_dictionary
 
 
-def get_policy_of_interest_tokens(paragraphs, output_path):
+def get_policy_of_interest_tokens(paragraphs, output_path = ''):
 
-    all_tokens_path = join(output_path, "policy_of_interest_tokens.pkl")
+#     all_tokens_path = join(output_path, "policy_of_interest_tokens.pkl")
 
-    # print("Processing all tokens of the policy of interest ...")
+#     print("Processing all tokens of the policy of interest ...")
 
     all_tokens = set()
 
@@ -159,50 +148,51 @@ def get_policy_of_interest_tokens(paragraphs, output_path):
         all_tokens = all_tokens.union(segment)
 
     all_tokens = sorted(all_tokens)
+
     word2idx_dictionary = {None: 0}
 
     for i, word in enumerate(all_tokens, 1):
         word2idx_dictionary[word] = i
 
-    with open(all_tokens_path, "wb") as dictionary_file:
+#     with open(all_tokens_path, "wb") as dictionary_file:
 
-        pickle.dump(word2idx_dictionary, dictionary_file)
+#         pickle.dump(word2idx_dictionary, dictionary_file)
 
     return word2idx_dictionary
 
 def label_to_vector(label, labels, count):
     """
-
+    
     Returns a vector representing the label passed as an input.
-
+    
     Args:
         label: string, label that we want to transform into a vector.
         labels: dictionary, dictionary with the labels as the keys and indexes as the values.
     Returns:
-        vector: np.array, 1-D array of lenght 12.
-
+        vector: np.array, 1-D array of length 12.
+        
     """
-
+    
     vector = np.zeros((count))
-
+    
     try:
-
+    
         index = labels[label]
-
+    
         vector[index] = 1
-
+        
     except KeyError:
-
+        
         vector = np.zeros((count))
-
+    
     return vector
 
 def get_glove_dicts(parent_folder, input_path, output_path, dims, read = False):
     """
-
-    This functions returns two dictionaries that process the glove.6B folder and gets the pretrained
+    
+    This functions returns two dictionaries that process the glove.6B folder and gets the pretrained 
     embedding vectors.
-
+    
     Args:
         path: string, path to the folder containing the glove embeddings
         dims: integer, embeddings dimensionality to use.
@@ -210,28 +200,28 @@ def get_glove_dicts(parent_folder, input_path, output_path, dims, read = False):
     Returns:
         word2vector: dictionary, the keys are the words an the values are the embeddings associated with that word.
         word2idx: dictionary, the keys are the words and the values are the indexes associated with that word.
-
+    
     """
-
+    
     word2vector_path = "word2vector_globe_" + str(dims) + ".pkl"
-
+    
     word2vector_path = join(output_path, word2vector_path)
-
+    
     word2idx_path = "word2idx_globe_" + str(dims) + ".pkl"
-
+    
     word2idx_path = join(output_path, word2idx_path)
-
+    
     if isfile(word2vector_path) and read:
-
-        # print("Loading from file word2vector_globe_{}.pkl".format(dims))
+        
+        print("Loading from file word2vector_globe_{}.pkl".format(dims))
 
         with open(word2vector_path,"rb") as word2vector_file:
-
+        
             word2vector = pickle.load(word2vector_file)
 
     else:
-
-        # print("Processing dataset ...")
+        
+        print("Processing dataset ...")
 
         words = [None]
 
@@ -256,23 +246,23 @@ def get_glove_dicts(parent_folder, input_path, output_path, dims, read = False):
                 vector = np.array(split_line[1:]).astype(np.float)
 
                 vectors.append(vector)
-
+                
                 idx += 1
-
+        
         word2vector = {w: vectors[word2idx[w]] for w in words}
-
+        
         with open(word2vector_path,"wb") as word2vector_file:
-
+        
             pickle.dump(word2vector, word2vector_file)
 
     return word2vector
 
 def get_fast_text_dicts(input_path, output_path, dims, missing = True, read = False):
     """
-
-    This functions returns two dictionaries that process the fasttext folder and gets the pretrained
+    
+    This functions returns two dictionaries that process the fasttext folder and gets the pretrained 
     embedding vectors.
-
+    
     Args:
         path: string, path to the folder containing the glove embeddings
         dims: integer, embeddings dimensionality to use.
@@ -280,12 +270,12 @@ def get_fast_text_dicts(input_path, output_path, dims, missing = True, read = Fa
     Returns:
         word2vector: dictionary, the keys are the words an the values are the embeddings associated with that word.
         word2idx: dictionary, the keys are the words and the values are the indexes associated with that word.
-
+    
     """
-
-    def append_from_file(words, word2idx, vectors, idx, input_path):
-        file = "WOW_MEGA_PP.vec"
-        with open(join(input_path) , encoding="utf8") as fast_text_file:
+    
+    def append_from_file(words, word2idx, vectors, idx, input_path, file):
+        
+        with open('/data/policies_model_300_updated.vec', encoding="utf8") as fast_text_file:
 
             for line in fast_text_file:
                 """if idx == 158090:"""
@@ -302,13 +292,13 @@ def get_fast_text_dicts(input_path, output_path, dims, missing = True, read = Fa
                 vector = np.array(split_line[1:]).astype(np.float)
 
                 vectors.append(vector)
-
+                
                 idx += 1
-
+                
         return words, word2idx, vectors, idx
-
-    if missing:
-
+    
+    if missing:     
+    
         word2vector_path = "word2vector_fast_text_" + str(dims) + "_nomissing.pkl"
 
         word2vector_path = join(output_path, word2vector_path)
@@ -316,7 +306,7 @@ def get_fast_text_dicts(input_path, output_path, dims, missing = True, read = Fa
         word2idx_path = "word2idx_fast_text_" + str(dims) + "_nomissing.pkl"
 
         word2idx_path = join(output_path, word2idx_path)
-
+        
     else:
 
         word2vector_path = "word2vector_fast_text_" + str(dims) + ".pkl"
@@ -326,19 +316,18 @@ def get_fast_text_dicts(input_path, output_path, dims, missing = True, read = Fa
         word2idx_path = "word2idx_fast_text_" + str(dims) + ".pkl"
 
         word2idx_path = join(output_path, word2idx_path)
-
+    
     if isfile(word2vector_path) and read:
-
-        # print("Loading from file {}".format(word2vector_path))
+        
+        print("Loading from file {}".format(word2vector_path))
 
         with open(word2vector_path,"rb") as word2vector_file:
-            print("ICH HAB DAS FILE:)")
-
+        
             word2vector = pickle.load(word2vector_file)
 
     else:
-
-        # print("Processing dataset ...")
+        
+        print("Processing dataset ...")
 
         words = [None]
 
@@ -347,26 +336,26 @@ def get_fast_text_dicts(input_path, output_path, dims, missing = True, read = Fa
         idx = 1
 
         vectors = [np.zeros(dims)]
-
-        words, word2idx, vectors, idx = append_from_file(words, word2idx, vectors, idx, input_path)
-
+        
+        words, word2idx, vectors, idx = append_from_file(words, word2idx, vectors, idx, input_path, '.vec')     
+                
         if missing:
-
-            words, word2idx, vectors, idx = append_from_file(words, word2idx, vectors, idx, input_path)
-
+                        
+            words, word2idx, vectors, idx = append_from_file(words, word2idx, vectors, idx, input_path, '.vec_missing')
+                           
         word2vector = {w: vectors[word2idx[w]] for w in words}
-
+        
         with open(word2vector_path,"wb") as word2vector_file:
-
+        
             pickle.dump(word2vector, word2vector_file)
 
     return word2vector
 
-def get_weight_matrix(dims, output_path, read = False, oov_random = True, **kwargs):
+def get_weights_matrix(dims, output_path, read = False, oov_random = True, **kwargs):
     """
 
-    This function returns a matrix containing the weights that will be used as pretrained embeddings. It will read
-    weights_matrix.pkl file as long as it exists. This will make the code much faster.
+    This function returns a matrix containing the weights that will be used as pretrained embeddings. It will read 
+    weights_matrix.pkl file as long as it exists. This will make the code much faster. 
 
     Args:
         dictionary: dictionary, dictionary containing a word2idx of all the words present in the dataset.
@@ -377,139 +366,137 @@ def get_weight_matrix(dims, output_path, read = False, oov_random = True, **kwar
         weights_matrix: np.array, matrix containing all the embeddings.
 
     """
-
+    
     weights_path = "weights_matrix_" + str(dims) + ".pkl"
-
+    
     weights_path = join(output_path, weights_path)
 
     if isfile(weights_path) and read:
-
+        
         print("Loading from file weights_matrix_{}.pkl".format(dims))
 
         with open(weights_path,"rb") as weights_file:
-
+        
             weights_matrix = pickle.load(weights_file , encoding="latin1")
-
+        
     else:
-
+        
         print("Processing dataset ...")
-
+        
         # We add 1 to onclude the None value
-
+        
         dictionary = kwargs['dictionary']
-
+        
         word2vector = kwargs['word2vector']
-
+        
         matrix_len = len(dictionary) + 1
 
         weights_matrix = np.zeros((matrix_len, dims))
-        print("dims", dims)
 
         oov_words = 0
 
         for word, i in dictionary.items():
 
-            try:
+            try: 
 
                 weights_matrix[i] = word2vector[word]
 
-
             except KeyError:
-
+                
                 if oov_random:
 
                     weights_matrix[i] = np.random.normal(scale=0.6, size=(dims, ))
-
+                    
                 oov_words += 1
-
+                
         if oov_words != 0:
-
+            
             print("Some words were missing in the word2vector. {} words were not found.".format(oov_words))
 
         with open(weights_path,"wb") as weights_file:
 
             pickle.dump(weights_matrix, weights_file)
-
+            
     return weights_matrix
 
-def process_dataset_normal(labels, word2idx, read = False):
+def process_dataset(labels, word2idx, read = False):
     """
-
-    This function process all the privacy policy files and transforms all the segments into lists of integers. It also
+    
+    This function process all the privacy policy files and transforms all the segments into lists of integers. It also 
     transforms all the labels into a list of 0s except in the positions associated with the labels in which we will find 1s
-    where we will find a 1. It will also place .pkl files into the processed_data folder so that we can load the data from
+    where we will find a 1. It will also place .pkl files into the processed_data folder so that we can load the data from 
     there instead of having to process the whole dataset.
-
+    
     Args:
         path: string, path where all the files we want to process are located (all the privacy policies).
-        word2idx: dictionary the keys are the words and the values the index where we can find the vector in
+        word2idx: dictionary the keys are the words and the values the index where we can find the vector in 
         weights_matrix.
         labels: labels: dictionary, dictionary with the labels as the keys and indexes as the values.
-        read: boolean, variable that allows us to decide wether to read from pre-processed files or not.
+        read: boolean, variable that allows us to decide wether to read from pre-processed files or not. 
     Returns:
-        sentence_matrices: list, a list of lists of lists containing the segments of the files transformed into integers.
-        sentence_matrices[i][j][k] -> "i" is for the file, "j" for the line and "k" for the token.
+        sentence_matrices: list, a list of lists of lists containing the segments of the files transformed into integers. 
+        sentence_matrices[i][j][k] -> "i" is for the file, "j" for the line and "k" for the token. 
         labels_matrices: list, a list of lists of lists containing the labels of the dataset. labels_matrices[i][j][k] ->
-        "i" is for the file, "j" for the line and "k" for the boolean variable specifying
+        "i" is for the file, "j" for the line and "k" for the boolean variable specifying 
         the presence of the a label.
-
+        
+    """    
+    
     """
-
-    """
-
+    
     Helper functions
-
+    
     """
-
+    
     def pickle_matrix(matrix, path):
-
+        
         with open(path,"wb") as output_file:
 
             pickle.dump(matrix, output_file)
-
+    
     def unpickle_matrix(path):
-
+        
         with open(path,"rb") as input_file:
 
             matrix = pickle.load(input_file)
-
+        
         return matrix
-
+    
     """
-
+    
     main code of process_dataset
-
+    
     """
-
+    
     input_path = "agg_data"
-
-    output_path = "classifiers/processed_data"
-
+    
+    output_path = "processed_data"
+    
     path_sentence_matrices = join(output_path, "all_sentence_matrices.pkl")
 
     path_labels_matrices = join(output_path, "all_label_matrices.pkl")
-
+    
     if isfile(path_sentence_matrices) and isfile(path_labels_matrices) and read:
-
-        # print("Loading from " + path_sentence_matrices + " and " + path_labels_matrices)
-
+        
+        print("Loading from " + path_sentence_matrices + " and " + path_labels_matrices)       
+        
         sentence_matrices = unpickle_matrix(path_sentence_matrices)
 
         labels_matrices = unpickle_matrix(path_labels_matrices)
 
-        return sentence_matrices, labels_matrices
-
+        return sentence_matrices, labels_matrices 
+        
     else:
-
-        # print("Processing dataset ...")
-
+        
+        print("Processing dataset ...")
+        
         with open("agg_data/agg_data.pkl",'rb') as dataframe_file:
 
             opened_dataframe = pickle.load(dataframe_file)
 
         num_records = len(opened_dataframe)
 
-        # print('Num of unique segments segments: {}'.format(num_records))
+        print('Num of unique segments segments: {}'.format(num_records))
 
         num_labels = len(opened_dataframe["label"].iloc[0])
 
@@ -537,87 +524,82 @@ def process_dataset_normal(labels, word2idx, read = False):
 
         return sentence_matrices, labels_matrices
 
-
-def process_dataset(labels, word2idx, currentAttribute, read = False):
+def process_dataset_attribute_level(labels, word2idx, attribute, read = False):
     """
-
-    This function process all the privacy policy files and transforms all the segments into lists of integers. It also
-    transforms all the labels into a list of 0s except in the positions associated with the labels in which we will find 1s
-    where we will find a 1. It will also place .pkl files into the processed_data folder so that we can load the data from
-    there instead of having to process the whole dataset.
-
+    
+    This function processes all the privacy policy files and transforms all the segments into lists of integers. It also transforms all the labels into a list of 0s except in the positions associated with the labels in which we will find 1s.
+    It will also place .pkl files into the processed_data folder so that we can load the data from there instead of having to process the whole dataset.
+    
     Args:
-        path: string, path where all the files we want to process are located (all the privacy policies).
-        word2idx: dictionary the keys are the words and the values the index where we can find the vector in
-        weights_matrix.
-        labels: labels: dictionary, dictionary with the labels as the keys and indexes as the values.
-        read: boolean, variable that allows us to decide wether to read from pre-processed files or not.
+        labels: dictionary, dictionary with the labels as the keys and indexes as the values.
+        word2idx: dictionary, dictionary where the keys are the words and the values are the index where we can find the vector in the pretrained embeddings.
+        read: boolean, variable that allows us to decide wether to read from pre-processed files or not. 
     Returns:
-        sentence_matrices: list, a list of lists of lists containing the segments of the files transformed into integers.
-        sentence_matrices[i][j][k] -> "i" is for the file, "j" for the line and "k" for the token.
-        labels_matrices: list, a list of lists of lists containing the labels of the dataset. labels_matrices[i][j][k] ->
-        "i" is for the file, "j" for the line and "k" for the boolean variable specifying
-        the presence of the a label.
-
+        sentence_matrices: list, a list of lists of lists containing the segments of the files transformed into integers. 
+        sentence_matrices[i][j][k] -> "i" is for the file, "j" for the line and "k" for the token. 
+        labels_matrices: list, a list of lists of lists containing the labels of the dataset. labels_matrices[i][j][k] -> "i" is for the file, "j" for the line and "k" for the boolean variable specifying the presence of the a label.
+        
+    """    
+    
     """
-
-    """
-
+    
     Helper functions
-
+    
     """
-
+    
     def pickle_matrix(matrix, path):
-
+        
         with open(path,"wb") as output_file:
 
             pickle.dump(matrix, output_file)
-
+    
     def unpickle_matrix(path):
-
+        
         with open(path,"rb") as input_file:
 
             matrix = pickle.load(input_file)
-
+        
         return matrix
-
+    
     """
-
+    
     main code of process_dataset
-
+    
     """
-
+    
     input_path = "agg_data"
+    
+    output_path = "processed_data"
+    
+    path_sentence_matrices = join(output_path, f"all_sentence_matrices_{attribute}.pkl")
 
-    output_path = "classifiers/processed_data"
-
-    path_sentence_matrices = join(output_path, f"{currentAttribute}_all_sentence_matrices.pkl")
-
-    path_labels_matrices = join(output_path, f"{currentAttribute}_all_label_matrices.pkl")
-
+    path_labels_matrices = join(output_path, f"all_label_matrices_{attribute}.pkl")
+    
     if isfile(path_sentence_matrices) and isfile(path_labels_matrices) and read:
-
-        # print("Loading from " + path_sentence_matrices + " and " + path_labels_matrices)
-
+        
+        print("Loading from " + path_sentence_matrices + " and " + path_labels_matrices)       
+        
         sentence_matrices = unpickle_matrix(path_sentence_matrices)
 
         labels_matrices = unpickle_matrix(path_labels_matrices)
 
-        return sentence_matrices, labels_matrices
-
+        return sentence_matrices, labels_matrices 
+        
     else:
-
-        # print("Processing dataset ...")
-
-        with open(f"agg_data/{currentAttribute}.pkl",'rb') as dataframe_file:
+        
+        print("Processing dataset ...")
+        
+        with open(f"agg_data/agg_data_{attribute}.pkl",'rb') as dataframe_file:
 
             opened_dataframe = pickle.load(dataframe_file)
 
         num_records = len(opened_dataframe)
 
-        # print('Num of unique segments segments: {}'.format(num_records))
+        print('Num of unique segments segments: {}'.format(num_records))
 
         num_labels = len(opened_dataframe["label"].iloc[0])
+        
+        print('Num of labels: {}'.format(num_labels))
 
         sentence_matrices = np.zeros(num_records, dtype = 'object')
 
@@ -631,12 +613,11 @@ def process_dataset(labels, word2idx, currentAttribute, read = False):
 
             sentence_matrices[index] = sentence_serialization(segment, word2idx)
 
-
             labels_matrices[index] = label
 
-        path_sentence_matrices = join(output_path, f"{currentAttribute}_all_sentence_matrices.pkl")
+        path_sentence_matrices = join(output_path, f"all_sentence_matrices_{attribute}.pkl")
 
-        path_labels_matrices = join(output_path, f"{currentAttribute}_all_label_matrices.pkl")
+        path_labels_matrices = join(output_path, f"all_label_matrices_{attribute}.pkl")
 
         pickle_matrix(sentence_matrices, path_sentence_matrices)
 
@@ -674,22 +655,20 @@ def process_policy_of_interest(word2idx , segments):
 
     """
 
-    def pickle_matrix(matrix, path):
+#     def pickle_matrix(matrix, path):
 
-        with open(path, "wb") as output_file:
-            pickle.dump(matrix, output_file)
+#         with open(path, "wb") as output_file:
+#             pickle.dump(matrix, output_file)
 
-    def unpickle_matrix(path):
+#     def unpickle_matrix(path):
 
-        with open(path, "rb") as input_file:
-            matrix = pickle.load(input_file)
+#         with open(path, "rb") as input_file:
+#             matrix = pickle.load(input_file)
 
-        return matrix
+#         return matrix
 
 
     def stack_segments(segments, clearance=2):
-
-        import numpy as np
 
         segments_len = map(len, segments)
 
@@ -702,7 +681,7 @@ def process_policy_of_interest(word2idx , segments):
         for i, segment in enumerate(segments):
             segment_array = np.array(segment)
 
-            zeros_to_prepend = int((output_len - len(segment_array))/2)
+            zeros_to_prepend = int((output_len - len(segment_array)) / 2)
 
             zeros_to_append = output_len - len(segment_array) - zeros_to_prepend
 
@@ -710,16 +689,16 @@ def process_policy_of_interest(word2idx , segments):
 
             resized_array = np.append(resized_array, np.zeros(zeros_to_append))
 
-            segments_list.append(torch.tensor(resized_array, dtype = torch.int64))
+            segments_list.append(torch.tensor(resized_array, dtype=torch.int64))
 
             segments_tensor = torch.stack(segments_list).unsqueeze(1)
 
         return segments_tensor
 
 
-    output_path = "classifiers/processed_data"
+#     output_path = "processed_data"
 
-    # print("Processing policy of interest ...")
+#     print("Processing policy of interest ...")
 
     num_records = len(segments)
 
@@ -729,10 +708,10 @@ def process_policy_of_interest(word2idx , segments):
         segment = segments[index]
         segments_matrices[index] = sentence_serialization(segment, word2idx)
 
-    path_sentence_matrices = join(output_path, "policy_of_interest_paragraphs_matrices.pkl")
+#     path_sentence_matrices = join(output_path, "policy_of_interest_paragraphs_matrices.pkl")
 
-    pickle_matrix(segments_matrices, path_sentence_matrices)
-    segments_tensor = stack_segments(segments_matrices.tolist())
+#     pickle_matrix(segments_matrices, path_sentence_matrices)
+    segments_tensor = stack_segments(segments_matrices)
 
     return segments_tensor
 
@@ -766,7 +745,7 @@ def collate_csv_data(word2idx ,attribute, mode, num_labels, read=False):
 
         return segments_tensor
 
-    # print("Processing dataset ...")
+    print("Processing dataset ...")
     attr_segment_matrices, attr_values_matrices, attr_value_tensor = process_attribute_level_testset(word2idx,attribute,mode,num_labels,read )
 
     segments_tensor = stack_segments(attr_segment_matrices)
@@ -786,7 +765,7 @@ def process_attribute_level_testset(word2idx ,attribute, mode, num_labels, read=
         return matrix
 
 
-    output_path = join("classifiers/processed_data", attribute)
+    output_path = join("processed_data", attribute)
 
     path_attr_segment_matrices = join(output_path, "attr_segment_matrices.pkl")
     path_attr_values_matrices = join(output_path, "attr_values_matrices.pkl")
@@ -796,12 +775,12 @@ def process_attribute_level_testset(word2idx ,attribute, mode, num_labels, read=
         labels_dict = pickle.load(labels_file)
 
     if isfile(path_attr_segment_matrices) and isfile(path_attr_values_matrices) and read:
-        # print("Loading from " + path_attr_segment_matrices + " and " + path_attr_values_matrices)
+        print("Loading from " + path_attr_segment_matrices + " and " + path_attr_values_matrices)
         segment_matrices = unpickle_matrix(path_attr_segment_matrices)
         labels_matrices = unpickle_matrix(path_attr_values_matrices)
         return segment_matrices, labels_matrices
     else:
-        # print("Processing attribute separated data ...")
+        print("Processing attribute separated data ...")
         file = join('attribute_dataset', attribute + '_' + mode + '.csv')
         with open(file, 'r') as opened_file:
             reader = pd.read_csv(opened_file, delimiter=',', names = ["index","segment","label"])
@@ -825,7 +804,7 @@ def process_attribute_level_testset(word2idx ,attribute, mode, num_labels, read=
 
 
 
-def process_attribute_level_dataset(word2idx ,attribute, read=False):
+def process_attribute_level_dataset(word2idx ,attribute, mode, read=False):
 
     """
 
@@ -846,25 +825,25 @@ def process_attribute_level_dataset(word2idx ,attribute, read=False):
         return matrix
 
 
-    output_path = "classifiers/processed_data"
+    output_path = join("processed_data", attribute)
 
     path_attr_segment_matrices = join(output_path, "attr_segment_matrices.pkl")
     path_attr_values_matrices = join(output_path, "attr_values_matrices.pkl")
 
 
     if isfile(path_attr_segment_matrices) and isfile(path_attr_values_matrices) and read:
-        # print("Loading from " + path_attr_segment_matrices + " and " + path_attr_values_matrices)
+        print("Loading from " + path_attr_segment_matrices + " and " + path_attr_values_matrices)
         segment_matrices = unpickle_matrix(path_attr_segment_matrices)
         labels_matrices = unpickle_matrix(path_attr_values_matrices)
         return segment_matrices, labels_matrices
     else:
-        # print("Processing attribute separated data ...")
-        file = join('agg_data', attribute +'.pkl')
+        print("Processing attribute separated data ...")
+        file = join('agg_data', attribute + '_' + mode + '.pkl')
         with open(file,'rb') as dataframe_file:
             opened_dataframe = pickle.load(dataframe_file)
 
         num_records = len(opened_dataframe)
-        # print('Num of unique  segments: {}'.format(num_records))
+        print('Num of unique  segments: {}'.format(num_records))
         num_labels = len(opened_dataframe["label"].iloc[0])
         segment_matrices = np.zeros(num_records, dtype = 'object')
         labels_matrices = np.zeros((num_records, num_labels))
@@ -875,13 +854,14 @@ def process_attribute_level_dataset(word2idx ,attribute, read=False):
             segment_matrices[index] = sentence_serialization(segment, word2idx)
             labels_matrices[index] = label
 
-        path_sentence_matrices = join(output_path, f"{attribute}_all_sentence_matrices.pkl")
-        path_labels_matrices = join(output_path,f"{attribute}_all_label_matrices.pkl")
+        path_sentence_matrices = join(output_path, "all_sentence_matrices.pkl")
+        path_labels_matrices = join(output_path, "all_label_matrices.pkl")
         pickle_matrix(segment_matrices, path_sentence_matrices)
         pickle_matrix(labels_matrices, path_labels_matrices)
         return segment_matrices, labels_matrices
 
-def aggregate_data_main(read=False):
+
+def aggregate_data(read=False):
     """
 
     This function processes raw_data and aggregates all the segments labels. Places all the files in the agg_data folder.
@@ -921,7 +901,7 @@ def aggregate_data_main(read=False):
             segments = data[['idx', 'segment']].set_index('idx').drop_duplicates()
 
             result = pd.merge(labels, segments, left_index=True, right_index=True)
-            # print(result)
+
             all_results = pd.concat([all_results, result])
 
         all_results.reset_index(drop=True, inplace=True)
@@ -953,24 +933,23 @@ def aggregate_data_main(read=False):
 
     else:
 
-        # print("Processing dataset in one file ...")
+        print("Processing dataset in one file ...")
 
         aggregate_files(input_path, output_path, labels_dict)
 
 
 
-def aggregate_data(input_raw_data, current_attribute, num_levels, read=False):
+def aggregate_data_attribute_level(attribute, num_labels, read=False):
     """
 
     This function processes raw_data and aggregates all the segments labels. Places all the files in the agg_data folder.
 
     Args:
-        read: boolean, if set to true it will read the data from agg_data folder as long as all the files are found
-        inside the
-        folder.
+        attribute: name of attribute being evaluated.
+        num_labels: number of distinct labels associated with this attribute.
+        read: boolean, if set to true it will read the data from agg_data folder as long as all the files are found inside the folder.
     Returns:
         Nothing.
-
     """
 
     """
@@ -982,43 +961,38 @@ def aggregate_data(input_raw_data, current_attribute, num_levels, read=False):
     def aggregate_files(input_path, output_path, labels_dict):
 
         files = [f for f in listdir(input_path) if isfile(join(input_path, f))]
-        files = [file for file in files if ".keep" not in file]
-        # files.remove(".keep")
 
         all_results = pd.DataFrame({'label': [], 'segment': []})
 
         for f in files:
+            data = pd.read_csv(join(input_path, f), names=["idx", "segment", "label"], encoding='utf-8', encoding_errors='replace')
 
-            data = pd.read_csv(join(input_path, f), names=["idx", "segment", "label"])
-            data = data.drop_duplicates(subset=['idx', 'segment', 'label'], keep='last')
-            data.to_csv(f'test/{f}.csv', index = False)
-
-            data['label'] = data['label'].apply(lambda x: label_to_vector(x, labels_dict, num_levels))
+            data['label'] = data['label'].apply(lambda x: label_to_vector(x, labels_dict, num_labels))
 
             labels_data = data[['idx', 'label']]
+
             labels = labels_data.groupby("idx").sum()
-            toTransform = labels['label']
-
-            for index, value in toTransform.items():
-                for y, value2 in np.ndenumerate(value):
-                    if value2 > 1:
-                        value2 = 1
-                    value[y] = value2
-
-
+            
+            index_list = []
+            labels_list = []
+            
+            for index, row in labels.iterrows():
+                index_list.append(index)
+                labels_list.append((np.array(row['label']) > 0) + 0)
+                
+            labels = pd.DataFrame({'label': labels_list}, index=index_list)
+            
             segments = data[['idx', 'segment']].set_index('idx').drop_duplicates()
 
             result = pd.merge(labels, segments, left_index=True, right_index=True)
 
             all_results = pd.concat([all_results, result])
 
-
         all_results.reset_index(drop=True, inplace=True)
 
         folder_output_path = "agg_data"
 
-        with open(join(output_path, f"{current_attribute}.pkl"), "wb") as output_file:
-            # print(all_results)
+        with open(join(output_path, f"agg_data_{attribute}.pkl"), "wb") as output_file:
             pickle.dump(all_results, output_file)
 
     """
@@ -1027,32 +1001,28 @@ def aggregate_data(input_raw_data, current_attribute, num_levels, read=False):
 
     """
 
-    input_path = input_raw_data
+    input_path = attribute
 
     output_path = "agg_data"
 
-    with open(f"labels_{current_attribute}.pkl", "rb") as labels_file:
+    with open(f"labels/labels_{attribute}.pkl", "rb") as labels_file:
 
         labels_dict = pickle.load(labels_file)
 
-    file_exists = isfile(join(output_path, f"{current_attribute}.pkl"))
+    file_exists = isfile(join(output_path, f"agg_data_{attribute}.pkl"))
 
     if file_exists and read:
 
-        print("agg_data.pkl are already in agg_data/")
+        print(f"agg_data_{attribute}.pkl are already in agg_data/")
 
     else:
 
-        # print("Processing dataset in one file ...")
+        print("Processing dataset in one file ...")
 
         aggregate_files(input_path, output_path, labels_dict)
 
 
-
-
-
-def aggregate_data_attribute_level(attribute, num_labels, read = False):
-
+def aggregate_data_attribute_level_old(attribute, mode, num_labels, read = False):
 
 
     def aggregate_lines(input_file, output_file, labels_dict):
@@ -1061,19 +1031,10 @@ def aggregate_data_attribute_level(attribute, num_labels, read = False):
         labels_data = data[['idx', 'label']]
         labels = labels_data.groupby("idx").sum()
         segments = data[['idx', 'segment']].set_index('idx').drop_duplicates()
-        # print(segments.shape[0])
         result = pd.merge(labels, segments, left_index=True, right_index=True)
         # result.reset_index(drop=True, inplace=True)
         # all_results = pd.concat([all_results, result])
         # all_results.reset_index(drop=True, inplace=True)
-        # print(result)
-        # with open("hihi.csv", 'w', newline='') as csvfile:
-        #     fieldnames = ['index','segment', 'label']
-        #     csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        #     print(type(result))
-        #     for index, row in result.iterrows():
-        #         print(row)
-        #         csv_writer.writerow(row)
         with open(output_file, "wb") as output_file:
             pickle.dump(result, output_file)
 
@@ -1084,8 +1045,8 @@ def aggregate_data_attribute_level(attribute, num_labels, read = False):
     with open(label_file, "rb") as labels_file:
         labels_dict = pickle.load(labels_file)
 
-    output_file = join("agg_data", attribute + '.pkl')
-    input_file = join('cleaned_data', attribute + '.csv')
+    output_file = join("agg_data", attribute + '_' + mode + '.pkl')
+    input_file = join('attribute_dataset', attribute + '_' + mode + '.csv')
 
     file_exists = isfile(output_file)
 
@@ -1094,23 +1055,23 @@ def aggregate_data_attribute_level(attribute, num_labels, read = False):
         print("data already aggregated, reading ...")
 
     else:
-        # print("Processing csv file ...")
+        print("Processing csv file ...")
         aggregate_lines(input_file, output_file, labels_dict)
 
 
 
 def get_absent_words(dictionary, word2vector):
     """
-
+    
     This function check if the words inside dictionary are present in word2vector which is a dictionary coming from a word
     embedding.
-
+    
     Args:
         dictionary: set, set containing strings of words
-        word2vector: dictionary, the keys are the words and the values are the embeddings
+        word2vector: dictionary, the keys are the words and the values are the embeddings   
     Returns:
         absent_words: list, list containing all the words that weren't found in the word embeddings word2vector
-
+    
     """
 
     absent_words = []
@@ -1124,57 +1085,12 @@ def get_absent_words(dictionary, word2vector):
         except KeyError:
 
             absent_words.append(word)
-
+            
     return absent_words
 
-def get_possible_attributes(attribute):
-    # print("attribute", attribute)
-    possibleAttributes = []
-    if attribute == 'First Party Collection/Use':
-        possibleAttributes = [
-        'Does_Does Not', 'Collection Mode', 'Action First-Party',
-        'Identifiability',
-        'Personal Information Type',
-        'Purpose',
-        'User Type', 'Choice Type', 'Choice Scope'
-        ]
-    elif attribute == 'Third Party Sharing/Collection':
-        possibleAttributes = [
-        'Third Party Entity', 'Does_Does Not', 'Action Third-Party',
-        'Identifiability',
-        'Personal Information Type', 'Purpose',
-        'User Type', 'Choice Type', 'Choice Scope'
-        ]
-    elif attribute == 'User Access, Edit and Deletion':
-        possibleAttributes = ['Access Type', 'Access Scope'
-        ,'User Type'
-        ]
-    elif attribute == 'Data Retention':
-        possibleAttributes = [
-        'Retention Period',
-        'Retention Purpose',
-        'Personal Information Type']
-    elif attribute == 'Data Security':
-        possibleAttributes = ['Security Measure']
-    elif attribute == 'International and Specific Audiences':
-        possibleAttributes = ['Audience Type']
-    elif attribute == 'Do Not Track':
-        possibleAttributes = ['Do Not Track Policy']
-    elif attribute == 'Policy Change':
-        possibleAttributes = [
-        'Change Type', 'Notification Type', 'User Choice']
-    elif attribute == 'User Choice/Control':
-        possibleAttributes = [
-        'Choice Type', 'Choice Scope',
-        'Personal Information Type', 'Purpose'
-        , 'User Type'
-        ]
-    return possibleAttributes
-
-
-
 def attr_value_labels(attribute):
-    labels = []
+
+
     if attribute == 'Retention Period':
         labels = OrderedDict([('Stated Period', 0),
              ('Limited', 1),
@@ -1213,17 +1129,13 @@ def attr_value_labels(attribute):
         labels = OrderedDict([('User with account', 0),
              ('User without account', 1),
              ('Unspecified', 2)])
-    elif attribute == 'Other Type':
-        labels = OrderedDict([('Introductory/Generic', 0),
-             ('Practice not covered', 1),
-             ('Privacy contact information', 2)])
     elif attribute == 'Access Scope':
         labels = OrderedDict([('Profile data', 0),
              ('Transactional data', 1),
              ('User account data', 2),
              ('Other data about user', 3),
              ('Unspecified', 4)])
-    elif attribute == 'Does_Does Not':
+    elif attribute == 'Does or Does Not':
         labels = OrderedDict([('Does', 0),
              ('Does Not', 1)])
     elif attribute == 'Access Type':
@@ -1311,8 +1223,7 @@ def attr_value_labels(attribute):
              ('User profile', 13),
              ('Unspecified', 14)])
     elif attribute == 'Purpose':
-        labels = OrderedDict([(
-        'Additional service/feature', 0),
+        labels = OrderedDict([('Additional service/feature', 0),
              ('Advertising', 1),
              ('Analytics/Research', 2),
              ('Basic service/feature', 3),
@@ -1321,15 +1232,14 @@ def attr_value_labels(attribute):
              ('Merger/Acquisition', 6),
              ('Personalization/Customization', 7),
              ('Service operation and security', 8),
-             ('Unspecified', 9)
-             ])
+             ('Unspecified', 9)])
     elif attribute == 'Do Not Track Policy':
-        labels = OrderedDict([('Not mentioned', 0),
+        labels = OrderedDict([('Not metioned', 0),
              ('Honored', 1),
              ('Not honored', 2),
              ('Mentioned, but unclear if honored', 3),
              ('Other', 4)])
-    elif attribute == 'Main':
+    elif attribute == 'Majority':
         labels = OrderedDict([('First Party Collection/Use', 0),
              ('Third Party Sharing/Collection', 1),
              ('User Access, Edit and Deletion', 2),
