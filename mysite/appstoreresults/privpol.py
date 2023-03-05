@@ -10,12 +10,20 @@ from google_play_scraper import app
 from policy-scraping import get_policy
 
 
+link = input("Enter Play Store Link: ")
+package = link.split('id=')[1].split('&')[0]
+result = app(
+    package,
+    lang='en', # defaults to 'en'
+    country='us' # defaults to 'us'
+)
+policy_link = result['privacyPolicy']
 
 r = requests.post(
 
     "https://api.deepai.org/api/summarization",
     data={
-        'text': 'YOUR_TEXT_URL',
+        'text': policy_link,
     },
     headers={'api-key': 'quickstart-QUdJIGlzIGNvbWluZy4uLi4K'}
 )
