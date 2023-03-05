@@ -62,3 +62,43 @@
 .score-bad {
     color: var(--cvw-score-bad);
 }
+
+
+.image-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+  
+  .cell {
+    background-position: center;
+  }
+  
+  .cell:nth-child(1) {
+    background-image: url('mysite/appstoreresults/static/media/world.png');
+  }
+
+  .cell:nth-child(2) {
+    background-image: url('./static/media/world.png');
+  }
+  
+  .cell:nth-child(3) {
+    background-image: url('./static/media/aws.png');
+  }
+  
+  .cell:nth-child(4) {
+    background-image: url('/static/media/world.png');
+  }
+  
+  .cell:nth-child(5) {
+    background-image: url('/static/media/world.png');
+  }
+  
+  .cell:nth-child(6) {
+    background-image: url('/static/media/world.png');
+  }
+  
+ 
+  
+  
+  

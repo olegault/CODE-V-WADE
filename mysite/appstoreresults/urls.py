@@ -12,5 +12,6 @@ urlpatterns = [
     path('search', views.search, name='search'),
     path('scorecard', views.scorecard, name='scorecard'),
     path('scorecard/<str:appID>', views.scorecard, name='scorecard'),
-    path('submit', views.submit, name='submit')
+    path('submit', views.submit, name='submit'),
+    path('region', views.region, name='region'),
 ]
