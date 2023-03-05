@@ -1,15 +1,5 @@
-import io
-import sys
-import StringIO
-#import csv
-#import time
-#import pandas as pd
 import requests
-import get_top_apps
 from google_play_scraper import app
-#from policy-scraping import get_policy
-
-
 
 r = requests.post(
 
@@ -20,23 +10,33 @@ r = requests.post(
     headers={'api-key': '62094660-0461-4c8a-9885-7243213f3b81'}
 )
 
-text = r.txt
-arr = []#delte data
+text = r.text
+metrics = {"collectPII": False,
+           "collectHealthInfo": False,
+           "collectMedicationInfo" : False,
+           "collectReproductiveInfo": False,
+           "collectPeriodCalendarInfo": False,
+           "requestDeletion": False,
+           "controlData": False,
+           "controlSharing": False}
+
 if "identifying information" in text:
-    arr[0]=1
+    metrics['collectPII'] = True
 if "non-reproductive" in text:
-    arr[1]=1
+    metrics['collectHealthInfo'] = True
 if "medication" in text:
-    arr[2]=1
+    metrics['collectMedicationInfo'] = True
 if "period calendar" in text:
-    arr[3]=1
+    metrics['collectPeriodCalendarInfo'] = True
 if "deletion" in text:
-    arr[4]=1
+    metrics['requestDeletion'] = True
 if "control" in text:
-    arr[5]=1
+    metrics['controlData'] = True
 if "control" and "shared" in text:
-    arr[6]=1
+    metrics['controlSharing'] = True
+
 #ret arr
-print(r.json())
+# print(r.json())
+print(metrics)
 
 
