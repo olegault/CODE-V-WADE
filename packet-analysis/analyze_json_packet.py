@@ -23,15 +23,23 @@ with open(filename, 'rb') as fp:
     for flow in reader.stream():
         flows.append(flow)
 
+# Filters list of flows by method (GET, POST, etc.)
+def filter_flows_method(flows: list[HTTPFlow], method: str):
+    filt = []
+    for flow in flows:
+        if flow.request.method == method:
+            filt.append(flow)
+    return filt
+
+# Returns a string highlighted in red
 def highlight(term):
     return  f"{Fore.RED}{term}{Style.RESET_ALL}"
 
+# Searches a string and highlights all occurences of a term in red
 def highlight_term(s, term):
-    l = len(term)
-    i = s.find(term)
-    high = f"{s[:i]}{Fore.RED}{s[i:i+l]}{Style.RESET_ALL}{s[i+l:]}"
-    return(high)
+    return s.replace(term, highlight(term))
 
+# Searches a list of flows according to a selected query
 def terms_search(flows: list[HTTPFlow], query: str, char_buff: int):
     qs = {'reproductive': {'filepath': './search_lists/reproductive.txt',
                            'question': ("Does this line contain " + highlight("reproductive health data") + '?')},
@@ -43,7 +51,11 @@ def terms_search(flows: list[HTTPFlow], query: str, char_buff: int):
         terms = [line.rstrip('\n') for line in f]
     
     for flow in flows:
-        rsp = str(flow.response.content).lower()
+        # Get response content if available
+        rsp = flow.response
+        if not rsp: continue
+
+        rsp = str(rsp.content).lower()
         for term in terms:
             res = [i.start() for i in re.finditer(term, rsp)]
             for i in res:
@@ -66,13 +78,15 @@ def terms_search(flows: list[HTTPFlow], query: str, char_buff: int):
                 print('\n')
     return False
 
+# Boolean: are all POST flows using https?
 def uses_https(flows: list[HTTPFlow]):
+    flows = filter_flows_method(flows, 'POST')
     for flow in flows:
         if 'https' != flow.request.scheme:
             return False
     return True
 
-
+# Returns a list of flows with unique urls
 def unique_urls(flows: list[HTTPFlow]):
     urls = []
     flows_new = []
@@ -82,16 +96,17 @@ def unique_urls(flows: list[HTTPFlow]):
             urls.append(flow.request.url)
     return flows_new
 
+# Conducts a terms search for reproductive health data
 def collects_reproductive_data(flows: list[HTTPFlow]):
     print("\n" + colored("Reproductive Health Data", 'white', 'on_red'))
     return terms_search(flows, 'reproductive', 50)
 
+# Conducts a terms search for account deletion
 def can_delete_account(flows: list[HTTPFlow]):
     print("\n" + colored("Account Deletion", 'white', 'on_red'))
     return terms_search(flows, 'delete', 50)
 
 flows = unique_urls(flows)
-
 
 def report(flows: list[HTTPFlow]):
     encrypted_transit = uses_https(flows)

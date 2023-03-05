@@ -1,0 +1,7 @@
+sleep
+heart
+energy
+pain
+feeling
+emotion
+mental
