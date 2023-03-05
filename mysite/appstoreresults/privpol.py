@@ -1,10 +1,8 @@
 import io
-import csv
-import time
+#import csv
+#import time
 #import pandas as pd
-import requests
-import pycurl
-import certifi
+#import requests
 import get_top_apps
 from google_play_scraper import app
 #from policy-scraping import get_policy
