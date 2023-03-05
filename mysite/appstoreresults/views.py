@@ -215,6 +215,6 @@ def search(request):
 def submit(request):
     return render(request, "submit.html")
 
-def region(request):
+def worldmap(request):
     #return sorted by region based on user selection 
     return render(request, "index.html")
