@@ -52,7 +52,6 @@ def index(request):
             id_list.append(row['appID'])
             score_list.append(row['overallScore'])
 
-        # template = loader.get_template('index.html')
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
         print(res)
@@ -215,6 +214,17 @@ def search(request):
 def submit(request):
     return render(request, "submit.html")
 
-def worldmap(request):
+def worldmap(request, default_region=None):
     #return sorted by region based on user selection 
+    chosen = default_regions["0"]["name"]
+    if(chosen == '0'):
+        return render(request, "index.html")
+
+    print(chosen)
+    #getelementbyID
+    #worldmap.js has default_regions 0-5
+
     return render(request, "index.html")
+
+
+
