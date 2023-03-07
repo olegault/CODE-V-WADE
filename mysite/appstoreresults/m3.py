@@ -1,4 +1,5 @@
-import privpol
+from privpol import analyze_policy
+from notify_packet_analysis import send_notification
 
 #file invoked when user clicks SUBMIT (after inputting the app store and/or priv pol urls)
 #1. webscrape from api autocalled
@@ -14,6 +15,14 @@ import privpol
 #last thing is to take a calculation of the total score (we can just do a basic "add all the value and multiply the sum by a nubmer for rn")
 #then display
 
+def valid_url(url):
+    if not 'https://play.google.com/store/apps/' in url:
+        return False
+    return True
+
+url = input("Enter Play Store Link: ")
+if valid_url(url):
+    send_notification(url)
 
 val = 0 #default for score
 
