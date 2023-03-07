@@ -5,3 +5,5 @@ pain
 feeling
 emotion
 mental
+exercise
+fitness

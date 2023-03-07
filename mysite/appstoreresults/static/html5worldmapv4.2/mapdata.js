@@ -1576,7 +1576,7 @@ var simplemaps_worldmap_mapdata = {
 			lat: '48.866666670',
 			lng: '2.333333333',
 			color: 'default',
-			description: 'default',
+			description: 'Who was here?',
 			url: 'default'
 		}
 	}
