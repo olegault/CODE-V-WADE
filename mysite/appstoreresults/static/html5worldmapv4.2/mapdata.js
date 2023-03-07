@@ -1570,7 +1570,18 @@ var simplemaps_worldmap_mapdata = {
 	
 	
 	locations:{ 
+<<<<<<< HEAD
 		
+=======
+		paris: { 
+			name: 'Paris',
+			lat: '48.866666670',
+			lng: '2.333333333',
+			color: 'default',
+			description: 'Who was here?',
+			url: 'default'
+		}
+>>>>>>> de35c6f4efeb25b17ef32a98f2b70bf5bd6fb78a
 	}
 
 }	//end of simplemaps_worldmap_mapdata
