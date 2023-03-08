@@ -3,11 +3,11 @@ from google_play_scraper import permissions
 
 #connect to db 
 try:
-    sqliteConnection = sqlite3.connect('apptable.db')
+    sqliteConnection = sqlite3.connect('db.db')
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
 
-    cursor.execute('''SELECT appID FROM apps''')
+    cursor.execute('''SELECT appID FROM 'App Matrix' ''')
     rows = cursor.fetchall()
     
     for row in rows:
@@ -17,7 +17,7 @@ try:
             country='us', # defaults to 'us'
         )
 
-        cursor.execute('''INSERT INTO apps ('permissions') VALUES (?)''', result)
+        cursor.execute('''INSERT INTO 'App Matrix' ('permissions') VALUES (?)''', result)
         sqliteConnection.commit()
         print(result)
 

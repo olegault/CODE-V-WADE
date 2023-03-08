@@ -1,4 +1,5 @@
-import requests
+#import requests
+import sqlite3
 from google_play_scraper import app
 
 def analyze_policy(policy_url):
@@ -42,6 +43,28 @@ def analyze_policy(policy_url):
     return metrics
 
 if __name__ == '__main__':
-    analyze_policy('https://helloclue.com/privacy')
+
+    try:
+        sqliteConnection = sqlite3.connect('db-final.db')
+        sqliteConnection.row_factory = sqlite3.Row
+        cursor = sqliteConnection.cursor()
+        print("Successfully Connected to SQLite")
+
+
+        cursor.execute("SELECT privacyPolicy FROM 'App Matrix'")
+        output = cursor.fetchall()
+        res = np.array(output)
+        print(res)
+            #for n in res:
+            #    analyze_policy(policy)
+
+    #cannot connect:
+    except sqlite3.Error as error:
+        print("Failed to insert data into sqlite table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            print("The SQLite connection is closed")
+
 
 

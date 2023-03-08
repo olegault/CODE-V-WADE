@@ -3,14 +3,14 @@ import random
 
 #connect to db 
 try:
-    sqliteConnection = sqlite3.connect('apptable.db')
+    sqliteConnection = sqlite3.connect('db-final.db')
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
     
     for i in range(30):
         val = random.randint(30, 95) 
         print(val)
-        cursor = sqliteConnection.execute('''UPDATE apps SET('transparencyScore') = (?)''', (random.randint(30,95),))
+        cursor = sqliteConnection.execute('''UPDATE 'App Matrix' SET('transparencyScore') = (?)''', (random.randint(30,95),))
     sqliteConnection.commit()
     cursor.close()
 

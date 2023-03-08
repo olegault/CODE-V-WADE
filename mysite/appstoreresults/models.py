@@ -3,7 +3,7 @@ import uuid
 
 # Create your models here.
 class AppMetrics(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    UID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateTimeField()
     appID = models.CharField(max_length=100, unique=True)
     title = models.CharField(max_length=200)
