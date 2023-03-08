@@ -76,7 +76,10 @@ def index(request):
             icon_list.append(row['Icon']) #img
             app_list.append(row['Name']) #app name
             id_list.append(row['UID'])
-            score_list.append(row['overallScore'])
+            if row['overallScore'] == None:
+                score_list.append('Under Review')
+            else:
+                score_list.append(row['overallScore'])
 
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
