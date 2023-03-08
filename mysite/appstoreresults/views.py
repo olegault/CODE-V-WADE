@@ -14,11 +14,13 @@ import pycountry
 
 DB_FILEPATH = './appstoreresults/db-final.db'
 
-def bool_to_text(b):
-    if b:
+def int_to_text(i):
+    if i == 1:
         return("Yes")
-    else:
+    elif i == 0:
         return("No")
+    else:
+        return("Under Review")
 
 def translate_score(score):
     if not score:
@@ -35,6 +37,11 @@ def translate_score(score):
         return ("Bad", "score-bad")
     else:
         return ("No Score", "score-none")
+    
+def under_review(score):
+    if score == -1:
+        return 'Under Review'
+    return score
 
 def index(request):
 
@@ -52,7 +59,7 @@ def index(request):
         score_list = []
 
         #if(val=='y'):
-        sql = ('SELECT Name, Icon, appID, overallScore, Rating FROM "App Matrix" ORDER BY Downloads desc limit 10'.format(seq=','.join(['?']*len(args))))
+        sql = ('SELECT Name, Icon, UID, overallScore, Rating FROM "App Matrix" ORDER BY Downloads desc limit 10'.format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
         print("here")
 
@@ -60,13 +67,20 @@ def index(request):
             # print(row)
             icon_list.append(row['Icon']) #img
             app_list.append(row['Name']) #app name
-            id_list.append(row['appID'])
-            score_list.append(row['overallScore'])
+            id_list.append(row['UID'])
+            if row['overallScore'] == None:
+                score_list.append('Under Review')
+            else:
+                score_list.append(row['overallScore'])
 
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
         # print(res)
+<<<<<<< HEAD
         return render(request, 'index.html', {'res':res})
+=======
+        return render(request, 'index.html', {'res':res, 'countries': countries_list})
+>>>>>>> dc05b5d8bd21b770a2a412fc41a3d4621cfd91d4
 
     #cannot connect:
     except sqlite3.Error as error:
@@ -122,44 +136,59 @@ def scorecard(request, appID=None):
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
 
-        cursor = sqliteConnection.execute('SELECT * FROM "App Matrix" WHERE appID like ?', ("%" + appID + "%",))
+
+        cursor = sqliteConnection.execute('SELECT * FROM "App Matrix" WHERE UID = ?', (appID,))
         res = cursor.fetchall()    
-        
+
         if len(res) != 0:
             print(dict(res[0]))
             app = res[0]
+            print(app['UID'])
             datetime_value = datetime.datetime.utcfromtimestamp(app['updated'])
             score_desc, score_class = translate_score(app["overallScore"])
+            share_desc, share_class = translate_score(app["thirdPartySharingScore"])
+            encryption_desc, encryption_class = translate_score(app["dataEncryptionScore"])
+            sensitive_desc, sensitive_class = translate_score(app["sensitiveDataScore"])
+            transparency_desc, transparency_class = translate_score(app["transparencyScore"])
+
             context = {'date': datetime_value,
                         'title': app['Name'],
                         'downloads': f"{app['Downloads']} downloads",
                         'appIcon': app['Icon'],
-                        'overallScore': app["overallScore"],
+                        'overallScore': under_review(app["overallScore"]),
                         'overallDesc': score_desc,
                         'overallClass': score_class,
 
-                        'thirdPartyScore': 80,
-                        'shareAdvertisers': bool_to_text(app['shareAdvertisers']),
-                        'shareLawEnforcement': bool_to_text(app['shareLawEnforcement']),
-                        'shareDataBrokers': bool_to_text(app['shareDataBrokers']),
-                        'shareHealthCareProvider': bool_to_text(app['shareHealthCareProvider']),
+                        'thirdPartyScore': under_review(app['thirdPartySharingScore']),
+                        'thirdPartyDesc': share_desc,
+                        'thirdPartyClass': share_class,
+                        'shareAdvertisers': int_to_text(app['shareAdvertisers']),
+                        'shareLawEnforcement': int_to_text(app['shareLawEnforcement']),
+                        'shareDataBrokers': int_to_text(app['shareDataBrokers']),
+                        'shareHealthCareProvider': int_to_text(app['shareHealthCareProvider']),
                         
-                        'dataEncryptionScore': 75,
-                        'encryptedTransit': bool_to_text(app['encryptedTransit']),
-                        'encryptedOnDevice': bool_to_text(app['encryptedOnDevice']),
-                        'encryptedMetadata': bool_to_text(app['encryptedMetadata']),
+                        'dataEncryptionScore': under_review(app['dataEncryptionScore']),
+                        'encryptionDesc': encryption_desc,
+                        'encryptionClass': encryption_class,
+                        'encryptedTransit': int_to_text(app['encryptedTransit']),
+                        'encryptedOnDevice': int_to_text(app['encryptedOnDevice']),
+                        'encryptedMetadata': int_to_text(app['encryptedMetadata']),
 
-                        'sensitiveDataScore': 100,
-                        'collectPII': bool_to_text(app['collectPII']),
-                        'collectHealthInfo': bool_to_text(app['collectHealthInfo']),
-                        'collectReproductiveInfo': bool_to_text(app['collectReproductiveInfo']),
-                        'collectPeriodCalendarInfo': bool_to_text(app['collectPeriodCalendarInfo']),
+                        'sensitiveDataScore': under_review(app['sensitiveDataScore']),
+                        'sensitiveDataDesc': sensitive_desc,
+                        'sensitiveDataClass': sensitive_class,
+                        'collectPII': int_to_text(app['collectPII']),
+                        'collectHealthInfo': int_to_text(app['collectHealthInfo']),
+                        'collectReproductiveInfo': int_to_text(app['collectReproductiveInfo']),
+                        'collectPeriodCalendarInfo': int_to_text(app['collectPeriodCalendarInfo']),
 
-                        'transparencyScore': 50,
-                        'requestData': bool_to_text(app['requestData']),
-                        'requestDeletion': bool_to_text(app['requestDeletion']),
-                        'controlData': bool_to_text(app['controlData']),
-                        'controlSharing': bool_to_text(app['controlSharing'])
+                        'transparencyScore': under_review(app['transparencyScore']),
+                        'transparencyDesc': transparency_desc,
+                        'transparencyClass': transparency_class,
+                        'requestData': int_to_text(app['requestData']),
+                        'requestDeletion': int_to_text(app['requestDeletion']),
+                        'controlData': int_to_text(app['controlData']),
+                        'controlSharing': int_to_text(app['controlSharing'])
                         }
             return HttpResponse(template.render(context, request))
                 
