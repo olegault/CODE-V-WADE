@@ -107,24 +107,24 @@ def gmail_add_label(message_id):
 def send_notification(url):
     try:
         get_creds()
-    #     msg = create_notification(url)
-    #     msg_id = gmail_send_message(msg)['id']
-    #     if msg_id:
-    #         print('Sent email notification successfully')
-    #     else:
-    #         print("Could not send email notification")
+        msg = create_notification(url)
+        msg_id = gmail_send_message(msg)['id']
+        if msg_id:
+            print('Sent email notification successfully')
+        else:
+            print("Could not send email notification")
 
     except BaseException as e:
         print(f"{type(e).__name__}: Could not send email notification")
         print(e)
     
-    # try:
-    #     gmail_add_label(msg_id)
-    #     return True
+    try:
+        gmail_add_label(msg_id)
+        return True
     
-    # except BaseException as e:
-    #     print('Could not add Label')
-    #     return False
+    except BaseException as e:
+        print('Could not add Label')
+        return False
 
 if __name__ == '__main__':
     url = 'https://play.google.com/store/apps/details?id=com.clue.android&hl=en_US&gl=US'
