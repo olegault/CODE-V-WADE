@@ -1,6 +1,8 @@
-from appstoreresults.privpol import analyze_policy
-from appstoreresults.notify_packet_analysis import send_notification
+from privpol import analyze_policy
+from notify_packet_analysis import send_notification
 from google_play_scraper import app
+from pathlib import Path
+import sqlite3
 
 #file invoked when user clicks SUBMIT (after inputting the app store and/or priv pol urls)
 #1. webscrape from api autocalled
@@ -15,6 +17,8 @@ from google_play_scraper import app
 
 #last thing is to take a calculation of the total score (we can just do a basic "add all the value and multiply the sum by a nubmer for rn")
 #then display
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 def valid_url(url):
     if 'play.google.com/store/apps/' in url:
@@ -32,15 +36,36 @@ def valid_url(url):
         
     return None
 
+def update_db_entry(package, metrics):
+    sqliteConnection = sqlite3.connect('db-final.db')
+    sqliteConnection.row_factory = sqlite3.Row
+    cursor = sqliteConnection.cursor()
+    print("Successfully Connected to SQLite")
 
+    for metric in metrics:
+        if metrics[metric]: val = 1
+        else: val = 0
+
+        print(metric, val, package)
+        cursor = sqliteConnection.execute(f'''UPDATE 'App Matrix' SET {metric}=? WHERE appID="?"''', (val, package))
+    return True
 
 
 def calculate_m3(url):
-    if valid_url(url):
-        send_notification(url)
-        return True
+
+    app_info = valid_url(url)
+    if not app_info:
+        return False
+
+    package = url.split('id=')[1].split('&')[0]
+    send_notification(url)
+
+    metrics = analyze_policy(app_info['privacyPolicy'])
+    if metrics:
+        res = update_db_entry(package, metrics)
+        print("Updated entries: " , metrics)
+    return True
     
-    return False
 
 if __name__ == '__main__':
     url = input("Enter Play Store Link: ")
