@@ -142,6 +142,14 @@ def report(flows: list[HTTPFlow]):
     print(highlight('Collects general health data: ') + str(collects_health))
     print(highlight('Collects reproductive health data: ') + str(collects_reproductive))
 
+    metrics = {"collectPII": collects_pii,
+               "collectHealthInfo": collects_health,
+               "collectReproductiveInfo": collects_reproductive,
+               "collectPeriodCalendarInfo": False,
+               "requestDeletion": can_delete,
+               "encryptedTransit": encrypted_transit}
+    return metrics
+
 report(flows)
 
 # print(flows[0].response.headers)

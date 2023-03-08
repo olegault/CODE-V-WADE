@@ -32,6 +32,9 @@ def valid_url(url):
         
     return None
 
+
+
+
 def calculate_m3(url):
     if valid_url(url):
         send_notification(url)

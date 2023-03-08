@@ -17,6 +17,8 @@ def bool_to_text(b):
         return("No")
 
 def translate_score(score):
+    if not score:
+        score = -1
     if score > 89:
         return ("Great", "score-great")
     if score > 69:
@@ -25,13 +27,15 @@ def translate_score(score):
         return ("Okay", "score-okay")
     if score > 29:
         return ("Subpar", "score-subpar")
-    else:
+    if score > -1:
         return ("Bad", "score-bad")
+    else:
+        return ("No Score", "score-none")
 
 def index(request):
 
     try:
-        sqliteConnection = sqlite3.connect('apptable.db')
+        sqliteConnection = sqlite3.connect('./appstoreresults/db-final.db')
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
@@ -44,18 +48,18 @@ def index(request):
         score_list = []
 
         #if(val=='y'):
-        sql = ("SELECT title, icon, appID, overallScore, rating FROM apps ORDER BY rating desc limit 10".format(seq=','.join(['?']*len(args))))
+        sql = ('SELECT Name, Icon, appID, overallScore, Rating FROM "App Matrix" ORDER BY Downloads desc limit 10'.format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
         for row in rows:
-            print(row)
-            icon_list.append(row['icon']) #img
-            app_list.append(row['title']) #app name
+            # print(row)
+            icon_list.append(row['Icon']) #img
+            app_list.append(row['Name']) #app name
             id_list.append(row['appID'])
             score_list.append(row['overallScore'])
 
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
-        print(res)
+        # print(res)
         return render(request, 'index.html', {'res':res})
 
     #cannot connect:
@@ -79,7 +83,7 @@ def scorecard(request):
 
     template = loader.get_template("scorecard.html")
     context = {'date': 'Feb 7, 2023',
-               'title': "Clue Period & Cycle Tracker",
+               'title': "Could not load",
                'downloads': '10M+ downloads',
                'appIcon': '../static/media/clue-icon.png',
                'overallScore': 83,
@@ -95,7 +99,7 @@ def scorecard(request, appID=None):
 
     template = loader.get_template("scorecard.html")
     context = {'date': 'Feb 7, 2023',
-               'title': "Clue Period & Cycle Tracker",
+               'title': "Could not load",
                'downloads': '10M+ downloads',
                'appIcon': '../static/media/clue-icon.png',
                'overallScore': 82,
@@ -107,12 +111,12 @@ def scorecard(request, appID=None):
                'transparencyScore': 50}
 
     try:
-        sqliteConnection = sqlite3.connect('apptable.db')
+        sqliteConnection = sqlite3.connect('appstoreresults/db-final.db')
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
 
-        cursor = sqliteConnection.execute("SELECT * FROM apps WHERE appID like ?", ("%" + appID + "%",))
+        cursor = sqliteConnection.execute('SELECT * FROM "App Matrix" WHERE appID like ?', ("%" + appID + "%",))
         res = cursor.fetchall()
         
         if len(res) != 0:
@@ -120,9 +124,9 @@ def scorecard(request, appID=None):
             app = res[0]
             score_desc, score_class = translate_score(app["overallScore"])
             context = {'date': 'Feb 7, 2023',
-                        'title': app['title'],
-                        'downloads': f"{app['downloads']} downloads",
-                        'appIcon': app['icon'],
+                        'title': app['Name'],
+                        'downloads': f"{app['Downloads']} downloads",
+                        'appIcon': app['Icon'],
                         'overallScore': app["overallScore"],
                         'overallDesc': score_desc,
                         'overallClass': score_class,
@@ -177,7 +181,7 @@ def search(request):
                 cursor = sqliteConnection.cursor()
                 print("Successfully Connected to SQLite")
 
-                cursor = sqliteConnection.execute("SELECT title, icon, appID, overallScore FROM apps WHERE title LIKE ?", ("%" + query + "%",))
+                cursor = sqliteConnection.execute("SELECT Name, Icon, appID, overallScore FROM apps WHERE Name LIKE ?", ("%" + query + "%",))
                 res = cursor.fetchall()
                 
                 if len(res) != 0:
@@ -187,8 +191,8 @@ def search(request):
                     score_list = []
 
                     for r in res:
-                        icon_list.append(r['icon']) 
-                        app_list.append(r['title'])
+                        icon_list.append(r['Icon']) 
+                        app_list.append(r['Name'])
                         id_list.append(r['appID'])
                         score_list.append(r['overallScore'])
                         output = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
