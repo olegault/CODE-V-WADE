@@ -3,7 +3,7 @@ import random
 
 #connect to db 
 try:
-    sqliteConnection = sqlite3.connect('apptable.db')
+    sqliteConnection = sqlite3.connect('db-final.db')
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
     
@@ -15,7 +15,7 @@ try:
 
         print(arr)
         
-        count = cursor.execute('''UPDATE apps SET('thirdPartySharingScore',
+        count = cursor.execute('''UPDATE 'App Matrix' SET('thirdPartySharingScore',
                                                     'shareAdvertisers',
                                                     'shareLawEnforcement',
                                                     'shareDataBrokers',

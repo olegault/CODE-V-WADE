@@ -3,7 +3,7 @@ import sqlite3
 from google_play_scraper import search
 
 try:
-    sqliteConnection = sqlite3.connect('apptable.db')
+    sqliteConnection = sqlite3.connect('db-final.db')
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
 
@@ -14,7 +14,7 @@ try:
         args=[]
         title=[]
         icon=[]
-        sql = ("SELECT title, rating, icon FROM apps ORDER BY rating desc limit 10".format(seq=','.join(['?']*len(args))))
+        sql = ("SELECT Name, Rating, Icon FROM 'App Matrix' ORDER BY rating desc limit 10".format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
         for row in rows:
             icon.append(row[0])

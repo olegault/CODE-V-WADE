@@ -30,7 +30,7 @@ def translate_score(score):
 def index(request):
 
     try:
-        sqliteConnection = sqlite3.connect('apptable.db')
+        sqliteConnection = sqlite3.connect('db-final.db')
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
@@ -42,13 +42,15 @@ def index(request):
         id_list = []
         score_list = []
 
-        #if(val=='y'):
-        sql = ("SELECT title, icon, appID, overallScore, rating FROM apps ORDER BY rating desc limit 10".format(seq=','.join(['?']*len(args))))
+
+        sql = ("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' ORDER BY overallScore desc limit 10".format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
+        print("here")
+
         for row in rows:
             print(row)
-            icon_list.append(row['icon']) #img
-            app_list.append(row['title']) #app name
+            icon_list.append(row['Icon']) #img
+            app_list.append(row['Name']) #app name
             id_list.append(row['appID'])
             score_list.append(row['overallScore'])
 
@@ -106,12 +108,12 @@ def scorecard(request, appID=None):
                'transparencyScore': 50}
 
     try:
-        sqliteConnection = sqlite3.connect('apptable.db')
+        sqliteConnection = sqlite3.connect('db-final.db')
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
 
-        cursor = sqliteConnection.execute("SELECT * FROM apps WHERE appID like ?", ("%" + appID + "%",))
+        cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE appID like ?", ("%" + appID + "%",))
         res = cursor.fetchall()
         
         if len(res) != 0:
@@ -171,12 +173,12 @@ def search(request):
             query = form.cleaned_data['your_search']
 
             try:
-                sqliteConnection = sqlite3.connect('apptable.db')
+                sqliteConnection = sqlite3.connect('db-final.db')
                 sqliteConnection.row_factory = sqlite3.Row
                 cursor = sqliteConnection.cursor()
                 print("Successfully Connected to SQLite")
 
-                cursor = sqliteConnection.execute("SELECT title, icon, appID, overallScore FROM apps WHERE title LIKE ?", ("%" + query + "%",))
+                cursor = sqliteConnection.execute("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
                 res = cursor.fetchall()
                 
                 if len(res) != 0:

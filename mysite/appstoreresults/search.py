@@ -7,7 +7,7 @@ form = cgi.FieldStorage()
 query = form.getvalue("query", "")
 
 try:
-    sqliteConnection = sqlite3.connect('apptable.db')
+    sqliteConnection = sqlite3.connect('db-final.db')
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
 
@@ -33,7 +33,7 @@ try:
         for v in values:
             arr.append(v)
         print(arr[0])
-        count = cursor.execute('''INSERT INTO apps ('appID', 'title', 'rating', 'genre', 'price', 'developer', 'downloads','icon') VALUES (?,?,?,?,?,?,?,?)''', arr)
+        count = cursor.execute('''INSERT INTO 'App Matrix' ('appID', 'Name', 'Rating', 'genreID', 'Developer', 'Downloads','Icon') VALUES (?,?,?,?,?,?,?)''', arr)
         sqliteConnection.commit()
         print("Record inserted successfully into apps table ", cursor.rowcount)
     cursor.close()
