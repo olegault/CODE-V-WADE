@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = 'appstoreresults.urls'
 
 TEMPLATES = [
     {
@@ -75,13 +75,13 @@ TEMPLATES = [
             ],
 
             'libraries': {
-            'custom_tags':'mysite.template_tags.custom_tags'
+            'custom_tags':'appstoreresults.template_tags.custom_tags'
             }
         },
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = 'appstoreresults.wsgi.application'
 
 
 # Database
