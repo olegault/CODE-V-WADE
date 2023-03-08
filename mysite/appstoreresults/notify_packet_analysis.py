@@ -3,6 +3,7 @@ from __future__ import print_function
 import os.path
 import base64
 from email.message import EmailMessage
+from mysite.settings import BASE_DIR
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -28,19 +29,22 @@ def get_creds():
     # created automatically when the authorization flow completes for the first
     # time.
     global creds
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    creds_fp = os.path.join(BASE_DIR, 'appstoreresults/credentials.json')
+    token_fp = os.path.join(BASE_DIR, 'appstoreresults/token.json')
+    print(token_fp)
+    if os.path.exists(token_fp):
+        creds = Credentials.from_authorized_user_file(token_fp, SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
-        print('No creds')
+        print('No token')
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                creds_fp, SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('token.json', 'w') as token:
+        with open(token_fp, 'w') as token:
             token.write(creds.to_json())
 
 def create_notification(url):
@@ -103,15 +107,24 @@ def gmail_add_label(message_id):
 def send_notification(url):
     try:
         get_creds()
-        msg = create_notification(url)
-        msg_id = gmail_send_message(msg)['id']
-        gmail_add_label(msg_id)
-        print('Sent email notification successfully')
-        return True
+    #     msg = create_notification(url)
+    #     msg_id = gmail_send_message(msg)['id']
+    #     if msg_id:
+    #         print('Sent email notification successfully')
+    #     else:
+    #         print("Could not send email notification")
 
     except BaseException as e:
         print(f"{type(e).__name__}: Could not send email notification")
-        return False
+        print(e)
+    
+    # try:
+    #     gmail_add_label(msg_id)
+    #     return True
+    
+    # except BaseException as e:
+    #     print('Could not add Label')
+    #     return False
 
 if __name__ == '__main__':
     url = 'https://play.google.com/store/apps/details?id=com.clue.android&hl=en_US&gl=US'

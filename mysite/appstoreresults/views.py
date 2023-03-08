@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from appstoreresults.m3 import valid_url, calculate_m3
 import sqlite3 as lite
 from .models import AppMetrics
 import numpy as np
 import sqlite3
 import cgi
 import json
-from .forms import SearchResult
+from .forms import SearchResult, SubmitResult
 
 def bool_to_text(b):
     if b:
@@ -213,8 +214,31 @@ def search(request):
 
 
 def submit(request):
-    return render(request, "submit.html")
+    if request.method == 'POST':
+    # create a form instance and populate it with data from the request:
+        form = SubmitResult(request.POST)
+        if not form.is_valid():
+            return render(request, 'submit.html')
+        
+        url = form.cleaned_data['submit_url']
+        app_info = valid_url(url)
+
+        if not app_info:
+            return render(request, 'submit.html')
+        
+        if not calculate_m3(url):
+            return render(request, 'submit.html')
+        
+        template = loader.get_template("submitdone.html")
+        return HttpResponse(template.render(app_info, request))
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        return render(request, 'submit.html')
 
 def worldmap(request):
     #return sorted by region based on user selection 
     return render(request, "index.html")
+
+def submitdone(request):
+    return render(request, "submitdone.html")

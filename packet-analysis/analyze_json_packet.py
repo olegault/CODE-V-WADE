@@ -41,7 +41,9 @@ def highlight_term(s, term):
 
 # Searches a list of flows according to a selected query
 def terms_search(flows: list[HTTPFlow], query: str, char_buff: int):
-    qs = {'health':       {'filepath': './search_lists/health.txt',
+    qs = {'pii':          {'filepath': './search_lists/pii.txt',
+                           'question': ("Does this line contain " + highlight("PII") + '?')},
+          'health':       {'filepath': './search_lists/health.txt',
                            'question': ("Does this line contain " + highlight("general health data") + '?')},
           'reproductive': {'filepath': './search_lists/reproductive.txt',
                            'question': ("Does this line contain " + highlight("reproductive health data") + '?')},
@@ -104,6 +106,11 @@ def unique_urls(flows: list[HTTPFlow]):
 buff = 70
 
 # Conducts a terms search for general health data
+def collects_pii(flows: list[HTTPFlow]):
+    print("\n" + colored("Personal Identifying Information", 'white', 'on_red'))
+    return terms_search(flows, 'pii', buff)
+
+# Conducts a terms search for general health data
 def collects_health_data(flows: list[HTTPFlow]):
     print("\n" + colored("General Health Data", 'white', 'on_red'))
     return terms_search(flows, 'health', buff)
@@ -124,12 +131,14 @@ flows = unique_urls(flows)
 def report(flows: list[HTTPFlow]):
     encrypted_transit = uses_https(flows)
     can_delete = can_delete_account(flows)
+    collects_personal = collects_pii(flows)
     collects_health = collects_health_data(filter_flows_method(flows, ['POST']))
     collects_reproductive = collects_reproductive_data(filter_flows_method(flows, ['POST', 'GET']))
 
     print("\n" + colored("Packet Analysis Report", 'white', 'on_red'))
     print(highlight('Encrypted in transit: ') + str(encrypted_transit))
     print(highlight('Can delete account/history: ') + str(can_delete))
+    print(highlight('Collects PII: ') + str(collects_personal))
     print(highlight('Collects general health data: ') + str(collects_health))
     print(highlight('Collects reproductive health data: ') + str(collects_reproductive))
 

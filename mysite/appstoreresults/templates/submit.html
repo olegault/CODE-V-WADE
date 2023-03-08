@@ -105,9 +105,12 @@
             </div>
         </div>
     </div>
-    <div class="input-group w-75 mt-5" style="margin: auto">
-        <input type="search" class="form-control rounded" placeholder="Paste the link to a reproductive health app" aria-label="Submit" aria-describedby="search-addon" />
-        <button class="btn btn-secondary"style="background: #758BFD;">Submit</button>
+    <div class="container text-center mt-5 w-75" style="margin: auto">
+        <form action="/submit" method="post" class="w-100 mx-auto">
+            {% csrf_token %}
+            <input type="text" name="submit_url" class="form-control rounded" placeholder="Paste the link to a reproductive health app" aria-label="Submit" aria-describedby="search-addon" />
+            <button class="btn btn-secondary"style="background: #758BFD;">Submit</button>
+        </form>
     </div>
     </br>
 </div>

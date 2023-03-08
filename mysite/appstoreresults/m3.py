@@ -1,5 +1,6 @@
-from privpol import analyze_policy
-from notify_packet_analysis import send_notification
+from appstoreresults.privpol import analyze_policy
+from appstoreresults.notify_packet_analysis import send_notification
+from google_play_scraper import app
 
 #file invoked when user clicks SUBMIT (after inputting the app store and/or priv pol urls)
 #1. webscrape from api autocalled
@@ -16,15 +17,33 @@ from notify_packet_analysis import send_notification
 #then display
 
 def valid_url(url):
-    if not 'https://play.google.com/store/apps/' in url:
-        return False
-    return True
+    if 'play.google.com/store/apps/' in url:
+        try:
+            package = url.split('id=')[1].split('&')[0]
+            result = app(
+                package,
+                lang='en', # defaults to 'en'
+                country='us' # defaults to 'us'
+            )
+            return result
+        
+        except BaseException as e:
+            print(e)
+        
+    return None
 
-url = input("Enter Play Store Link: ")
-if valid_url(url):
-    send_notification(url)
+def calculate_m3(url):
+    if valid_url(url):
+        send_notification(url)
+        return True
+    
+    return False
 
-val = 0 #default for score
+if __name__ == '__main__':
+    url = input("Enter Play Store Link: ")
+    calculate_m3(url)
+
+    val = 0 #default for score
 
 
 
