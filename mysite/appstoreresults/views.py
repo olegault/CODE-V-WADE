@@ -12,11 +12,13 @@ from .forms import SearchResult, SubmitResult
 
 DB_FILEPATH = './appstoreresults/db-final.db'
 
-def bool_to_text(b):
-    if b:
+def int_to_text(i):
+    if i == 1:
         return("Yes")
-    else:
+    elif i == 0:
         return("No")
+    else:
+        return("Under Review")
 
 def translate_score(score):
     if not score:
@@ -33,6 +35,11 @@ def translate_score(score):
         return ("Bad", "score-bad")
     else:
         return ("No Score", "score-none")
+    
+def under_review(score):
+    if score == -1:
+        return 'Under Review'
+    return score
 
 def index(request):
 
@@ -127,36 +134,48 @@ def scorecard(request, appID=None):
             print(dict(res[0]))
             app = res[0]
             score_desc, score_class = translate_score(app["overallScore"])
-            context = {'date': 'Feb 7, 2023',
+            share_desc, share_class = translate_score(app["thirdPartySharingScore"])
+            encryption_desc, encryption_class = translate_score(app["dataEncryptionScore"])
+            sensitive_desc, sensitive_class = translate_score(app["sensitiveDataScore"])
+            transparency_desc, transparency_class = translate_score(app["transparencyScore"])
+            context = {'date': app['updated'],
                         'title': app['Name'],
                         'downloads': f"{app['Downloads']} downloads",
                         'appIcon': app['Icon'],
-                        'overallScore': app["overallScore"],
+                        'overallScore': under_review(app["overallScore"]),
                         'overallDesc': score_desc,
                         'overallClass': score_class,
 
-                        'thirdPartyScore': 80,
-                        'shareAdvertisers': bool_to_text(app['shareAdvertisers']),
-                        'shareLawEnforcement': bool_to_text(app['shareLawEnforcement']),
-                        'shareDataBrokers': bool_to_text(app['shareDataBrokers']),
-                        'shareHealthCareProvider': bool_to_text(app['shareHealthCareProvider']),
+                        'thirdPartyScore': under_review(app['thirdPartySharingScore']),
+                        'thirdPartyDesc': share_desc,
+                        'thirdPartyClass': share_class,
+                        'shareAdvertisers': int_to_text(app['shareAdvertisers']),
+                        'shareLawEnforcement': int_to_text(app['shareLawEnforcement']),
+                        'shareDataBrokers': int_to_text(app['shareDataBrokers']),
+                        'shareHealthCareProvider': int_to_text(app['shareHealthCareProvider']),
                         
-                        'dataEncryptionScore': 75,
-                        'encryptedTransit': bool_to_text(app['encryptedTransit']),
-                        'encryptedOnDevice': bool_to_text(app['encryptedOnDevice']),
-                        'encryptedMetadata': bool_to_text(app['encryptedMetadata']),
+                        'dataEncryptionScore': under_review(app['dataEncryptionScore']),
+                        'encryptionDesc': encryption_desc,
+                        'encryptionClass': encryption_class,
+                        'encryptedTransit': int_to_text(app['encryptedTransit']),
+                        'encryptedOnDevice': int_to_text(app['encryptedOnDevice']),
+                        'encryptedMetadata': int_to_text(app['encryptedMetadata']),
 
-                        'sensitiveDataScore': 100,
-                        'collectPII': bool_to_text(app['collectPII']),
-                        'collectHealthInfo': bool_to_text(app['collectHealthInfo']),
-                        'collectReproductiveInfo': bool_to_text(app['collectReproductiveInfo']),
-                        'collectPeriodCalendarInfo': bool_to_text(app['collectPeriodCalendarInfo']),
+                        'sensitiveDataScore': under_review(app['sensitiveDataScore']),
+                        'sensitiveDataDesc': sensitive_desc,
+                        'sensitiveDataClass': sensitive_class,
+                        'collectPII': int_to_text(app['collectPII']),
+                        'collectHealthInfo': int_to_text(app['collectHealthInfo']),
+                        'collectReproductiveInfo': int_to_text(app['collectReproductiveInfo']),
+                        'collectPeriodCalendarInfo': int_to_text(app['collectPeriodCalendarInfo']),
 
-                        'transparencyScore': 50,
-                        'requestData': bool_to_text(app['requestData']),
-                        'requestDeletion': bool_to_text(app['requestDeletion']),
-                        'controlData': bool_to_text(app['controlData']),
-                        'controlSharing': bool_to_text(app['controlSharing'])
+                        'transparencyScore': under_review(app['transparencyScore']),
+                        'transparencyDesc': transparency_desc,
+                        'transparencyClass': transparency_class,
+                        'requestData': int_to_text(app['requestData']),
+                        'requestDeletion': int_to_text(app['requestDeletion']),
+                        'controlData': int_to_text(app['controlData']),
+                        'controlSharing': int_to_text(app['controlSharing'])
                         }
             return HttpResponse(template.render(context, request))
                 

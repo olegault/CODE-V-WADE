@@ -22,6 +22,22 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_FILEPATH = os.path.join(BASE_DIR, 'appstoreresults/db-final.db')
 
+pos_neg_metrics = {'shareAdvertisers': -1,
+                   'shareLawEnforcement': -1,
+                   'shareDataBrokers': -1,
+                   'shareHealthCareProvider': -1,
+                   'encryptedTransit': 1,
+                   'encryptedOnDevice': 1,
+                   'encryptedMetadata': 1,
+                   'collectPII': -1,
+                   'collectHealthInfo': -1,
+                   'collectReproductiveInfo': -1,
+                   'collectPeriodCalendarInfo': -1,
+                   'requestData': 1,
+                   'requestDeletion': 1,
+                   'controlData': 1,
+                   'controlSharing': 1}
+
 def valid_url(url):
     if 'play.google.com/store/apps/' in url:
         try:
@@ -61,6 +77,93 @@ def update_db_entry(package, metrics):
             print(e)
     return True
 
+def calc_score(cols, metrics_old):
+    sm = 0
+    metrics = {k: v for k, v in metrics_old.items() if v != -1}
+    if len(metrics) < 1:
+        return -1
+
+    for c in metrics:
+        if metrics[c] == -1:
+            del metrics[c]
+            continue
+
+    for c in metrics:
+        if cols[c] == 1 and metrics[c] == 1:
+            sm += 1
+        if cols[c] == -1 and metrics[c] == 0:
+            sm += 1
+
+    score = (sm / len(metrics) * 100)
+    return round(score)
+
+def get_sharing_score(app_row):
+    metrics = {'shareAdvertisers': app_row['shareAdvertisers'],
+               'shareLawEnforcement': app_row['shareLawEnforcement'],
+               'shareDataBrokers': app_row['shareDataBrokers'],
+               'shareHealthCareProvider': app_row['shareHealthCareProvider']}
+    return calc_score(pos_neg_metrics, metrics)
+
+def get_encryption_score(app_row):
+    metrics = {'encryptedTransit': app_row['encryptedTransit'],
+               'encryptedOnDevice': app_row['encryptedOnDevice'],
+               'encryptedMetadata': app_row['encryptedMetadata']}
+    return calc_score(pos_neg_metrics, metrics)
+
+def get_sensitive_score(app_row):
+    metrics = {'collectPII': app_row['collectPII'],
+               'collectHealthInfo': app_row['collectHealthInfo'],
+               'collectReproductiveInfo': app_row['collectReproductiveInfo'],
+               'collectPeriodCalendarInfo': app_row['collectPeriodCalendarInfo']}
+    return calc_score(pos_neg_metrics, metrics)
+
+def get_transparency_score(app_row):
+    metrics = {'requestData': app_row['requestData'],
+               'requestDeletion': app_row['requestDeletion'],
+               'controlData': app_row['controlData'],
+               'controlSharing': app_row['controlSharing']}
+    return calc_score(pos_neg_metrics, metrics)
+
+def get_overall_score(app_row):
+    metrics = {'shareAdvertisers': app_row['shareAdvertisers'],
+               'shareLawEnforcement': app_row['shareLawEnforcement'],
+               'shareDataBrokers': app_row['shareDataBrokers'],
+               'shareHealthCareProvider': app_row['shareHealthCareProvider'],
+               'encryptedTransit': app_row['encryptedTransit'],
+               'encryptedOnDevice': app_row['encryptedOnDevice'],
+               'encryptedMetadata': app_row['encryptedMetadata'],
+               'collectPII': app_row['collectPII'],
+               'collectHealthInfo': app_row['collectHealthInfo'],
+               'collectReproductiveInfo': app_row['collectReproductiveInfo'],
+               'collectPeriodCalendarInfo': app_row['collectPeriodCalendarInfo'],
+               'requestData': app_row['requestData'],
+               'requestDeletion': app_row['requestDeletion'],
+               'controlData': app_row['controlData'],
+               'controlSharing': app_row['controlSharing']}
+    return calc_score(pos_neg_metrics, metrics)
+
+def update_scores(app_title):
+    sqliteConnection = sqlite3.connect(DB_FILEPATH)
+    sqliteConnection.row_factory = sqlite3.Row
+    cursor = sqliteConnection.cursor()
+    print("Successfully Connected to SQLite")
+
+    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE Name LIKE ?", ("%" + app_title + "%",))
+    res = cursor.fetchall()
+    app_row = res[0]
+
+    overall = get_overall_score(app_row)
+    sharing = get_sharing_score(app_row)
+    encryption = get_encryption_score(app_row)
+    sensitive = get_sensitive_score(app_row)
+    transparency = get_transparency_score(app_row)
+
+    try:
+        cursor = sqliteConnection.execute(f'''UPDATE 'App Matrix' SET overallScore=?, thirdPartySharingScore=?, dataEncryptionScore=?, sensitiveDataScore=?, transparencyScore=? WHERE UID = ?''', 
+                                          (overall, sharing, encryption, sensitive, transparency, app_row['UID']))
+        sqliteConnection.commit()
+    except BaseException as e:
+        print(e)
 
 def calculate_m3(url):
 
@@ -71,17 +174,18 @@ def calculate_m3(url):
     package = url.split('id=')[1].split('&')[0]
     appstoreresults.notify_packet_analysis.send_notification(url)
 
-    metrics = appstoreresults.privpol.analyze_policy(app_info['privacyPolicy'])
-    if metrics:
-        res = update_db_entry(app_info['title'], metrics)
-        print("Updated entries: " , metrics)
-    return True
+    privpol_metrics = appstoreresults.privpol.analyze_policy(app_info['privacyPolicy'])
+    if privpol_metrics:
+        res = update_db_entry(app_info['title'], privpol_metrics)
+        print("Updated entries: " , privpol_metrics)
+
+    update_scores(app_info['title'])
     
 
 if __name__ == '__main__':
     url = input("Enter Play Store Link: ")
     calculate_m3(url)
-
+    # print(get_sharing_score())
     val = 0 #default for score
 
 
