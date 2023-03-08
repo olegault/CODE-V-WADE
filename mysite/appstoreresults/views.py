@@ -9,6 +9,7 @@ import sqlite3
 import cgi
 import json
 from .forms import SearchResult, SubmitResult
+import datetime
 
 DB_FILEPATH = './appstoreresults/db-final.db'
 
@@ -126,8 +127,9 @@ def scorecard(request, appID=None):
         if len(res) != 0:
             print(dict(res[0]))
             app = res[0]
+            datetime_value = datetime.datetime.utcfromtimestamp(app['updated'])
             score_desc, score_class = translate_score(app["overallScore"])
-            context = {'date': 'Feb 7, 2023',
+            context = {'date': datetime_value,
                         'title': app['Name'],
                         'downloads': f"{app['Downloads']} downloads",
                         'appIcon': app['Icon'],

@@ -70,7 +70,8 @@ def calculate_m3(url):
 
     package = url.split('id=')[1].split('&')[0]
     appstoreresults.notify_packet_analysis.send_notification(url)
-
+    #add google play auto-scraper
+    
     metrics = appstoreresults.privpol.analyze_policy(app_info['privacyPolicy'])
     if metrics:
         res = update_db_entry(app_info['title'], metrics)
