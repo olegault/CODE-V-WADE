@@ -1,8 +1,9 @@
-from privpol import analyze_policy
-from notify_packet_analysis import send_notification
+import appstoreresults.privpol
+import appstoreresults.notify_packet_analysis
 from google_play_scraper import app
 from pathlib import Path
 import sqlite3
+import os
 
 #file invoked when user clicks SUBMIT (after inputting the app store and/or priv pol urls)
 #1. webscrape from api autocalled
@@ -19,6 +20,7 @@ import sqlite3
 #then display
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+DB_FILEPATH = os.path.join(BASE_DIR, 'appstoreresults/db-final.db')
 
 def valid_url(url):
     if 'play.google.com/store/apps/' in url:
@@ -37,17 +39,26 @@ def valid_url(url):
     return None
 
 def update_db_entry(package, metrics):
-    sqliteConnection = sqlite3.connect('db-final.db')
+    sqliteConnection = sqlite3.connect(DB_FILEPATH)
     sqliteConnection.row_factory = sqlite3.Row
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
+
+    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE Name LIKE ?", ("%" + package + "%",))
+    res = cursor.fetchall()
+    app_db = res[0]
+    print(app_db['UID'])
 
     for metric in metrics:
         if metrics[metric]: val = 1
         else: val = 0
 
         print(metric, val, package)
-        cursor = sqliteConnection.execute(f'''UPDATE 'App Matrix' SET {metric}=? WHERE appID="?"''', (val, package))
+        try:
+            cursor = sqliteConnection.execute(f'''UPDATE 'App Matrix' SET {metric}=? WHERE UID = ?''', (val, app_db['UID']))
+            sqliteConnection.commit()
+        except BaseException as e:
+            print(e)
     return True
 
 
@@ -58,11 +69,11 @@ def calculate_m3(url):
         return False
 
     package = url.split('id=')[1].split('&')[0]
-    send_notification(url)
+    appstoreresults.notify_packet_analysis.send_notification(url)
 
-    metrics = analyze_policy(app_info['privacyPolicy'])
+    metrics = appstoreresults.privpol.analyze_policy(app_info['privacyPolicy'])
     if metrics:
-        res = update_db_entry(package, metrics)
+        res = update_db_entry(app_info['title'], metrics)
         print("Updated entries: " , metrics)
     return True
     

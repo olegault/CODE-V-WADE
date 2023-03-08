@@ -10,6 +10,8 @@ import cgi
 import json
 from .forms import SearchResult, SubmitResult
 
+DB_FILEPATH = './appstoreresults/db-final.db'
+
 def bool_to_text(b):
     if b:
         return("Yes")
@@ -35,7 +37,7 @@ def translate_score(score):
 def index(request):
 
     try:
-        sqliteConnection = sqlite3.connect('db-final.db')
+        sqliteConnection = sqlite3.connect(DB_FILEPATH)
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
@@ -113,13 +115,13 @@ def scorecard(request, appID=None):
                'transparencyScore': 50}
 
     try:
-        sqliteConnection = sqlite3.connect('db-final.db')
+        sqliteConnection = sqlite3.connect(DB_FILEPATH)
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
 
         cursor = sqliteConnection.execute('SELECT * FROM "App Matrix" WHERE appID like ?', ("%" + appID + "%",))
-            
+        res = cursor.fetchall()    
         
         if len(res) != 0:
             print(dict(res[0]))
@@ -178,7 +180,7 @@ def search(request):
             query = form.cleaned_data['your_search']
 
             try:
-                sqliteConnection = sqlite3.connect('db-final.db')
+                sqliteConnection = sqlite3.connect(DB_FILEPATH)
                 sqliteConnection.row_factory = sqlite3.Row
                 cursor = sqliteConnection.cursor()
                 print("Successfully Connected to SQLite")
