@@ -20,7 +20,7 @@ import os
 #then display
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DB_FILEPATH = os.path.join(BASE_DIR, 'appstoreresults/db-final.db')
+DB_FILEPATH = os.path.join('db-final.db')
 
 pos_neg_metrics = {'shareAdvertisers': -1,
                    'shareLawEnforcement': -1,

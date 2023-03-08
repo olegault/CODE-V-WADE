@@ -1,7 +1,7 @@
-#import requests
 import sqlite3
-import requests
 from google_play_scraper import app
+import numpy as np
+import requests
 
 def scrape_policy(url):
     package = link.split('id=')[1].split('&')[0]
@@ -12,6 +12,8 @@ def scrape_policy(url):
         lang='en', # defaults to 'en'
         country='us' # defaults to 'us'
     )
+
+
 
     policy_link = result['privacyPolicy']
 
@@ -26,33 +28,32 @@ def analyze_policy(policy_url):
     )
 
     text = r.text
-    metrics = {"collectPII": False,
-            "collectHealthInfo": False,
-            "collectMedicationInfo" : False,
-            "collectReproductiveInfo": False,
-            "collectPeriodCalendarInfo": False,
-            "requestDeletion": False,
-            "controlData": False,
-            "controlSharing": False}
+    metrics = {"collectPII": 0,
+            "collectHealthInfo": 0,
+            "collectMedicationInfo" : 0,
+            "collectReproductiveInfo": 0,
+            "collectPeriodCalendarInfo": 0,
+            "requestDeletion": 0,
+            "controlData": 0,
+            "controlSharing": 0}
 
     if "identifying information" in text:
-        metrics['collectPII'] = True
+        metrics['collectPII'] = 1
     if "non-reproductive" in text:
-        metrics['collectHealthInfo'] = True
+        metrics['collectHealthInfo'] = 1
     if "medication" in text:
-        metrics['collectMedicationInfo'] = True
+        metrics['collectMedicationInfo'] = 1
     if "period calendar" in text:
-        metrics['collectPeriodCalendarInfo'] = True
+        metrics['collectPeriodCalendarInfo'] = 1
     if "deletion" in text:
-        metrics['requestDeletion'] = True
+        metrics['requestDeletion'] = 1
     if "control" in text:
-        metrics['controlData'] = True
+        metrics['controlData'] = 1
     if "control" and "shared" in text:
-        metrics['controlSharing'] = True
+        metrics['controlSharing'] = 1
 
     #ret arr
     # print(r.json())
-    print(metrics)
     return metrics
 
 if __name__ == '__main__':
@@ -67,9 +68,15 @@ if __name__ == '__main__':
         cursor.execute("SELECT privacyPolicy FROM 'App Matrix'")
         output = cursor.fetchall()
         res = np.array(output)
-        print(res)
-            #for n in res:
-            #    analyze_policy(policy)
+        for n in res:
+            arr = {}
+            arr = analyze_policy(n)
+            keys = arr.keys()
+            values = list(arr.values())
+            print(values)                  
+            cursor.execute('''UPDATE 'App Matrix' SET 'collectPII'=?, 'collectHealthInfo'=?, 'collectMedicationInfo'=?, 'collectReproductiveInfo'=?, 'collectPeriodCalendarInfo'=?, 'requestDeletion'=?, 'controlData'=?, 'controlSharing'=? WHERE privacyPolicy = ?''', (*values, n[0]))
+            sqliteConnection.commit()
+        cursor.close()
 
     #cannot connect:
     except sqlite3.Error as error:

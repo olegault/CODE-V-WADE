@@ -9,6 +9,8 @@ import sqlite3
 import cgi
 import json
 from .forms import SearchResult, SubmitResult
+import datetime
+import pycountry
 
 DB_FILEPATH = './appstoreresults/db-final.db'
 
@@ -50,6 +52,14 @@ def index(request):
         print("Successfully Connected to SQLite")
 
 
+        #COUNTRIES
+        all_countries = list(pycountry.countries)
+        # create a list of tuples with the country name and code
+        countries_list = [(country.name, country.alpha_2) for country in all_countries]
+        # sort the list by country name
+        countries_list.sort()
+
+
         args=[]
         app_list =[]
         icon_list =[]
@@ -71,7 +81,7 @@ def index(request):
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
         # print(res)
-        return render(request, 'index.html', {'res':res})
+        return render(request, 'index.html', {'res':res}, countries = countries_list)
 
     #cannot connect:
     except sqlite3.Error as error:
@@ -133,12 +143,14 @@ def scorecard(request, appID=None):
         if len(res) != 0:
             print(dict(res[0]))
             app = res[0]
+            datetime_value = datetime.datetime.utcfromtimestamp(app['updated'])
             score_desc, score_class = translate_score(app["overallScore"])
             share_desc, share_class = translate_score(app["thirdPartySharingScore"])
             encryption_desc, encryption_class = translate_score(app["dataEncryptionScore"])
             sensitive_desc, sensitive_class = translate_score(app["sensitiveDataScore"])
             transparency_desc, transparency_class = translate_score(app["transparencyScore"])
-            context = {'date': app['updated'],
+            
+            context = {'date': datetime_value,
                         'title': app['Name'],
                         'downloads': f"{app['Downloads']} downloads",
                         'appIcon': app['Icon'],
@@ -256,23 +268,36 @@ def submit(request):
             return render(request, 'submit.html')
         
         template = loader.get_template("submitdone.html")
+
         return HttpResponse(template.render(app_info, request))
 
     # if a GET (or any other method) we'll create a blank form
     else:
         return render(request, 'submit.html')
 
-def worldmap(request, default_region=None):
-    #return sorted by region based on user selection 
-    chosen = default_regions["0"]["name"]
-    if(chosen == '0'):
-        return render(request, "index.html")
+def countries(request):
+    if request.method == 'POST':
+    # create a form instance and populate it with data from the request:
+        form = SearchResult(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['your_search']
 
-    print(chosen)
-    #getelementbyID
-    #worldmap.js has default_regions 0-5
+            try:
+                sqliteConnection = sqlite3.connect(DB_FILEPATH)
+                sqliteConnection.row_factory = sqlite3.Row
+                cursor = sqliteConnection.cursor()
+                print("Successfully Connected to SQLite")
 
+                cursor = sqliteConnection.execute("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
+                res = cursor.fetchall()
+            
+            except sqlite3.Error as error:
+                print("Failed to insert data into sqlite table", error)
+                return render(request, "index.html")
+    
     return render(request, "index.html")
 
 def submitdone(request):
     return render(request, "submitdone.html")
+
+
