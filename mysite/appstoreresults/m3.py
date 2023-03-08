@@ -20,7 +20,7 @@ import os
 #then display
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DB_FILEPATH = os.path.join('db-final.db')
+DB_FILEPATH = os.path.join('appstoreresults/db-final.db')
 
 pos_neg_metrics = {'shareAdvertisers': -1,
                    'shareLawEnforcement': -1,
@@ -143,6 +143,7 @@ def get_overall_score(app_row):
     return calc_score(pos_neg_metrics, metrics)
 
 def update_scores(app_title):
+    print('Updating scores')
     sqliteConnection = sqlite3.connect(DB_FILEPATH)
     sqliteConnection.row_factory = sqlite3.Row
     cursor = sqliteConnection.cursor()
@@ -151,6 +152,7 @@ def update_scores(app_title):
     cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE Name LIKE ?", ("%" + app_title + "%",))
     res = cursor.fetchall()
     app_row = res[0]
+    print(app_row['overallScore'])
 
     overall = get_overall_score(app_row)
     sharing = get_sharing_score(app_row)
@@ -162,6 +164,7 @@ def update_scores(app_title):
         cursor = sqliteConnection.execute(f'''UPDATE 'App Matrix' SET overallScore=?, thirdPartySharingScore=?, dataEncryptionScore=?, sensitiveDataScore=?, transparencyScore=? WHERE UID = ?''', 
                                           (overall, sharing, encryption, sensitive, transparency, app_row['UID']))
         sqliteConnection.commit()
+        print('committed')
     except BaseException as e:
         print(e)
 

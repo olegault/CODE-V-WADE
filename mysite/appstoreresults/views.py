@@ -67,7 +67,7 @@ def index(request):
         score_list = []
 
         #if(val=='y'):
-        sql = ('SELECT Name, Icon, appID, overallScore, Rating FROM "App Matrix" ORDER BY Downloads desc limit 10'.format(seq=','.join(['?']*len(args))))
+        sql = ('SELECT Name, Icon, UID, overallScore, Rating FROM "App Matrix" ORDER BY Downloads desc limit 10'.format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
         print("here")
 
@@ -75,13 +75,13 @@ def index(request):
             # print(row)
             icon_list.append(row['Icon']) #img
             app_list.append(row['Name']) #app name
-            id_list.append(row['appID'])
+            id_list.append(row['UID'])
             score_list.append(row['overallScore'])
 
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
         # print(res)
-        return render(request, 'index.html', {'res':res}, countries = countries_list)
+        return render(request, 'index.html', {'res':res, 'countries': countries_list})
 
     #cannot connect:
     except sqlite3.Error as error:
@@ -137,19 +137,21 @@ def scorecard(request, appID=None):
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
 
-        cursor = sqliteConnection.execute('SELECT * FROM "App Matrix" WHERE appID like ?', ("%" + appID + "%",))
+
+        cursor = sqliteConnection.execute('SELECT * FROM "App Matrix" WHERE UID = ?', (appID,))
         res = cursor.fetchall()    
-        
+
         if len(res) != 0:
             print(dict(res[0]))
             app = res[0]
+            print(app['UID'])
             datetime_value = datetime.datetime.utcfromtimestamp(app['updated'])
             score_desc, score_class = translate_score(app["overallScore"])
             share_desc, share_class = translate_score(app["thirdPartySharingScore"])
             encryption_desc, encryption_class = translate_score(app["dataEncryptionScore"])
             sensitive_desc, sensitive_class = translate_score(app["sensitiveDataScore"])
             transparency_desc, transparency_class = translate_score(app["transparencyScore"])
-            
+
             context = {'date': datetime_value,
                         'title': app['Name'],
                         'downloads': f"{app['Downloads']} downloads",
