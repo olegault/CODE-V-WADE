@@ -14,5 +14,5 @@ urlpatterns = [
     path('scorecard/<str:appID>', views.scorecard, name='scorecard'),
     path('submit', views.submit, name='submit'),
     path('submitdone', views.submitdone, name='submit'),
-    path('countries', views.countries, name='countries'),
+    path('PageObjects', views.PageObjects, name='PageObjects'),
 ]

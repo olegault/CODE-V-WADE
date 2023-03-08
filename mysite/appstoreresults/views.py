@@ -8,7 +8,7 @@ import numpy as np
 import sqlite3
 import cgi
 import json
-from .forms import SearchResult, SubmitResult
+from .forms import SearchResult, SubmitResult, CountriesList
 import datetime
 import pycountry
 
@@ -45,14 +45,6 @@ def index(request):
         print("Successfully Connected to SQLite")
 
 
-        #COUNTRIES
-        all_countries = list(pycountry.countries)
-        # create a list of tuples with the country name and code
-        countries_list = [(country.name, country.alpha_2) for country in all_countries]
-        # sort the list by country name
-        countries_list.sort()
-
-
         args=[]
         app_list =[]
         icon_list =[]
@@ -74,7 +66,7 @@ def index(request):
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
         # print(res)
-        return render(request, 'index.html', {'res':res}, countries = countries_list)
+        return render(request, 'index.html', {'res':res})
 
     #cannot connect:
     except sqlite3.Error as error:
@@ -184,7 +176,7 @@ def scorecard(request, appID=None):
 
 
 def search(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
     # create a form instance and populate it with data from the request:
         form = SearchResult(request.POST)
         if form.is_valid():
@@ -255,27 +247,48 @@ def submit(request):
     else:
         return render(request, 'submit.html')
 
-def countries(request):
+def PageObjects(request):
     if request.method == 'POST':
     # create a form instance and populate it with data from the request:
-        form = SearchResult(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['your_search']
+        form = CountriesList(request.POST)
+        res = request.POST.get("country", "")
 
-            try:
-                sqliteConnection = sqlite3.connect(DB_FILEPATH)
-                sqliteConnection.row_factory = sqlite3.Row
-                cursor = sqliteConnection.cursor()
-                print("Successfully Connected to SQLite")
+        try:
+            sqliteConnection = sqlite3.connect(DB_FILEPATH)
+            sqliteConnection.row_factory = sqlite3.Row
+            cursor = sqliteConnection.cursor()
+            print("Successfully Connected to SQLite")
 
-                cursor = sqliteConnection.execute("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
-                res = cursor.fetchall()
             
-            except sqlite3.Error as error:
-                print("Failed to insert data into sqlite table", error)
-                return render(request, "index.html")
+            args=[]
+            app_list =[]
+            icon_list =[]
+            id_list = []
+            score_list = []
+
+            rows = cursor.execute("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' WHERE devAddress LIKE ? ORDER BY Downloads desc limit 10", (res,))
+            
+
+            for r in rows:
+                # print(row)
+                icon_list.append(row['Icon']) #img
+                app_list.append(row['Name']) #app name
+                id_list.append(row['appID'])
+                score_list.append(row['overallScore'])
+
+        
+            res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+            # print(res)
+            return render(request, 'index.html', {'res':res})
+
+        #cannot connect:
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table", error)
+            return render(request, "index.html")
     
     return render(request, "index.html")
+
+
 
 def submitdone(request):
     return render(request, "submitdone.html")
