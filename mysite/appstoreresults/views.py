@@ -76,11 +76,7 @@ def index(request):
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
         # print(res)
-<<<<<<< HEAD
         return render(request, 'index.html', {'res':res})
-=======
-        return render(request, 'index.html', {'res':res, 'countries': countries_list})
->>>>>>> dc05b5d8bd21b770a2a412fc41a3d4621cfd91d4
 
     #cannot connect:
     except sqlite3.Error as error:
