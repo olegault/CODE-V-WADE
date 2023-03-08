@@ -3,14 +3,13 @@ from __future__ import print_function
 import os.path
 import base64
 from email.message import EmailMessage
-from mysite.settings import BASE_DIR
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-
+from pathlib import Path
 from google_play_scraper import app
 
 # If modifying these scopes, delete the file token.json.
@@ -19,6 +18,7 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.send',
           'https://www.googleapis.com/auth/gmail.labels']
 CVWEMAIL = 'codevwade@gmail.com'
 LABELID = 'Label_7613322265140830793'
+BASE_DIR = Path(__file__).resolve().parent.parent
 creds = None
 
 def get_creds():

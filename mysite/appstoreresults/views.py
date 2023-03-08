@@ -119,7 +119,7 @@ def scorecard(request, appID=None):
         print("Successfully Connected to SQLite")
 
         cursor = sqliteConnection.execute('SELECT * FROM "App Matrix" WHERE appID like ?', ("%" + appID + "%",))
-        res = cursor.fetchall()
+            
         
         if len(res) != 0:
             print(dict(res[0]))

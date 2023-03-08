@@ -1,6 +1,19 @@
 #import requests
 import sqlite3
+import requests
 from google_play_scraper import app
+
+def scrape_policy(url):
+    package = link.split('id=')[1].split('&')[0]
+    print(package)
+
+    result = app(
+        package,
+        lang='en', # defaults to 'en'
+        country='us' # defaults to 'us'
+    )
+
+    policy_link = result['privacyPolicy']
 
 def analyze_policy(policy_url):
     r = requests.post(
