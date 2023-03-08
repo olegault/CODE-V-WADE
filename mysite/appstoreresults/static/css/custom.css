@@ -1,3 +1,88 @@
+<<<<<<< HEAD
+:root {
+    --cvw-lavender: #758BFD;
+    --cvw-hot-pink: #ff50c8;
+    --cvw-score-great: #126000;
+    --cvw-score-good: #74c621;
+    --cvw-score-okay: #e5ca00;
+    --cvw-score-subpar: #ffa600;
+    --cvw-score-bad: #f23838;
+}
+
+.app-icon {
+    border: 2px solid black;
+    border-radius: 2rem;
+}
+
+.app-title {
+    font-size: 3rem;
+}
+
+.cvw-emph{
+    color: var(--cvw-lavender);
+    font-weight: bold;
+}
+
+.cvw-link {
+    color: var(--cvw-lavender);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.info-icon {
+    color: var(--cvw-hot-pink) !important;
+    font-family: Cascadia, monospace;
+}
+
+.metric-row {
+    height: 3em !important;
+    font-weight: light !important;
+}
+
+.score {
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #333;
+}
+
+.score-great {
+    color: var(--cvw-score-great);
+}
+
+.score-good {
+    color: var(--cvw-score-good);
+}
+
+.score-okay {
+    color: var(--cvw-score-okay);
+}
+
+.score-subpar {
+    color: var(--cvw-score-subpar);
+}
+
+.score-bad {
+    color: var(--cvw-score-bad);
+}
+
+
+.image-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+  
+  .cell {
+    background-position: center;
+  }
+
+  
+
+  
+ 
+  
+  
+  
+=======
 :root {
     --cvw-lavender: #758BFD;
     --cvw-hot-pink: #ff50c8;
@@ -79,3 +164,4 @@
   
   
   
+>>>>>>> de35c6f4efeb25b17ef32a98f2b70bf5bd6fb78a

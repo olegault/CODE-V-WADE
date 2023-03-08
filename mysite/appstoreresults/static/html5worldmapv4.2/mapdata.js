@@ -11,11 +11,11 @@ var simplemaps_worldmap_mapdata = {
 		//State defaults
 		state_description:   'State description',
 		state_color: '#88A4BC',
-		state_hover_color: '#3B729F',
-		state_url: 'http://simplemaps.com',
+		state_hover_color: '#758BFD',
+		state_url: '',
 		border_size: 1.5,		
-		all_states_inactive: 'no',
-		all_states_zoomable: 'no',		
+		all_states_inactive: 'yes',
+		all_states_zoomable: 'yes',		
 		
 		//Location defaults
 		location_description:  'Location description',
@@ -40,7 +40,7 @@ var simplemaps_worldmap_mapdata = {
 		hide_labels: 'no',
 		
 		//Zoom settings
-		zoom: 'yes', //use default regions
+		zoom: 'no', //use default regions
 		back_image: 'no', //Use image instead of arrow for back zoom				
 		initial_back: 'no', //Show back button when zoomed out and do this JavaScript upon click		
 		initial_zoom: -1,  //-1 is zoomed out, 0 is for the first continent etc	
@@ -65,7 +65,6 @@ var simplemaps_worldmap_mapdata = {
 		url_new_tab: 'yes', 
 		images_directory: 'default', //e.g. 'map_images/'
 		fade_time:  .1, //time to fade out		
-		link_text: 'View Website'  //Text mobile browsers will see for links	
 	},
 
 	state_specific: {
@@ -1571,6 +1570,9 @@ var simplemaps_worldmap_mapdata = {
 	
 	
 	locations:{ 
+<<<<<<< HEAD
+		
+=======
 		paris: { 
 			name: 'Paris',
 			lat: '48.866666670',
@@ -1579,6 +1581,7 @@ var simplemaps_worldmap_mapdata = {
 			description: 'Who was here?',
 			url: 'default'
 		}
+>>>>>>> de35c6f4efeb25b17ef32a98f2b70bf5bd6fb78a
 	}
 
 }	//end of simplemaps_worldmap_mapdata

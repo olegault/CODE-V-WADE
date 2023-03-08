@@ -14,5 +14,6 @@ urlpatterns = [
     path('scorecard/<str:appID>', views.scorecard, name='scorecard'),
     path('submit', views.submit, name='submit'),
     path('submitdone', views.submitdone, name='submit'),
-    path('worldmap', views.worldmap, name='worldmap'),
+    path('worldmap', views.index, name='worldmap'),
+    path('index/<int:default_region>', views.index, name='worldmap')
 ]
