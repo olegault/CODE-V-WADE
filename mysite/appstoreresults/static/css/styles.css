@@ -8156,7 +8156,7 @@ textarea.form-control-lg {
 
 .bg-light {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #2723FB !important;
 }
 
 .bg-dark {
@@ -10828,7 +10828,6 @@ body,
 html {
   height: 100%;
 }
-
 .feature {
   display: inline-flex;
   align-items: center;

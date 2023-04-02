@@ -1,5 +1,7 @@
 :root {
     --cvw-lavender: #758BFD;
+    --cvw-neonblue:#2723FB;
+    --cvw-bg:#F0E8E6;
     --cvw-hot-pink: #ff50c8;
     --cvw-score-great: #126000;
     --cvw-score-good: #74c621;
@@ -8,6 +10,11 @@
     --cvw-score-bad: #f23838;
     --cvw-score-none: #000000;
 }
+
+.big-column {
+    column-width: 300%;
+}
+
 
 .app-icon {
     border: 2px solid black;
@@ -19,12 +26,12 @@
 }
 
 .cvw-emph{
-    color: var(--cvw-lavender);
+    color: var(--cvw-neonblue);
     font-weight: bold;
 }
 
 .cvw-link {
-    color: var(--cvw-lavender);
+    color: var(--cvw-neonblue);
     font-weight: bold;
     text-decoration: underline;
 }

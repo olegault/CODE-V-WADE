@@ -20,7 +20,7 @@ def int_to_text(i):
     elif i == 0:
         return("No")
     else:
-        return("Under Review")
+        return("N/A")
 
 def translate_score(score):
     if not score:
@@ -40,7 +40,7 @@ def translate_score(score):
     
 def under_review(score):
     if score == -1:
-        return 'Under Review'
+        return 'N/A'
     return score
 
 def index(request):
@@ -69,7 +69,7 @@ def index(request):
             app_list.append(row['Name']) #app name
             id_list.append(row['UID'])
             if row['overallScore'] == None:
-                score_list.append('Under Review')
+                score_list.append('N/A')
             else:
                 score_list.append(row['overallScore'])
 
@@ -246,6 +246,9 @@ def search(request):
     else:
         form = SearchResult()
         return render(request, 'search.html', {'form': form})
+
+
+    return HttpResponse(render(request, 'search.html'))
 
 
 def submit(request):

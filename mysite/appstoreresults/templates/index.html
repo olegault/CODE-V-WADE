@@ -2,6 +2,27 @@
 
 {% block extrahead%}
 <link href="./static/css/custom.css"rel="stylesheet" />
+
+	<style>
+		@font-face {
+			font-family: 'CustomFont';
+			src: url('static/media/customfont.ttf') format('truetype');
+		}
+		
+		body {
+			font-family: 'CustomFont', sans-serif;
+		}
+
+    
+        .transparent-text {
+            opacity: 0;
+          }
+          
+          .transparent-text:hover {
+            opacity: 1;
+          } 
+	</style>
+
 {% endblock %}
 
 {% block content %}
@@ -9,12 +30,13 @@
 <!--Left Column-->
 <div class="container mt-5">
     <div class = "row text-center">
-        <div class = "col-md-6 mr-auto"">
-            <h1 class="fw-bolder mb-2" style="font-size: 4em;">CODE V WADE</h1>
-            <p class="lead fw-normal mb-4">Take Control of Your Reproductive Health Privacy</p>
-            <a class="btn btn-lg px-4 text-light me-sm-3" style="background-color:#758BFD" href="/search">Try It</a>
+        <div class = "col-md-6 flex-column"  style="margin-top:5%;width:40%" >
+            <a class="btn" href="#worldmap"><img class="img-fluid rounded mb-5 mb-lg-0 "src="/static/sphere.gif"/></a>
 
-
+            <h1 class="fw-bolder mb-2" style="font-size: 2in;">CODE V WADE</h1>
+            <h2 class="lead fw-normal mb-4"style="font-size:.5in;width:100%;">Take Control of Your Reproductive Health Privacy</h2>
+            <a class="btn btn-lg px-4 text-light me-sm-3" style="background-color:#2723FB" href="/search">Search Our Database</a>
+            <!--Right Column
             <script src="static/html5worldmapv4.2/mapdata.js"></script>
             <script src="static/html5worldmapv4.2/worldmap.js"></script>
             <h2 style="padding-top:5%;padding-bottom: 5%;">Sort Apps by Region</h2>
@@ -29,61 +51,66 @@
                     <button class="btn btn-secondary"style="background: #758BFD;">Submit</button>        
                     {% csrf_token %}
             </form>
+        -->
         </div>
-<!--Right Column-->
-        <div class = "col-md-6"style="height:100%;">
-            <!-- Leaderboard-->
-            {% for item in res.items %}
-            <div class="container"style:"background-color:#758BFD;">
-            <div class="card">
-                <img src="{{ item.1.0 }}" class="card-img-top" >
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.1.2 }}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href={% url 'scorecard' appID=item.1.1 %} class="cvw-link">{{ item.0 }}</a>
+
+
+
+
+<!--Right Column--><div class="col-md-4 big-column" >
+    <!-- Leaderboard-->
+    <div class="container" style="overflow:scroll; height: 40%; width: 20vw; background-color:#2723FB; border-radius: 10px; margin-left: 80%; margin-bottom:30%; ">   
+ <!--hover text
+        <p class="transparent-text">Hover over me!</p>
+
+        <div class="row justify-content-center" style="margin-top: 20%;">
+            <div class="col text-center">
+                {% for item in res.items %}
+            -->
+                <!-- Card-->
+                <div class="card" style="background-color: white;margin-top: 5%;margin-left:10%; margin-bottom:10%;margin-right:10%;padding: 20px;">
+                    <div class="row g-0" style="width:115%;">
+                        <div class="col-md-6">
+                            <div style="position:relative;">
+                                <!--icon-->
+                                <img src="{{ item.1.0 }}" class="rounded mx-auto d-block card-img-top">
+
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-6" style="margin-top:20%;"">
+                            <div class="card-body">
+                                <!--  app score -->
+                                <h2 class="card-title" style="text-align:center;font-size:500%;">{{ item.1.2 }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!--    app name and link -->
+                    <div class = "row">
+                        <a href="{% url 'scorecard' appID=item.1.1 %}" class="h5" style="text-align: center; display: block; margin-top: 10px;">{{ item.0 }}</a>
+
+
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-        {% endfor %}
         </div>
+        <div class = "row text-center">
+            <section id="worldmap">
+                <p>Here is the features and the map</p>
+        
+            </section>
+        
+                </div>
+       
     </div>
+    
+
+</div>
+
+        
+
 {% endblock %}
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
-    <div class="col">
-      <div class="card">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
