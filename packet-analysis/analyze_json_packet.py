@@ -168,7 +168,6 @@ def update_db_entry(package, metrics):
     cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE appID LIKE ?", ("%" + package + "%",))
     res = cursor.fetchall()
     app_db = res[0]
-    print(app_db['UID'])
 
     for metric in metrics:
         if metrics[metric]: val = 1
@@ -182,6 +181,8 @@ def update_db_entry(package, metrics):
             print(e)
     update_scores(app_db['Name'])
     return True
+
+
 
 manual_metrics = report(flows)
 update_db_entry(package_name, manual_metrics)
