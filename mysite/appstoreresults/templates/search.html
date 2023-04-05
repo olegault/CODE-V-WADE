@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block extrahead%}
-<link href="./static/css/custom.css" rel="stylesheet" />
+<link href="/static/css/custom.css" rel="stylesheet" />
 <style>
   @font-face {
     font-family: "CustomFont";
@@ -55,17 +55,18 @@
 <div class="container mt-5">
   <div class="row text-center">
     <div class="col-md-6 flex-column" style="margin-top: 5%; width: 40%">
-      <div
+      <div>
+        <a 
         class="btn container"
         style="width: 30vw; height: 5vw; font-size: 3rem"
         href="#worldmap"
-      >
+        >
         Search By Region<img
           class="img"
           style="height: 100%"
           src="/static/sphere.gif"
           href="#worldmap"
-        />
+        /></a>
       </div>
 
 
@@ -163,12 +164,13 @@
       {% endfor %}
     </div>
   </div>
-  <div class="row text-center" id="worldmap">
+  <div class="row text-center">
+    <a id = "worldmap"></a>
     <!--map-->
     <p>Sort By Region</p>
     <div class="row align-items-center flex-fill d-flex">
       <div class="col">
-        <a href="/submit"
+        <a href="/northamerica" method="get"
           ><img
             class="rounded mx-auto"
             src="/static/media/noun-north-america.png"
@@ -177,7 +179,7 @@
         /></a>
       </div>
       <div class="col">
-        <a href="/submit"
+        <a href="/europe" method="get"
           ><img
             class="rounded mx-auto"
             src="/static/media/noun-europe.png"
@@ -186,7 +188,7 @@
         /></a>
       </div>
       <div class="col">
-        <a href="/submit"
+        <a href="/asia" method="get"
           ><img
             class="rounded mx-auto"
             src="/static/media/noun-asia.png"
@@ -200,7 +202,7 @@
       style="margin-bottom: 50%"
     >
       <div class="col">
-        <a href="/submit"
+        <a href="/southamerica" method="get"
           ><img
             class="rounded mx-auto"
             src="/static/media/noun-south-america.png"
@@ -209,7 +211,7 @@
         /></a>
       </div>
       <div class="col">
-        <a href="/submit"
+        <a href="/africa" method="get"
           ><img
             class="rounded mx-auto"
             src="/static/media/noun-africa.png"
@@ -218,7 +220,7 @@
         /></a>
       </div>
       <div class="col">
-        <a href="/submit"
+        <a href="/australia" method="get"
           ><img
             class="rounded mx-auto"
             src="/static/media/noun-australia.png"

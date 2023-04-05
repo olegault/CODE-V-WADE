@@ -15,4 +15,12 @@ urlpatterns = [
     path('submit', views.submit, name='submit'),
     path('submitdone', views.submitdone, name='submit'),
     path('PageObjects', views.PageObjects, name='PageObjects'),
+    
+    #location paths
+    path('northamerica', views.northamerica, name='northamerica'),
+    path('southamerica', views.southamerica, name='southamerica'),
+    path('europe', views.europe, name='europe'),
+    path('africa', views.africa, name='africa'),
+    path('australia', views.australia, name='australia'),
+    path('asia', views.asia, name='asia'),
 ]

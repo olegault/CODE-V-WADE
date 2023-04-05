@@ -1,309 +1,487 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block extrahead%}
+<link href="/static/css/custom.css" rel="stylesheet" />
+<style>
+  @font-face {
+    font-family: "CustomFont";
+    src: url("/static/media/customfont.ttf") format("truetype");
+  }
 
-{% block extrahead%}
+  body {
+    font-family: "CustomFont", sans-serif;
+  }
 
+  .transparent-text {
+    opacity: 0;
+  }
 
-	<style>
-		@font-face {
-			font-family: 'CustomFont';
-			src: url('static/media/customfont.ttf') format('truetype');
-		}
-		
-		body {
-			font-family: 'CustomFont', sans-serif;
-		}
+  .transparent-text:hover {
+    opacity: 1;
+  }
+</style>
 
-    
-        .transparent-text {
-            opacity: 0;
-          }
-          
-          .transparent-text:hover {
-            opacity: 1;
-          } 
-	</style>
+{% endblock %} {% block content %}
 
-{% endblock %}
-
-{% block content %}
-    <div class="h-100 row" style="background-color:#b4b4b4; font-family: Cascadia, monospace;">
-        <!-- Sidebar-->
-        <div class="col-sm-3 pt-3 my-0" style="background-color:var(--cvw-neonblue); height:100%;" align="center">
-            <!-- inner card 1-->
-            <div class="card mt-4" style="border-radius:2.5rem; width:90%; background-color: #F3F2F8;">
-                <div class="card-body">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <div class="container">
-                                <h5 class="card-title">Most Popular Apps</h5>
-                                <p class="card-text">The most popular reproductive health apps on the Google Play Store.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <div class="container">
-                                <h5 class="card-title">Click here</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="col-sm-12" style="height: 100%; padding-bottom: 4%">
+    <div
+      class="container my-3 pt-3"
+      style="
+        background-color: var(--cvw-lavender);
+        width: 95%;
+        border-radius: 1.5em;
+        height: 100%;
+      "
+    >
+      <div
+        class="card py-2 mx-auto my-2 rounded-3"
+        style="background-color: #ffffff"
+      >
+        <div class="row mx-auto pb-3" style="padding-left: 2em">
+          <div class="col-md-2 mt-2">
+            <img class="img-fluid app-icon" src="{{appIcon}}" alt="App Icon" />
+          </div>
+          <div class="col-sm-7 pt-3" style="padding-left: 3%">
+            <h1 class="" id="app-title" style="font: 3em Cascadia, monospace">
+              {{ title }}
+            </h1>
+            <h3 class="" id="downloads" style="font: 1.5em Cascadia, monospace">
+              {{ downloads }}
+            </h3>
+          </div>
+          <div class="col-sm-3">
+            <div class="text-center" style="float: right">
+              <!-- card content -->
+              <div class="score {{overallClass }}">
+                <h2 id="overall-score" style="font: 4em Cascadia, monospace">
+                  {{ overallScore }}
+                </h2>
+                <h3 id="overall-grade" style="font: 3em Cascadia, monospace">
+                  {{ overallDesc }}
+                </h3>
+              </div>
+              <h4
+                class="text-center"
+                id="overall-grade"
+                style="font: 0.7em Cascadia, monospace"
+              >
+                Last updated {{ date }}
+              </h4>
             </div>
-            <!-- inner card 2-->
-            <div class="card" style="border-radius:2.5rem; margin-top: 20%;  width:90%; height:30%; background-color: #F3F2F8;">
-                <div class="card-body" style="border-radius:2.5rem;background-color:#F3F2F8">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <div class="container">
-                                <h5 class="card-title">Top Apps For Privacy</h5>
-                                <p class="card-text">The highest rated apps for reproductive privacy.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <div class="container">
-                                <h5 class="card-title">Click here</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-
-
-        <div class="col-sm-9" style="height:100%; padding-bottom: 4%;">
-
-            <div class="container my-3 pt-3" style="background-color:var(--cvw-lavender); width:95%; border-radius:1.5em; height:100%;">
-                <div class="card py-2 mx-auto my-2 rounded-3" style="background-color: #FFFFFF;">
-                    <div class="row mx-auto pb-3" style="padding-left:2em;">
-                        <div class="col-md-2 mt-2">
-                            <img class="img-fluid app-icon" src={{appIcon}} alt="App Icon">
-                        </div>
-                        <div class="col-sm-7 pt-3" style="padding-left:3%;">
-                            <h1 class="" id="app-title" style="font: 3em Cascadia, monospace;">{{ title }}</h1>
-                            <h3 class="" id="downloads" style="font: 1.5em Cascadia, monospace;">{{ downloads }}</h3>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="text-center" style="float: right;">
-                                <!-- card content -->
-                                <div class="score {{overallClass }}">
-                                    <h2 id="overall-score" style="font: 4em Cascadia, monospace;">{{ overallScore }}</h2>
-                                    <h3 id="overall-grade" style="font: 3em Cascadia, monospace;">{{ overallDesc }}</h3>
-                                </div>
-                                <h4 class="text-center" id="overall-grade" style="font: 0.7em Cascadia, monospace;">Last updated {{ date }}</h4>
-                            </div>
-                        </div>
-                    </div>
+      </div>
+      <div class="card py-0" style="margin-top: 2%; background: #f3f2f8">
+        <div
+          class="accordion accordion-flush py-0 rounded-4"
+          id="accordionFlushExample"
+        >
+          <!-- Category dropdown - Third Party Data Sharing-->
+          <div class="accordion-item py-0">
+            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingOne">
+              <button
+                class="accordion-button collapsed"
+                style="height: 7em !important; background-color: #f3f2f8"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+              >
+                <div class="row" style="width: 100%">
+                  <div class="col-sm-7" style="text-align: left">
+                    <h3>
+                      Third Party Sharing &nbsp;<span
+                        ><i class="bi bi-info-circle info-icon"></i
+                      ></span>
+                    </h3>
+                  </div>
+                  <div
+                    class="col-sm-5"
+                    style="text-align: right; padding-right: 2%"
+                  >
+                    <h3 class=" score {{ thirdPartyClass}}">
+                      {{ thirdPartyScore }} | {{ thirdPartyDesc }}
+                    </h3>
+                  </div>
                 </div>
-                <div class="card py-0" style="margin-top: 2%; background:#F3F2F8;">
-                    <div class="accordion accordion-flush py-0 rounded-4" id="accordionFlushExample">
-                        <!-- Category dropdown - Third Party Data Sharing-->
-                        <div class="accordion-item py-0">
-                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingOne">
-                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    <div class="row" style="width:100%;">
-                                        <div class="col-sm-7" style="text-align: left;">
-                                            <h3>Third Party Sharing &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
-                                        </div>
-                                        <div class="col-sm-5" style="text-align: right; padding-right: 2%;">
-                                            <h3 class=" score {{ thirdPartyClass}}">{{ thirdPartyScore }} | {{ thirdPartyDesc }}</h3>
-                                        </div>
-                                    </div>
-                                </button>
-                            </h2>
-                            <!-- Detailed metrics view -->
-                            <div id="flush-collapseOne" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Permits sharing with advertisers</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ shareAdvertisers }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Permits sharing with law enforcement</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;"> {{ shareLawEnforcement }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Permits sharing with data brokers</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ shareDataBrokers }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Permits sharing with healthcare providers</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ shareHealthCareProvider }}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Category dropdown - Data Encryption -->
-                        <div class="accordion-item py-0">
-                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingTwo">
-                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                    <div class="row" style="width:100%;">
-                                        <div class="col-sm-7" style="text-align: left;">
-                                            <h3>Data Encryption &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
-                                        </div>
-                                        <div class="col-sm-5" style="text-align: right; padding-right: 2%;">
-                                            <h3 class="score {{ encryptionClass}}">{{ dataEncryptionScore }} | {{ encryptionDesc }}</h3>
-                                        </div>
-                                    </div>
-                                </button>
-                            </h2>
-                            <!-- Detailed metrics view -->
-                            <div id="flush-collapseTwo" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Personal data is encrypted in transit</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ encryptedTransit }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Personal data is encrypted on the device</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ encryptedOnDevice }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Metadata is encrypted</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ encryptedMetadata }}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Category dropdown  - Sensitive data -->
-                        <div class="accordion-item py-0">
-                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingThree">
-                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                    <div class="row" style="width:100%;">
-                                        <div class="col-sm-7" style="text-align: left;">
-                                            <h3>Sensitive Data Collection &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
-                                        </div>
-                                        <div class="col-sm-5" style="text-align: right; padding-right: 2%;">
-                                            <h3 class="score {{ sensitiveDataClass}}">{{ sensitiveDataScore }} | {{ sensitiveDataDesc }}</h3>
-                                        </div>
-                                    </div>
-                                </button>
-                            </h2>
-                            <!-- Detailed metrics view -->
-                            <div id="flush-collapseThree" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Collects basic personal identifying information (name, email, etc.)</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ collectPII }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="height: 3em;">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Collects personal non-reproductive health information</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ collectHealthInfo }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Collects personal reproductive health information (pregnancy, period, etc.)</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ collectReproductiveInfo }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">Collects period calendar information</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ collectPeriodCalendarInfo }}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Category dropdown  - Transparency and Agency -->
-                        <div class="accordion-item py-0">
-                            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingFour">
-                                <button class="accordion-button collapsed" style="height: 7em!important; background-color: #F3F2F8;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                                    <div class="row" style="width:100%;">
-                                        <div class="col-sm-7" style="text-align: left;">
-                                            <h3>Transparency and Agency &nbsp;<span><i class="bi bi-info-circle info-icon"></i></span></h3>
-                                        </div>
-                                        <div class="col-sm-5" style="text-align: right; padding-right: 2%;">
-                                            <h3 class="score {{ transparencyClass}}">{{ transparencyScore }} | {{ transparencyDesc }}</h3>
-                                        </div>
-                                    </div>
-                                </button>
-                            </h2>
-                            <!-- Detailed metrics view -->
-                            <div id="flush-collapseFour" class="accordion-collapse collapse py-0" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">You can request a copy of your data</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ requestData }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">You can request deletion of personal data</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ requestDeletion }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">You can control which data the app collects</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ controlData }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row metric-row">
-                                        <div class="col-sm-9">
-                                            <h4 class="fw-light">You can control who your data is shared with</h4>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h4 class="fw-bold" style="text-align: right;">{{ controlSharing }}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              </button>
+            </h2>
+            <!-- Detailed metrics view -->
+            <div
+              id="flush-collapseOne"
+              class="accordion-collapse collapse py-0"
+              aria-labelledby="flush-headingOne"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">Permits sharing with advertisers</h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ shareAdvertisers }}
+                    </h4>
+                  </div>
                 </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Permits sharing with law enforcement
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ shareLawEnforcement }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">Permits sharing with data brokers</h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ shareDataBrokers }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Permits sharing with healthcare providers
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ shareHealthCareProvider }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- Category dropdown - Data Encryption -->
+          <div class="accordion-item py-0">
+            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingTwo">
+              <button
+                class="accordion-button collapsed"
+                style="height: 7em !important; background-color: #f3f2f8"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseTwo"
+                aria-expanded="false"
+                aria-controls="flush-collapseTwo"
+              >
+                <div class="row" style="width: 100%">
+                  <div class="col-sm-7" style="text-align: left">
+                    <h3>
+                      Data Encryption &nbsp;<span
+                        ><i class="bi bi-info-circle info-icon"></i
+                      ></span>
+                    </h3>
+                  </div>
+                  <div
+                    class="col-sm-5"
+                    style="text-align: right; padding-right: 2%"
+                  >
+                    <h3 class="score {{ encryptionClass}}">
+                      {{ dataEncryptionScore }} | {{ encryptionDesc }}
+                    </h3>
+                  </div>
+                </div>
+              </button>
+            </h2>
+            <!-- Detailed metrics view -->
+            <div
+              id="flush-collapseTwo"
+              class="accordion-collapse collapse py-0"
+              aria-labelledby="flush-headingTwo"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Personal data is encrypted in transit
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ encryptedTransit }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Personal data is encrypted on the device
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ encryptedOnDevice }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">Metadata is encrypted</h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ encryptedMetadata }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category dropdown  - Sensitive data -->
+          <div class="accordion-item py-0">
+            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingThree">
+              <button
+                class="accordion-button collapsed"
+                style="height: 7em !important; background-color: #f3f2f8"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseThree"
+                aria-expanded="false"
+                aria-controls="flush-collapseThree"
+              >
+                <div class="row" style="width: 100%">
+                  <div class="col-sm-7" style="text-align: left">
+                    <h3>
+                      Sensitive Data Collection &nbsp;<span
+                        ><i class="bi bi-info-circle info-icon"></i
+                      ></span>
+                    </h3>
+                  </div>
+                  <div
+                    class="col-sm-5"
+                    style="text-align: right; padding-right: 2%"
+                  >
+                    <h3 class="score {{ sensitiveDataClass}}">
+                      {{ sensitiveDataScore }} | {{ sensitiveDataDesc }}
+                    </h3>
+                  </div>
+                </div>
+              </button>
+            </h2>
+            <!-- Detailed metrics view -->
+            <div
+              id="flush-collapseThree"
+              class="accordion-collapse collapse py-0"
+              aria-labelledby="flush-headingThree"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Collects basic personal identifying information (name,
+                      email, etc.)
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ collectPII }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row" style="height: 3em">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Collects personal non-reproductive health information
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ collectHealthInfo }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Collects personal reproductive health information
+                      (pregnancy, period, etc.)
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ collectReproductiveInfo }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      Collects period calendar information
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ collectPeriodCalendarInfo }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category dropdown  - Transparency and Agency -->
+          <div class="accordion-item py-0">
+            <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingFour">
+              <button
+                class="accordion-button collapsed"
+                style="height: 7em !important; background-color: #f3f2f8"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseFour"
+                aria-expanded="false"
+                aria-controls="flush-collapseFour"
+              >
+                <div class="row" style="width: 100%">
+                  <div class="col-sm-7" style="text-align: left">
+                    <h3>
+                      Transparency and Agency &nbsp;<span
+                        ><i class="bi bi-info-circle info-icon"></i
+                      ></span>
+                    </h3>
+                  </div>
+                  <div
+                    class="col-sm-5"
+                    style="text-align: right; padding-right: 2%"
+                  >
+                    <h3 class="score {{ transparencyClass}}">
+                      {{ transparencyScore }} | {{ transparencyDesc }}
+                    </h3>
+                  </div>
+                </div>
+              </button>
+            </h2>
+            <!-- Detailed metrics view -->
+            <div
+              id="flush-collapseFour"
+              class="accordion-collapse collapse py-0"
+              aria-labelledby="flush-headingFour"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      You can request a copy of your data
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ requestData }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      You can request deletion of personal data
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ requestDeletion }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      You can control which data the app collects
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ controlData }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row metric-row">
+                  <div class="col-sm-9">
+                    <h4 class="fw-light">
+                      You can control who your data is shared with
+                    </h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="fw-bold" style="text-align: right">
+                      {{ controlSharing }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--SUMMARY AND USER RESPONSE - CHATGPT-->
+            <div
+              class="card py-2 mx-auto my-2 rounded-3"
+              style="background-color: #ffffff"
+            >
+              <h2 class="text-center">Policy Summary & Analysis</h2>
+              <div class="row mx-auto pb-3" style="padding-left: 2em">
+                <h3>Policy Analysis</h3>
+                <p>
+                  The Flo Health privacy policy appears to prioritize user
+                  privacy by outlining clear guidelines on how user data is
+                  collected, used, and shared. Some of the key features of the
+                  policy that indicate a commitment to user privacy include: Not
+                  sharing user data with third parties for advertising purposes
+                  Providing users with the ability to control how their data is
+                  shared Collecting only the data that is necessary to provide
+                  the app's services Using encryption to protect user data
+                  Storing data in a secure manner One potential drawback of the
+                  policy is that it may collect sensitive personal information,
+                  such as medical history and sexual health information, which
+                  could potentially be used in a discriminatory manner if not
+                  properly protected. However, the policy does provide
+                  reassurance that such data is kept private and secure.
+                  Overall, the Flo Health privacy policy appears to prioritize
+                  user privacy and provide clear guidelines on how user data is
+                  collected, used, and shared. The policy also provides
+                  reassurance that user data is protected through the use of
+                  encryption and secure storage.
+                </p>
+              </div>
+              <div class="row mx-auto pb-3" style="padding-left: 2em">
+                <h3>Policy Citations</h3>
+                <p>
+                  "We do not sell, rent, or trade your Personal Data to any
+                  third party for advertising purposes without your consent"
+                  (Section 4)
+                </p>
+                <p>
+                  "You can control whether you wish to share certain types of
+                  data, including sensitive data such as your sexual and
+                  reproductive health data" (Section 4)
+                </p>
+                <p>
+                  "We only collect data that is necessary to provide our
+                  services to you and as described in this Privacy Policy"
+                  (Section 2)
+                </p>
+                <p>
+                  "We use appropriate technical and organizational measures to
+                  protect the Personal Data that we collect and process"
+                  (Section 7)
+                </p>
+                <p>
+                  "We store all of the Personal Data we receive directly from
+                  you in encrypted form" (Section 7)
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</div>
 {% endblock %}
