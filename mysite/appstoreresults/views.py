@@ -323,7 +323,241 @@ def PageObjects(request):
     
     return render(request, "index.html")
 
+#RETURN REGION RESULTS
+def northamerica(request):
+    if request.method == 'GET':
+        try:
+            sqliteConnection = sqlite3.connect(DB_FILEPATH)
+            sqliteConnection.row_factory = sqlite3.Row
+            cursor = sqliteConnection.cursor()
+            print("Successfully Connected to SQLite")
 
+            args=[]
+            app_list =[]
+            icon_list =[]
+            id_list = []
+            score_list = []
+
+            sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE region ="NA" '.format(seq=','.join(['?']*len(args))))
+            rows = cursor.execute(sql, args)
+
+            for row in rows:
+                # print(row)
+                icon_list.append(row['Icon']) #img
+                app_list.append(row['Name']) #app name
+                id_list.append(row['UID'])
+                if row['overallScore'] == None:
+                    score_list.append('N/A')
+                else:
+                    score_list.append(row['overallScore'])
+
+       
+            res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+            # print(res)
+            return render(request, 'search.html', {'res':res})
+
+        #cannot connect:
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table", error)
+            return render(request, "search.html")
+
+    return render(request, "search.html")
+
+
+def southamerica(request):
+    if request.method == 'GET':
+        try:
+            sqliteConnection = sqlite3.connect(DB_FILEPATH)
+            sqliteConnection.row_factory = sqlite3.Row
+            cursor = sqliteConnection.cursor()
+            print("Successfully Connected to SQLite")
+
+            args=[]
+            app_list =[]
+            icon_list =[]
+            id_list = []
+            score_list = []
+
+            sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE region ="SA" '.format(seq=','.join(['?']*len(args))))
+            rows = cursor.execute(sql, args)
+
+            for row in rows:
+                # print(row)
+                icon_list.append(row['Icon']) #img
+                app_list.append(row['Name']) #app name
+                id_list.append(row['UID'])
+                if row['overallScore'] == None:
+                    score_list.append('N/A')
+                else:
+                    score_list.append(row['overallScore'])
+
+       
+            res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+            # print(res)
+            return render(request, 'search.html', {'res':res})
+
+        #cannot connect:
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table", error)
+            return render(request, "search.html")
+
+    return render(request, "search.html")
+
+def europe(request):
+    if request.method == 'GET':
+        try:
+            sqliteConnection = sqlite3.connect(DB_FILEPATH)
+            sqliteConnection.row_factory = sqlite3.Row
+            cursor = sqliteConnection.cursor()
+            print("Successfully Connected to SQLite")
+
+            args=[]
+            app_list =[]
+            icon_list =[]
+            id_list = []
+            score_list = []
+
+            sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE region ="EU" '.format(seq=','.join(['?']*len(args))))
+            rows = cursor.execute(sql, args)
+
+            for row in rows:
+                # print(row)
+                icon_list.append(row['Icon']) #img
+                app_list.append(row['Name']) #app name
+                id_list.append(row['UID'])
+                if row['overallScore'] == None:
+                    score_list.append('N/A')
+                else:
+                    score_list.append(row['overallScore'])
+
+       
+            res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+            # print(res)
+            return render(request, 'search.html', {'res':res})
+
+        #cannot connect:
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table", error)
+            return render(request, "search.html")
+
+    return render(request, "search.html")
+
+def asia(request):
+    if request.method == 'GET':
+        try:
+            sqliteConnection = sqlite3.connect(DB_FILEPATH)
+            sqliteConnection.row_factory = sqlite3.Row
+            cursor = sqliteConnection.cursor()
+            print("Successfully Connected to SQLite")
+
+            args=[]
+            app_list =[]
+            icon_list =[]
+            id_list = []
+            score_list = []
+
+            sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE region ="AS" '.format(seq=','.join(['?']*len(args))))
+            rows = cursor.execute(sql, args)
+
+            for row in rows:
+                # print(row)
+                icon_list.append(row['Icon']) #img
+                app_list.append(row['Name']) #app name
+                id_list.append(row['UID'])
+                if row['overallScore'] == None:
+                    score_list.append('N/A')
+                else:
+                    score_list.append(row['overallScore'])
+
+       
+            res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+            # print(res)
+            return render(request, 'search.html', {'res':res})
+
+        #cannot connect:
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table", error)
+            return render(request, "search.html")
+
+    return render(request, "search.html")
+
+def australia(request):
+    if request.method == 'GET':
+        try:
+            sqliteConnection = sqlite3.connect(DB_FILEPATH)
+            sqliteConnection.row_factory = sqlite3.Row
+            cursor = sqliteConnection.cursor()
+            print("Successfully Connected to SQLite")
+
+            args=[]
+            app_list =[]
+            icon_list =[]
+            id_list = []
+            score_list = []
+
+            sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE region ="AUS" '.format(seq=','.join(['?']*len(args))))
+            rows = cursor.execute(sql, args)
+
+            for row in rows:
+                # print(row)
+                icon_list.append(row['Icon']) #img
+                app_list.append(row['Name']) #app name
+                id_list.append(row['UID'])
+                if row['overallScore'] == None:
+                    score_list.append('N/A')
+                else:
+                    score_list.append(row['overallScore'])
+
+       
+            res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+            # print(res)
+            return render(request, 'search.html', {'res':res})
+
+        #cannot connect:
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table", error)
+            return render(request, "search.html")
+
+    return render(request, "search.html")
+
+def africa(request):
+    if request.method == 'GET':
+        try:
+            sqliteConnection = sqlite3.connect(DB_FILEPATH)
+            sqliteConnection.row_factory = sqlite3.Row
+            cursor = sqliteConnection.cursor()
+            print("Successfully Connected to SQLite")
+
+            args=[]
+            app_list =[]
+            icon_list =[]
+            id_list = []
+            score_list = []
+
+            sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE region ="AF" '.format(seq=','.join(['?']*len(args))))
+            rows = cursor.execute(sql, args)
+
+            for row in rows:
+                # print(row)
+                icon_list.append(row['Icon']) #img
+                app_list.append(row['Name']) #app name
+                id_list.append(row['UID'])
+                if row['overallScore'] == None:
+                    score_list.append('N/A')
+                else:
+                    score_list.append(row['overallScore'])
+
+       
+            res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+            # print(res)
+            return render(request, 'search.html', {'res':res})
+
+        #cannot connect:
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table", error)
+            return render(request, "search.html")
+
+    return render(request, "search.html")
 
 def submitdone(request):
     return render(request, "submitdone.html")
