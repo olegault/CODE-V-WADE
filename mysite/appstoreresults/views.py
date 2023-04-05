@@ -76,11 +76,7 @@ def index(request):
        
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
         # print(res)
-<<<<<<< HEAD
         return render(request, 'index.html', {'res':res})
-=======
-        return render(request, 'index.html', {'res':res, 'countries': countries_list})
->>>>>>> dc05b5d8bd21b770a2a412fc41a3d4621cfd91d4
 
     #cannot connect:
     except sqlite3.Error as error:
@@ -205,7 +201,7 @@ def scorecard(request, appID=None):
 
 
 def search(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
     # create a form instance and populate it with data from the request:
         form = SearchResult(request.POST)
         if form.is_valid():
@@ -217,7 +213,7 @@ def search(request):
                 cursor = sqliteConnection.cursor()
                 print("Successfully Connected to SQLite")
 
-                cursor = sqliteConnection.execute("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
+                cursor = sqliteConnection.execute("SELECT Name, Icon, UID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
                 res = cursor.fetchall()
                 
                 if len(res) != 0:
@@ -229,7 +225,7 @@ def search(request):
                     for r in res:
                         icon_list.append(r['Icon']) 
                         app_list.append(r['Name'])
-                        id_list.append(r['appID'])
+                        id_list.append(r['UID'])
                         score_list.append(r['overallScore'])
                         output = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
                     
