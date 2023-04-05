@@ -186,9 +186,13 @@ def scorecard(request, appID=None):
                         'controlData': int_to_text(app['controlData']),
                         'controlSharing': int_to_text(app['controlSharing']),
 
-
+                        #chatgpt info output
                         'chatgpt_analysis': (app['chatgpt_analysis']),
-                        'chatgpt_citations': (app['chatgpt_citations'])
+                        'chatgpt_citations': (app['chatgpt_citations']),
+
+                        #dev information
+                        'devWeb': (app['devWeb']),
+                        'region': (app['region'])
                         }
             return HttpResponse(template.render(context, request))
                 
@@ -566,5 +570,54 @@ def africa(request):
 
 def submitdone(request):
     return render(request, "submitdone.html")
+
+
+def categories(request):
+
+    res = request.GET.get("category", "")
+
+    
+
+    try:
+        sqliteConnection = sqlite3.connect(DB_FILEPATH)
+        sqliteConnection.row_factory = sqlite3.Row
+        cursor = sqliteConnection.cursor()
+        print("Successfully Connected to SQLite")
+
+        args=[]
+        app_list =[]
+        icon_list =[]
+        id_list = []
+        score_list = []
+
+        sql = 'SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE category =?'
+        rows = cursor.execute(sql, (res,))
+
+        for row in rows:
+            # print(row)
+            icon_list.append(row['Icon']) #img
+            app_list.append(row['Name']) #app name
+            id_list.append(row['UID'])
+            if row['overallScore'] == None:
+                score_list.append('N/A')
+            else:
+                score_list.append(row['overallScore'])
+
+    
+        res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+        # print(res)
+        return render(request, 'search.html', {'res':res})
+
+    #cannot connect:
+    except sqlite3.Error as error:
+        print("Failed to insert data into sqlite table", error)
+        return render(request, "search.html")
+
+    #message = "GET /categories?category=2 HTTP/1.1"
+    #ategory = message.split('=')[1].split()[0]
+    #print(category)
+    
+    
+    return render(request, "search.html")
 
 

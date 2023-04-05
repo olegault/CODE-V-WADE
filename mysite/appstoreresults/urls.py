@@ -23,4 +23,6 @@ urlpatterns = [
     path('africa', views.africa, name='africa'),
     path('australia', views.australia, name='australia'),
     path('asia', views.asia, name='asia'),
+    #categories
+    path('categories', views.categories, name='categories'),
 ]
