@@ -106,8 +106,9 @@ def get_sharing_score(app_row):
 
 def get_encryption_score(app_row):
     metrics = {'encryptedTransit': app_row['encryptedTransit'],
-               'encryptedOnDevice': app_row['encryptedOnDevice'],
-               'encryptedMetadata': app_row['encryptedMetadata']}
+            #    'encryptedOnDevice': app_row['encryptedOnDevice'],
+            #    'encryptedMetadata': app_row['encryptedMetadata']
+               }
     return calc_score(pos_neg_metrics, metrics)
 
 def get_sensitive_score(app_row):
@@ -130,8 +131,8 @@ def get_overall_score(app_row):
                'shareDataBrokers': app_row['shareDataBrokers'],
                'shareHealthCareProvider': app_row['shareHealthCareProvider'],
                'encryptedTransit': app_row['encryptedTransit'],
-               'encryptedOnDevice': app_row['encryptedOnDevice'],
-               'encryptedMetadata': app_row['encryptedMetadata'],
+            #    'encryptedOnDevice': app_row['encryptedOnDevice'],
+            #    'encryptedMetadata': app_row['encryptedMetadata'],
                'collectPII': app_row['collectPII'],
                'collectHealthInfo': app_row['collectHealthInfo'],
                'collectReproductiveInfo': app_row['collectReproductiveInfo'],

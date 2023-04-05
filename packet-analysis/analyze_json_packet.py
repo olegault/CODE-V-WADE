@@ -24,13 +24,15 @@ package_name = args.package
 filename = f"./app-flows/{package_name}/flows"
 
 flows = []
+
 init()
 
 with open(filename, 'rb') as fp:
     reader = FlowReader(fp)
 
     for flow in reader.stream():
-        flows.append(flow)
+        if isinstance(flow, HTTPFlow):
+            flows.append(flow)
 
 # Filters list of flows by method (GET, POST, etc.)
 def filter_flows_method(flows: list[HTTPFlow], methods: list[str]):
@@ -56,8 +58,17 @@ def terms_search(flows: list[HTTPFlow], query: str, char_buff: int):
                            'question': ("Does this line contain " + highlight("general health data") + '?')},
           'reproductive': {'filepath': './search_lists/reproductive.txt',
                            'question': ("Does this line contain " + highlight("reproductive health data") + '?')},
+          'calendar':     {'filepath': './search_lists/period_calendar.txt',
+                           'question': ("Does this line contain " + highlight("period calendar data") + '?')},
           'delete':       {'filepath': './search_lists/delete.txt',
-                           'question': ("Does this line indicate " + highlight("account deletion") + "?")}}
+                           'question': ("Does this line indicate " + highlight("account deletion") + "?")},
+          'request':      {'filepath': './search_lists/request.txt',
+                           'question': ("Does this line indicate " + highlight("a data request") + "?")},
+          'controlData':  {'filepath': './search_lists/control_data.txt',
+                           'question': ("Does this line indicate " + highlight("control over which data is collected") + "?")},
+          'controlSharing':      {'filepath': './search_lists/control_sharing.txt',
+                           'question': ("Does this line indicate " + highlight("control over who data is shared with") + "?")}
+        }
     
     terms = []
     with open(qs[query]['filepath'], 'r') as f:
@@ -74,9 +85,11 @@ def terms_search(flows: list[HTTPFlow], query: str, char_buff: int):
             for i in res:
                 print(qs[query]['question'])
                 print(highlight_term(rsp[i-char_buff:i+char_buff], term))
-                cont = input("[y/n]: ") == 'y'
-                if cont:
+                ch = input("[y/n/skip]: ")
+                if ch == 'y':
                     return True
+                if ch == 'skip':
+                    return False
                 print('\n')
                 
         rq = str(flow.request.content).lower()
@@ -85,9 +98,11 @@ def terms_search(flows: list[HTTPFlow], query: str, char_buff: int):
             for i in res:
                 print(qs[query]['question'])
                 print(highlight_term(rq[i-char_buff:i+char_buff], term))
-                cont = input("[y/n]: ") == 'y'
-                if cont:
+                ch = input("[y/n/skip]: ")
+                if ch == 'y':
                     return True
+                if ch == 'skip':
+                    return False
                 print('\n')
 
     return input('No more flows. Enter yes or no for this query [y/n]: ') == 'y'
@@ -106,9 +121,12 @@ def unique_urls(flows: list[HTTPFlow]):
     urls = []
     flows_new = []
     for flow in flows:
-        if flow.request.url not in urls:
-            flows_new.append(flow)
-            urls.append(flow.request.url)
+        try:
+            if flow.request.url not in urls:
+                flows_new.append(flow)
+                urls.append(flow.request.url)
+        except:
+            pass
     return flows_new
 
 
@@ -129,10 +147,30 @@ def collects_reproductive_data(flows: list[HTTPFlow]):
     print("\n" + colored("Reproductive Health Data", 'white', 'on_red'))
     terms_search(flows, 'reproductive', buff)
 
+# Conducts a terms search for period calendar data
+def collects_period_calendar(flows: list[HTTPFlow]):
+    print("\n" + colored("Period Calendar Data", 'white', 'on_red'))
+    terms_search(flows, 'calendar', buff)
+
 # Conducts a terms search for account deletion
 def can_delete_account(flows: list[HTTPFlow]):
     print("\n" + colored("Account Deletion", 'white', 'on_red'))
     return terms_search(flows, 'delete', buff)
+
+# Conducts a terms search for account deletion
+def can_request_data(flows: list[HTTPFlow]):
+    print("\n" + colored("Data Request", 'white', 'on_red'))
+    return terms_search(flows, 'request', buff)
+
+# Conducts a terms search for account deletion
+def can_control_data(flows: list[HTTPFlow]):
+    print("\n" + colored("Control Data", 'white', 'on_red'))
+    return terms_search(flows, 'controlData', buff)
+
+# Conducts a terms search for account deletion
+def can_control_sharing(flows: list[HTTPFlow]):
+    print("\n" + colored("Control Sharing", 'white', 'on_red'))
+    return terms_search(flows, 'controlSharing', buff)
 
 flows = unique_urls(flows)
 # flows = filter_flows_method(flows, 'POST')
@@ -140,22 +178,33 @@ flows = unique_urls(flows)
 def report(flows: list[HTTPFlow]):
     encrypted_transit = uses_https(flows)
     can_delete = can_delete_account(flows)
+    data_request = can_request_data(flows)
+    control_data = can_control_data(flows)
+    control_sharing = can_control_sharing(flows)
     collects_personal = collects_pii(flows)
     collects_health = collects_health_data(filter_flows_method(flows, ['POST']))
     collects_reproductive = collects_reproductive_data(filter_flows_method(flows, ['POST', 'GET']))
+    collects_calendar = collects_period_calendar(filter_flows_method(flows, ['POST', 'GET']))
 
     print("\n" + colored("Packet Analysis Report", 'white', 'on_red'))
     print(highlight('Encrypted in transit: ') + str(encrypted_transit))
     print(highlight('Can delete account/history: ') + str(can_delete))
+    print(highlight('Can request a copy of your data: ') + str(data_request))
+    print(highlight('Can control which data is collected: ') + str(control_data))
+    print(highlight('Can control who data is shared with: ') + str(control_sharing))
     print(highlight('Collects PII: ') + str(collects_personal))
     print(highlight('Collects general health data: ') + str(collects_health))
     print(highlight('Collects reproductive health data: ') + str(collects_reproductive))
+    print(highlight('Collects period calendar data: ') + str(collects_calendar))
 
     metrics = {"collectPII": collects_pii,
                "collectHealthInfo": collects_health,
                "collectReproductiveInfo": collects_reproductive,
-               "collectPeriodCalendarInfo": True,
+               "collectPeriodCalendarInfo": collects_calendar,
                "requestDeletion": can_delete,
+               "requestData": data_request,
+               "controlData": control_data,
+               "controlSharing": control_sharing,
                "encryptedTransit": encrypted_transit}
     return metrics
 
