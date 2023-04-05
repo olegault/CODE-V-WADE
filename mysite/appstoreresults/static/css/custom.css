@@ -37,8 +37,10 @@
 }
 
 .metric-row {
-    height: 3em !important;
+    min-height: 3em !important;
     font-weight: light !important;
+    font-size: medium;
+    padding-bottom: 1em;
 }
 
 .score {
