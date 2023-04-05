@@ -184,7 +184,11 @@ def scorecard(request, appID=None):
                         'requestData': int_to_text(app['requestData']),
                         'requestDeletion': int_to_text(app['requestDeletion']),
                         'controlData': int_to_text(app['controlData']),
-                        'controlSharing': int_to_text(app['controlSharing'])
+                        'controlSharing': int_to_text(app['controlSharing']),
+
+
+                        'chatgpt_analysis': (app['chatgpt_analysis']),
+                        'chatgpt_citations': (app['chatgpt_citations'])
                         }
             return HttpResponse(template.render(context, request))
                 
