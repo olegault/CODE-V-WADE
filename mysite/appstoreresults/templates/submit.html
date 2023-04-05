@@ -1,32 +1,26 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block extrahead%}
+<link href="/static/css/custom.css" rel="stylesheet" />
+<style>
+  @font-face {
+    font-family: "CustomFont";
+    src: url("/static/media/customfont.ttf") format("truetype");
+  }
 
-{% block extrahead%}
-<link href="./static/css/custom.css"rel="stylesheet" />
+  body {
+    font-family: "CustomFont", sans-serif;
+  }
 
-	<style>
-		@font-face {
-			font-family: 'CustomFont';
-			src: url('static/media/customfont.ttf') format('truetype');
-		}
-		
-		body {
-			font-family: 'CustomFont', sans-serif;
-		}
+  .transparent-text {
+    opacity: 0;
+  }
 
-    
-        .transparent-text {
-            opacity: 0;
-          }
-          
-          .transparent-text:hover {
-            opacity: 1;
-          } 
-	</style>
+  .transparent-text:hover {
+    opacity: 1;
+  }
+</style>
 
-{% endblock %}
-
-{% block content %}
-<div class="container text-center" style="padding-top: 3%">
+{% endblock %} {% block content %}
+<div class="container text-center">
     <section class="py-3">
         <div class="text-center mt-5">
             <h1 class="fw-bolder mb-2 pb-3" style="font-size: 3em;">Submit an App to Code V. Wade</h1>
@@ -64,7 +58,7 @@
             <div class="accordion-item py-0">
                 <h2 class="accordion-header py-0 my-0 mr-4" id="flush-headingTwo">
                     <button class="accordion-button collapsed" style="height: 4em!important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        <h5>2) Copy the link to the app's page</h5>
+                        <h5> 2) Copy the link to the app's page</h5>
                     </button>
                 </h2>
                 <!-- Detailed instructions-->
@@ -130,7 +124,7 @@
         <form action="/submit" method="post" class="w-100 mx-auto">
             {% csrf_token %}
             <input type="text" name="submit_url" class="form-control rounded" placeholder="Paste the link to a reproductive health app" aria-label="Submit" aria-describedby="search-addon" />
-            <button class="btn btn-secondary"style="background: #758BFD;">Submit</button>
+            <button class="btn btn-primary">Submit</button>
         </form>
     </div>
     </br>

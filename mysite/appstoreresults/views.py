@@ -220,13 +220,13 @@ def search(request):
                 cursor = sqliteConnection.execute("SELECT Name, Icon, UID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
                 res = cursor.fetchall()
                 
-                if len(output) != 0:
+                if len(res) != 0:
                     app_list =[]
                     icon_list =[]
                     id_list = []
                     score_list = []
 
-                    for r in output:
+                    for r in res:
                         icon_list.append(r['Icon']) 
                         app_list.append(r['Name'])
                         id_list.append(r['UID'])
