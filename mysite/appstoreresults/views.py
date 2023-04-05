@@ -202,6 +202,7 @@ def scorecard(request, appID=None):
 
 def search(request):
     if request.method == 'POST':
+    # create a form instance and populate it with data from the request:
         form = SearchResult(request.POST)
         your_search = form["your_search"]
 
@@ -216,8 +217,8 @@ def search(request):
                 cursor = sqliteConnection.cursor()
                 print("Successfully Connected to SQLite")
 
-                cursor = sqliteConnection.execute("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
-                output = cursor.fetchall()
+                cursor = sqliteConnection.execute("SELECT Name, Icon, UID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
+                res = cursor.fetchall()
                 
                 if len(output) != 0:
                     app_list =[]
@@ -228,7 +229,7 @@ def search(request):
                     for r in output:
                         icon_list.append(r['Icon']) 
                         app_list.append(r['Name'])
-                        id_list.append(r['appID'])
+                        id_list.append(r['UID'])
                         score_list.append(r['overallScore'])
                         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
 
