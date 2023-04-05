@@ -68,6 +68,7 @@
           href="#worldmap"
         /></a>
       </div>
+      <br></br>
 
 
       <div class="search" style="margin-left: 10%cm; margin-top: 3rem">
@@ -76,12 +77,16 @@
             <button type="submit" class="btn btn-primary" method="post">SEARCH</button>
             </form>
       </div>
+      <br></br>
+
 
       
 
 
       <div class="row" style="margin-top: 2rem">
-        <h3 class="fw-bolder mb-2" style="font-size: 3em">coming soon</h3>
+        <a href = "#categories">
+        <h3 class="fw-bolder mb-2" style="font-size: 3em">Search By Category</h3>
+        </a>
       </div>
       <div class="row">
         <h3 class="fw-bolder mb-2" style="font-size: 3em">coming soon</h3>
@@ -229,6 +234,29 @@
         /></a>
       </div>
     </div>
+
+    <!--sort by category -->
+    <div class="row text-center">
+        <a id = "categories"></a>
+        <!--map-->
+        <p>Sort By Category</p>
+        <div class="row">
+            <a href="/categories" method="get"
+              ></a>
+          </div>
+
+          <p>The select element is used to create a drop-down list.</p>
+
+            <form action="/categories">
+            <select name="category" id="categories">
+                <option value="1">Pregnancy and Parenting</option>
+                <option value="2">Period and Ovulation Tracking</option>
+                <option value="3">Birth Control and Contraception</option>
+                <option value="4">Fertility Tracking and Assistance</option>
+            </select>
+            <br><br>
+            <input type="submit" value="Submit">
+            </form>
   </div>
 </div>
 
