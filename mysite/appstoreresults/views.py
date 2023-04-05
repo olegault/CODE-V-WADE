@@ -20,7 +20,7 @@ def int_to_text(i):
     elif i == 0:
         return("No")
     else:
-        return("Under Review")
+        return("N/A")
 
 def translate_score(score):
     if not score:
@@ -40,7 +40,7 @@ def translate_score(score):
     
 def under_review(score):
     if score == -1:
-        return 'Under Review'
+        return 'N/A'
     return score
 
 def index(request):
@@ -69,7 +69,7 @@ def index(request):
             app_list.append(row['Name']) #app name
             id_list.append(row['UID'])
             if row['overallScore'] == None:
-                score_list.append('Under Review')
+                score_list.append('N/A')
             else:
                 score_list.append(row['overallScore'])
 
@@ -204,8 +204,12 @@ def search(request):
     if request.method == 'POST':
     # create a form instance and populate it with data from the request:
         form = SearchResult(request.POST)
+        your_search = form["your_search"]
+
+        
         if form.is_valid():
             query = form.cleaned_data['your_search']
+            print(f"your_name cleaned: {query}")
 
             try:
                 sqliteConnection = sqlite3.connect(DB_FILEPATH)
@@ -216,36 +220,43 @@ def search(request):
                 cursor = sqliteConnection.execute("SELECT Name, Icon, UID, overallScore, Rating FROM 'App Matrix' WHERE Name LIKE ?", ("%" + query + "%",))
                 res = cursor.fetchall()
                 
-                if len(res) != 0:
+                if len(output) != 0:
                     app_list =[]
                     icon_list =[]
                     id_list = []
                     score_list = []
 
-                    for r in res:
+                    for r in output:
                         icon_list.append(r['Icon']) 
                         app_list.append(r['Name'])
                         id_list.append(r['UID'])
                         score_list.append(r['overallScore'])
-                        output = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
-                    
-                    return render(request, 'search.html', {'output': output})
+                        res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
+
+                    print({'res': res})
+                    form = SearchResult()
+
+
+                    #<!--get search result output to appear-->
+
+                    return render(request, 'search.html', {'res': res})
                         
                         
                 else:
                     res = "App not found, try again"
-                    return render(request, 'search.html', {'form':res})
+                    return render(request, 'search.html', {'form':SearchResult()})
 
             #cannot connect:
             except sqlite3.Error as error:
                 print("Failed to connect", error)
-                str = "app not found"
-                return render(request, 'search.html', {'form': str})
+                return render(request, 'search.html', {'form':SearchResult()})
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = SearchResult()
-        return render(request, 'search.html', {'form': form})
+        return render(request, 'search.html', {'form':SearchResult()})
+
+
+    return HttpResponse(render(request, 'search.html'))
 
 
 def submit(request):
