@@ -29,6 +29,9 @@ def analyze_policy(policy_url):
 
     text = r.text
     metrics = {"collectPII": 0,
+            "shareLawEnforcement":0,
+            "shareAdvertisers":0,
+            "shareHealthCare":0,
             "collectHealthInfo": 0,
             "collectMedicationInfo" : 0,
             "collectReproductiveInfo": 0,
@@ -39,8 +42,14 @@ def analyze_policy(policy_url):
 
     if "identifying information" in text:
         metrics['collectPII'] = 1
+    if "law enforcement" not in text:
+        metrics['shareLawEnforcement'] = 1
+    if "prohibit sharing with advertisers" in text:
+        metrics['shareAdvertisers'] = 1
+    if "share with partner organizations" in text:
+        metrics['shareHealthCare'] = 1
     if "non-reproductive" in text:
-        metrics['collectHealthInfo'] = 1
+        metrics['collectHealthInfo'] = 1 
     if "medication" in text:
         metrics['collectMedicationInfo'] = 1
     if "period calendar" in text:
