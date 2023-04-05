@@ -1,5 +1,6 @@
 privacy preference
 personal data
+your data
 collect
 consent
-data
+collection

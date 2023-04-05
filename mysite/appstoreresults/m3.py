@@ -100,8 +100,9 @@ def calc_score(cols, metrics_old):
 def get_sharing_score(app_row):
     metrics = {'shareAdvertisers': app_row['shareAdvertisers'],
                'shareLawEnforcement': app_row['shareLawEnforcement'],
-               'shareDataBrokers': app_row['shareDataBrokers'],
-               'shareHealthCareProvider': app_row['shareHealthCareProvider']}
+            #    'shareDataBrokers': app_row['shareDataBrokers'],
+            #    'shareHealthCareProvider': app_row['shareHealthCareProvider']
+               }
     return calc_score(pos_neg_metrics, metrics)
 
 def get_encryption_score(app_row):

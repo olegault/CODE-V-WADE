@@ -4,7 +4,7 @@ import numpy as np
 import requests
 
 def scrape_policy(url):
-    package = link.split('id=')[1].split('&')[0]
+    package = url.split('id=')[1].split('&')[0]
     print(package)
 
     result = app(

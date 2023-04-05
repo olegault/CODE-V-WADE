@@ -1,7 +1,9 @@
 tracking preference
 privacy preference
 personal data
+your data
 sharing
-share
+third-party
+third party
 advertisers
 consent
