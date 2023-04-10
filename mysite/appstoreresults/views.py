@@ -192,7 +192,8 @@ def scorecard(request, appID=None):
 
                         #dev information
                         'devWeb': (app['devWeb']),
-                        'region': (app['region'])
+                        'region': (app['region']),
+                        'Developer' : (app['Developer'])
                         }
             return HttpResponse(template.render(context, request))
                 
@@ -576,8 +577,6 @@ def categories(request):
 
     res = request.GET.get("category", "")
 
-    
-
     try:
         sqliteConnection = sqlite3.connect(DB_FILEPATH)
         sqliteConnection.row_factory = sqlite3.Row
@@ -610,13 +609,12 @@ def categories(request):
 
     #cannot connect:
     except sqlite3.Error as error:
-        print("Failed to insert data into sqlite table", error)
+        print("category error", error)
         return render(request, "search.html")
 
     #message = "GET /categories?category=2 HTTP/1.1"
     #ategory = message.split('=')[1].split()[0]
     #print(category)
-    
     
     return render(request, "search.html")
 
