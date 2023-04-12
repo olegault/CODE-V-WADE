@@ -94,21 +94,21 @@ def contact(request):
 def writing4(request):
     return render(request, "writing4.html")
 
-def scorecard(request):
-    # data = AppM3.objects.all()
+# def scorecard(request):
+#     # data = AppM3.objects.all()
 
-    template = loader.get_template("scorecard.html")
-    context = {'date': 'Feb 7, 2023',
-               'title': "Could not load",
-               'downloads': '10M+ downloads',
-               'appIcon': '../static/media/clue-icon.png',
-               'overallScore': 83,
-               'thirdPartyScore': 80,
-               'dataEncryptionScore': 75,
-               'sensitiveDataScore': 100,
-               'transparencyScore': 50}
+#     template = loader.get_template("scorecard.html")
+#     context = {'date': 'Feb 7, 2023',
+#                'title': "Could not load",
+#                'downloads': '10M+ downloads',
+#                'appIcon': '../static/media/clue-icon.png',
+#                'overallScore': 83,
+#                'thirdPartyScore': 80,
+#                'dataEncryptionScore': 75,
+#                'sensitiveDataScore': 100,
+#                'transparencyScore': 50}
 
-    return HttpResponse(template.render(context, request))
+#     return HttpResponse(template.render(context, request))
 
 def scorecard(request, appID=None):
     # data = AppM3.objects.all()
@@ -149,7 +149,7 @@ def scorecard(request, appID=None):
 
             context = {'date': datetime_value,
                         'title': app['Name'],
-                        'downloads': f"{app['Downloads']} downloads",
+                        'downloads': "{:,}".format(int(app['Downloads'])) + " downloads",
                         'appIcon': app['Icon'],
                         'overallScore': under_review(app["overallScore"]),
                         'overallDesc': score_desc,
