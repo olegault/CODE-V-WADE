@@ -1,31 +1,26 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block extrahead%}
+<link href="./static/css/custom.css" rel="stylesheet" />
+<style>
+  @font-face {
+    font-family: "CustomFont";
+    src: url("static/media/customfont.ttf") format("truetype");
+  }
 
-{% block extrahead%}
-<link href="./static/css/custom.css"rel="stylesheet" />
+  body {
+    font-family: "CustomFont", sans-serif;
+  }
 
-	<style>
-		@font-face {
-			font-family: 'CustomFont';
-			src: url('static/media/customfont.ttf') format('truetype');
-		}
-		
-		body {
-			font-family: 'CustomFont', sans-serif;
-		}
+  .transparent-text {
+    opacity: 0;
+  }
 
-    
-        .transparent-text {
-            opacity: 0;
-          }
-          
-          .transparent-text:hover {
-            opacity: 1;
-          } 
-	</style>
+  .transparent-text:hover {
+    opacity: 1;
+  }
+</style>
 
-{% endblock %}
+{% endblock %} {% block content %}
 
-{% block content %}
         <!-- Header-->
         <header class="py-5">
             <div class="container px-5">
@@ -182,9 +177,6 @@
         </section>
 
 
-        {% endblock %}
-
-
 
         
         
@@ -268,8 +260,6 @@
             
         
         </div>
-        
-                
         
         {% endblock %}
         

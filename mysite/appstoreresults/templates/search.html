@@ -18,6 +18,10 @@
     opacity: 1;
   }
 
+  input {
+    width:60%;
+  }
+
   .search {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
@@ -48,216 +52,178 @@
     width: 110px;
     background: blue;
   }
-</style>
 
+</style>
 {% endblock %} {% block content %}
+
 <!--Left Column-->
 <div class="container mt-5">
-  <div class="row text-center">
-    <div class="col-md-6 flex-column" style="margin-top: 5%; width: 40%">
-      <div>
-        <a 
-        class="btn container"
-        style="width: 30vw; height: 5vw; font-size: 3rem"
-        href="#worldmap"
-        >
-        Search By Region<img
-          class="img"
-          style="height: 100%"
-          src="/static/sphere.gif"
-          href="#worldmap"
-        /></a>
-      </div>
-      <br></br>
-
-
-      <div class="search" style="margin-left: 10%cm; margin-top: 3rem">
-        <form action="search" type="text"class="input" method="post" placeholder="SEARCH BY NAME">
-            {{ form }}{% csrf_token %}
-            <button type="submit" class="btn btn-primary" method="post">SEARCH</button>
-            </form>
-      </div>
-      <br></br>
-
-
-      
-
-
-      <div class="row" style="margin-top: 2rem">
-        <a href = "#categories">
-        <h3 class="fw-bolder mb-2" style="font-size: 3em">Search By Category</h3>
-        </a>
-      </div>
-      <div class="row">
-        <h3 class="fw-bolder mb-2" style="font-size: 3em">coming soon</h3>
-      </div>
-      <div class="row">
-        <h3 class="fw-bolder mb-2" style="font-size: 3em">coming soon</h3>
-      </div>
-      <div class="row" style="margin-top: 5rem">
-        <p>Don't see the app you're looking for?</p>
-        <div class="row" style="margin-bottom: 60%">
-          <a class="cvw-link" href="/submit">Submit an app to be scored!</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-4 flex-column">
-      <!--Right Column-->
-      <div
-        class="container"
-        style="
-          overflow: scroll;
-          height: 40%;
-          background-color: #2723fb;
-          border-radius: 10px;
-          margin-left: 25%;
-          margin-top: 17%;
-        "
-      >
-        {% for item in res.items %}
-        <div
-          class="card"
-          style="
-            background-color: white;
-            margin-top: 5%;
-            margin-left: 10%;
-            margin-bottom: 10%;
-            margin-right: 10%;
-            padding: 20px;
-          "
-        >
-          <div class="row g-0" style="width: 115%">
-            <div class="col-md-6">
-              <div style="position: relative">
-                <!--icon-->
-                <img
-                  src="{{ item.1.0 }}"
-                  class="rounded mx-auto d-block card-img-top"
-                />
+  <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
+        <h2 style="font-size: 5rem">Search By Region<img class="img" style="height: 5rem" src="/static/sphere.gif"/></a></h2>
+          <div class="row"style="margin-left:27rem;margin-top:2rem; height:450px;width:450px">
+            <!--map-->
+            <div class="row align-items-center flex-fill d-flex">
+              <div class="col">
+                <a href="/northamerica" method="get"
+                  ><img
+                    class="rounded mx-auto"
+                    src="/static/media/noun-north-america.png"
+                    alt="image"
+                    style="width: 65%"
+                /></a>
+              </div>
+              <div class="col">
+                <a href="/europe" method="get"
+                  ><img
+                    class="rounded mx-auto"
+                    src="/static/media/noun-europe.png"
+                    alt="image"
+                    style="width: 80%"
+                /></a>
+              </div>
+              <div class="col">
+                <a href="/asia" method="get"
+                  ><img
+                    class="rounded mx-auto"
+                    src="/static/media/noun-asia.png"
+                    alt="image"
+                    style="width: 100%; height: 220%"
+                /></a>
               </div>
             </div>
-            <div class="col-md-6" style="margin-top:20%;"">
-            <div class="card-body">
-              <!--  app score -->
-              <h2
-                class="card-title"
-                style="text-align: center; font-size: 500%"
-              >
-                {{ item.1.2 }}
-              </h2>
+            <div
+              class="row align-items-center flex-fill d-flex"
+              style="margin-bottom: 30%">
+              <div class="col">
+                <a href="/southamerica" method="get"
+                  ><img
+                    class="rounded mx-auto"
+                    src="/static/media/noun-south-america.png"
+                    alt="image"
+                    style="width: 55%"
+                /></a>
+              </div>
+              <div class="col">
+                <a href="/africa" method="get"
+                  ><img
+                    class="rounded mx-auto"
+                    src="/static/media/noun-africa.png"
+                    alt="image"
+                    style="width: 73%"
+                /></a>
+              </div>
+              <div class="col">
+                <a href="/australia" method="get"
+                  ><img
+                    class="rounded mx-auto"
+                    src="/static/media/noun-australia.png"
+                    alt="image"
+                    style="width: 65%"
+                /></a>
+              </div>
             </div>
           </div>
-        </div>
-        <!--    app name and link -->
-        <div class="row">
-          <a
-            href="{% url 'scorecard' appID=item.1.1 %}"
-            class="h4"
-            style="
-              color: black;
-              text-decoration: none;
-              text-align: center;
-              word-break: break-all;
-              display: block;
-              margin-top: 10px;
-            "
-            >{{ item.0 }}</a
-          >
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  <div class="row text-center">
-    <a id = "worldmap"></a>
-    <!--map-->
-    <p>Sort By Region</p>
-    <div class="row align-items-center flex-fill d-flex">
-      <div class="col">
-        <a href="/northamerica" method="get"
-          ><img
-            class="rounded mx-auto"
-            src="/static/media/noun-north-america.png"
-            alt="image"
-            style="width: 45%"
-        /></a>
-      </div>
-      <div class="col">
-        <a href="/europe" method="get"
-          ><img
-            class="rounded mx-auto"
-            src="/static/media/noun-europe.png"
-            alt="image"
-            style="width: 40%"
-        /></a>
-      </div>
-      <div class="col">
-        <a href="/asia" method="get"
-          ><img
-            class="rounded mx-auto"
-            src="/static/media/noun-asia.png"
-            alt="image"
-            style="width: 80%; height: 200%"
-        /></a>
-      </div>
-    </div>
-    <div
-      class="row align-items-center flex-fill d-flex"
-      style="margin-bottom: 50%"
-    >
-      <div class="col">
-        <a href="/southamerica" method="get"
-          ><img
-            class="rounded mx-auto"
-            src="/static/media/noun-south-america.png"
-            alt="image"
-            style="width: 35%"
-        /></a>
-      </div>
-      <div class="col">
-        <a href="/africa" method="get"
-          ><img
-            class="rounded mx-auto"
-            src="/static/media/noun-africa.png"
-            alt="image"
-            style="width: 53%"
-        /></a>
-      </div>
-      <div class="col">
-        <a href="/australia" method="get"
-          ><img
-            class="rounded mx-auto"
-            src="/static/media/noun-australia.png"
-            alt="image"
-            style="width: 45%"
-        /></a>
-      </div>
-    </div>
-
-    <!--sort by category -->
-    <div class="row text-center">
-        <a id = "categories"></a>
-        <!--map-->
-        <p>Sort By Category</p>
-        <div class="row">
-            <a href="/categories" method="get"
-              ></a>
+          <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
+            <form action = "search" method="post" >
+              {{ form }}{% csrf_token %}
+              <button type="submit" class="btn btn-primary" method="post">SEARCH</button>
+            </form>   
+          </div>
+          <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
+            <!--sort by category -->
+            <h2>Sort By Category</h2>
+            <form action="/categories" method="get">
+              <select name="category" id="categories">
+                  <option value="1">Pregnancy and Parenting</option>
+                  <option value="2">Period and Ovulation Tracking</option>
+                  <option value="3">Birth Control and Contraception</option>
+                  <option value="4">Fertility Tracking and Assistance</option>
+              </select>
+              <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
+            <p>Don't see the app you're looking for?</p>
+                <div class="row" style="margin-bottom: 60%">
+                  <a class="cvw-link" href="/submit">Submit an app to be scored!</a>
+                </div>
           </div>
 
-          <p>The select element is used to create a drop-down list.</p>
 
-            <form action="/categories">
-            <select name="category" id="categories">
-                <option value="1">Pregnancy and Parenting</option>
-                <option value="2">Period and Ovulation Tracking</option>
-                <option value="3">Birth Control and Contraception</option>
-                <option value="4">Fertility Tracking and Assistance</option>
-            </select>
-            <br><br>
-            <input type="submit" value="Submit">
-            </form>
-  </div>
+          
+
+
+        
+
+    <div class="row">
+      <div class="col-md-4 flex-column">
+        <!--Right Column-->
+        <div
+          class="container"
+          style="
+            overflow: scroll;
+            height: 40%;
+            background-color: #2723fb;
+            border-radius: 10px;
+            margin-left: 25%;
+            margin-top: 17%;
+          "
+        >
+          {% for item in res.items %}
+          <div
+            class="card"
+            style="
+              background-color: white;
+              margin-top: 5%;
+              margin-left: 10%;
+              margin-bottom: 10%;
+              margin-right: 10%;
+              padding: 20px;
+            "
+          >
+            <div class="row g-0" style="width: 115%">
+              <div class="col-md-6">
+                <div style="position: relative">
+                  <!--icon-->
+                  <img
+                    src="{{ item.1.0 }}"
+                    class="rounded mx-auto d-block card-img-top"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6" style="margin-top:20%;"">
+              <div class="card-body">
+                <!--  app score -->
+                <h2
+                  class="card-title"
+                  style="text-align: center; font-size: 500%"
+                >
+                  {{ item.1.2 }}
+                </h2>
+              </div>
+            </div>
+          </div>
+          <!--    app name and link -->
+          <div class="row">
+            <a
+              href="{% url 'scorecard' appID=item.1.1 %}"
+              class="h4"
+              style="
+                color: black;
+                text-decoration: none;
+                text-align: center;
+                word-break: break-all;
+                display: block;
+                margin-top: 10px;
+              "
+              >{{ item.0 }}</a
+            >
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    </div>  
 </div>
 
 {% endblock %}
