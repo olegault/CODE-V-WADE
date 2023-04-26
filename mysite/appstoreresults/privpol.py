@@ -1,4 +1,6 @@
 import sqlite3
+import openai
+import os
 from google_play_scraper import app
 import numpy as np
 import requests
@@ -17,17 +19,84 @@ def scrape_policy(url):
 
     policy_link = result['privacyPolicy']
 
-def analyze_policy(policy_url):
-    r = requests.post(
 
-        "https://api.deepai.org/api/summarization",
-        data={
-            'text': policy_url,
-        },
-        headers={'api-key': '62094660-0461-4c8a-9885-7243213f3b81'}
+
+    
+
+def analyze_policy(policy_url):
+
+
+    
+    # Set up your OpenAI API credentials
+    openai.api_key = os.environ["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"]
+ 
+    prompt2=""" 
+    I am going to list a series of questions. I want you to answer them 
+    about the privacy policy linked as the end of this sentence. The link is
+    to the webpage that has the privacy policy.
+    I am going to list a series of questions. I want you to answer 
+    them about the privacy policy linked as the end of this prompt.
+    There are 8 questions. Each of the questions are binary--the answer
+    is either YES or NO. For each question, you will be given the question
+    itself and the "default answer". You must cite a specific part of the
+    privacy policy when you given you answer and specify the line number.
+    If the policy does not mention anything pertinent to the question being
+    asked, then return the default answer. The questions are:
+
+    1.) Does the policy at NOT all mention that it will never share information
+    with law enforcement? Default answer is YES.
+    2.) Does the policy at NOT all mention that it will never share information
+    with advertisers? Default answer is YES.
+    3.) Does the policy at NOT all mention that it will never share personal
+    health information? Default answer is YES.
+    4.) Does the policy at NOT all mention that it will never share personal
+    health information? Default answer is YES.
+    5.) Does the policy at NOT all mention that it will never collect or share 
+    information on the medications a user takes? Default answer is YES.
+    6.) Does the policy at NOT all mention that it will never collect or share
+    reproductive information about a user? Default answer is YES.
+    7.) Does the policy at NOT all mention that it will never collect or share
+    the period calendar of a user? Default answer is YES.
+    8.) Does the policy explicitly allow for a user to delete their data? 
+    Default answer is NO.
+    9.) Does the policy explicitly allow for a user to control
+    which parts of their data are shared and which are not? 
+    Default answer is NO.
+    10.) Does the policy explicitly allow for a user to control who
+    their data is shared with. Default answer is NO.
+
+    If the answer to a question is YES then VALUE is 1. If the
+    answer is NO then VALUE is 0.
+
+    The output should be a comma separated list of numbers
+    (either 1 or 0) where the nth index in the list is the
+    numerical encoding of the answer to the nth question. 
+    There should be no other output. The comma-separated list
+    of 9 binary values is the only output.
+    The link is below:
+
+    """
+  
+    # Define your input prompt
+    input_prompt = prompt2+policy_url
+
+    # Call the OpenAI API to generate a response
+    response = openai.Completion.create(
+    engine="davinci-3-5",
+    prompt=input_prompt,
+    max_tokens=2048,
+    n=1,
+    stop=None,
+    temperature=0.0
     )
 
-    text = r.text
+    # Extract the generated text from the API response
+    output = response.choices[0].text.strip()
+    my_list = output.split(",")
+
+
+
+ 
     metrics = {"collectPII": 0,
             "shareLawEnforcement":0,
             "shareAdvertisers":0,
@@ -40,26 +109,16 @@ def analyze_policy(policy_url):
             "controlData": 0,
             "controlSharing": 0}
 
-    if "identifying information" in text:
-        metrics['collectPII'] = 1
-    if "law enforcement" not in text:
-        metrics['shareLawEnforcement'] = 1
-    if "prohibit sharing with advertisers" in text:
-        metrics['shareAdvertisers'] = 1
-    if "share with partner organizations" in text:
-        metrics['shareHealthCare'] = 1
-    if "non-reproductive" in text:
-        metrics['collectHealthInfo'] = 1 
-    if "medication" in text:
-        metrics['collectMedicationInfo'] = 1
-    if "period calendar" in text:
-        metrics['collectPeriodCalendarInfo'] = 1
-    if "deletion" in text:
-        metrics['requestDeletion'] = 1
-    if "control" in text:
-        metrics['controlData'] = 1
-    if "control" and "shared" in text:
-        metrics['controlSharing'] = 1
+    metrics['collectPII'] = my_list[0]
+    metrics['shareLawEnforcement'] = my_list[1]
+    metrics['shareAdvertisers'] = my_list[2]
+    metrics['shareHealthCare'] = my_list[3]
+    metrics['collectHealthInfo'] = my_list[4]
+    metrics['collectMedicationInfo'] = my_list[5]
+    metrics['collectPeriodCalendarInfo'] = my_list[6]
+    metrics['requestDeletion'] = my_list[7]
+    metrics['controlData'] = my_list[8]
+    metrics['controlSharing'] = my_list[9]
 
     #ret arr
     # print(r.json())
