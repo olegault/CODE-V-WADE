@@ -244,7 +244,7 @@ def search(request):
                         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
 
                     print({'res': res})
-                    form = SearchResult()
+                    form = SearchResult(request.POST)
 
 
                     #<!--get search result output to appear-->
@@ -259,15 +259,17 @@ def search(request):
             #cannot connect:
             except sqlite3.Error as error:
                 print("Failed to connect", error)
-                return render(request, 'search.html', {'form':SearchResult()})
+                return render(request, 'search.html', {'form':SearchResult(request.POST)})
 
     # if a GET (or any other method) we'll create a blank form
     else:
         return render(request, 'search.html', {'form':SearchResult()})
 
 
-    return HttpResponse(render(request, 'search.html'))
+    return HttpResponse(render(request, 'search.html', {'form':SearchResult()}))
 
+def submitdone(request):
+    return render(request, "submitdone.html")
 
 def submit(request):
     if request.method == 'POST':
@@ -569,10 +571,6 @@ def africa(request):
 
 
     return render(request, "search.html")
-
-def submitdone(request):
-    return render(request, "submitdone.html")
-
 
 def categories(request):
     #res = request.GET.get("category", "1")  # set default category to 1 if not specified

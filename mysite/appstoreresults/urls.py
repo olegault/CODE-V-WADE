@@ -13,7 +13,7 @@ urlpatterns = [
     path('scorecard', views.scorecard, name='scorecard'),
     path('scorecard/<str:appID>', views.scorecard, name='scorecard'),
     path('submit', views.submit, name='submit'),
-    path('submitdone', views.submitdone, name='submit'),
+    path('submitdone', views.submitdone, name='submitdone'),
     path('PageObjects', views.PageObjects, name='PageObjects'),
     
     #location paths
