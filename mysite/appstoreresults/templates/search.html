@@ -19,7 +19,7 @@
   }
 
   input {
-    width:60%;
+    width: 60%;
   }
 
   .search {
@@ -52,16 +52,30 @@
     width: 110px;
     background: blue;
   }
-
 </style>
 {% endblock %} {% block content %}
 
-<!--Left Column-->
-<div class="container mt-5">
-  <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
-        <h2 style="font-size: 5rem">Search By Region <img class="img" style="height: 5rem" src="/static/sphere.gif"/></a></h2>
-          <div class="row"style="margin-left:27rem;margin-top:2rem; height:450px;width:450px">
-            <!--map-->
+<div class="container-fluid">
+  <div class="row d-flex">
+    <div class="col-auto col-xl-2" style="width:fit-content">
+      <!--Sidebar-->
+      <div
+        class="d-flex flex-column flex-shrink-0 p-3 text-black"
+        style="width: 40rem"
+      >
+        <a
+          href="/search"
+          class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-black text-decoration-none"
+        >
+          <svg class="bi me-2" width="40" height="32"></svg>
+          <span class="fs-4">Search By...</span>
+        </a>
+        <hr />
+        <!--REGION-->
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <svg class="bi me-2" width="40" height="32"></svg>
+            <span class="fs-4">Region</span>
             <div class="row align-items-center flex-fill d-flex">
               <div class="col">
                 <a href="/northamerica" method="get"
@@ -91,9 +105,7 @@
                 /></a>
               </div>
             </div>
-            <div
-              class="row align-items-center flex-fill d-flex"
-              style="margin-bottom: 30%">
+            <div class="row align-items-center flex-fill d-flex">
               <div class="col">
                 <a href="/southamerica" method="get"
                   ><img
@@ -122,108 +134,135 @@
                 /></a>
               </div>
             </div>
-          </div>
-          <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
-            <form action = "search" method="post" >
-              {{ form }}{% csrf_token %}
-              <button type="submit" class="btn btn-primary" method="post">SEARCH</button>
-            </form>   
-          </div>
-          <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
-            <!--sort by category -->
-            <h2>Sort By Category</h2>
-            <form action="/categories" method="get">
-              <select name="category" id="categories">
-                  <option value="1">Pregnancy and Parenting</option>
-                  <option value="2">Period and Ovulation Tracking</option>
-                  <option value="3">Birth Control and Contraception</option>
-                  <option value="4">Fertility Tracking and Assistance</option>
-              </select>
-              <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-            </form>
-          </div>
-          <div class="row text-center"style=" margin-top:5%; margin-bottom:30%;">
-            <p>Don't see the app you're looking for?</p>
-                <div class="row" style="margin-bottom: 60%">
-                  <a class="cvw-link" href="/submit">Submit an app to be scored!</a>
-                </div>
-          </div>
-
-
-          
-
-
-        
-
-    <div class="row">
-      <div class="col-md-4 flex-column">
-        <!--Right Column-->
-        <div
-          class="container"
-          style="
-            overflow: scroll;
-            height: 40%;
-            background-color: #2723fb;
-            border-radius: 10px;
-            margin-left: 25%;
-            margin-top: 17%;
-          "
-        >
-          {% for item in res.items %}
-          <div
-            class="card"
-            style="
-              background-color: white;
-              margin-top: 5%;
-              margin-left: 10%;
-              margin-bottom: 10%;
-              margin-right: 10%;
-              padding: 20px;
-            "
-          >
-            <div class="row g-0" style="width: 115%">
-              <div class="col-md-6">
-                <div style="position: relative">
-                  <!--icon-->
-                  <img
-                    src="{{ item.1.0 }}"
-                    class="rounded mx-auto d-block card-img-top"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6" style="margin-top:20%;"">
-              <div class="card-body">
-                <!--  app score -->
-                <h2
-                  class="card-title"
-                  style="text-align: center; font-size: 500%"
-                >
-                  {{ item.1.2 }}
-                </h2>
-              </div>
+          </li>
+          <hr>
+          <!--NAME-->
+          <li>
+              <svg class="bi me-2" width="40" height="32"></svg>
+              <span class="fs-4">Name</span>
+                <form action="search" method="post" style="text-align:center">
+                  {{ form }}{% csrf_token %}
+                  <button type="submit" class="btn btn-primary" method="post">
+                    SEARCH
+                  </button>
+                </form>
+          </li>
+          <hr>
+          <!--CATEGORIES-->
+          <li>
+            <svg class="bi me-2" width="40" height="32"></svg>
+              <span class="fs-4">Category</span>
+            <div class="dropdown">
+              
+              <form
+                action="/categories"
+                method="get"
+                class="dropdown-menu-dark"
+                style="text-align:center;"
+              >
+                <select name="category">
+                  <ul
+                    class="dropdown-menu dropdown-menu-dark text-small shadow"
+                    aria-labelledby="dropdownUser1"
+                    id="categories"
+                  >
+                    <li><option value="1">Pregnancy & Parenting</option></li>
+                    <li>
+                      <option value="2">Period and Ovulation Tracking</option>
+                    </li>
+                    <li>
+                      <option value="3">Birth Control and Contraception</option>
+                    </li>
+                    <li>
+                      <option value="4">Fertility Tracking and Assistance</option>
+                    </li>
+                  </ul>
+                </select>
+                <button type="submit" value="Submit" class="btn btn-primary">
+                  Submit
+                </button>
+              </form>
             </div>
-          </div>
-          <!--    app name and link -->
-          <div class="row">
-            <a
-              href="{% url 'scorecard' appID=item.1.1 %}"
-              class="h4"
-              style="
-                color: black;
-                text-decoration: none;
-                text-align: center;
-                word-break: break-all;
-                display: block;
-                margin-top: 10px;
-              "
-              >{{ item.0 }}</a
-            >
-          </div>
-        </div>
-        {% endfor %}
+          </li>
+          <hr>
+          <!--SUBMIT AN APP-->
+          <li>
+            <svg class="bi me-2" width="40" height="50"></svg>
+              <h2 style="text-align:center;">Dont see the app youre looking for?</h2>
+              <br>
+              <a class="cvw-link h2" style="margin-left:25%;" href="/submit">Submit an app to be scored!</a>
+          </li>
+          <hr>
+        </ul>
       </div>
     </div>
-    </div>  
-</div>
 
-{% endblock %}
+            <!--results-->
+            <div class="col">
+              <div
+                style="
+                  overflow: scroll;
+                  height: 40rem;
+                  background-color: #2723fb;
+                  border-radius: 10px;
+                  margin:5%;"
+              >
+                {% for item in res.items %}
+                <div
+                  class="card"
+                  style="
+                    background-color: white;
+                    margin-top: 5%;
+                    margin-left: 10%;
+                    margin-bottom: 10%;
+                    margin-right: 10%;
+                    padding: 20px;
+                  "
+                >
+                  <div class="row g-0" style="width: 115%">
+                    <div class="col-md-6">
+                      <div style="position: relative">
+                        <!--icon-->
+                        <img
+                          src="{{ item.1.0 }}"
+                          class="rounded mx-auto d-block card-img-top"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6" style="margin-top:20%;"">
+                    <div class="card-body">
+                      <!--  app score -->
+                      <h2
+                        class="card-title"
+                        style="text-align: center; font-size: 500%"
+                      >
+                        {{ item.1.2 }}
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+                <!--    app name and link -->
+                <div class="row">
+                  <a
+                    href="{% url 'scorecard' appID=item.1.1 %}"
+                    class="h4"
+                    style="
+                      color: black;
+                      text-decoration: none;
+                      text-align: center;
+                      word-break: break-all;
+                      display: block;
+                      margin-top: 10px;
+                    "
+                    >{{ item.0 }}</a
+                  >
+                </div>
+              </div>
+              {% endfor %} {% endblock %}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
