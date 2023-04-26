@@ -1,6 +1,7 @@
 1. Sign up for account with email
 2. Enter required acct info
 3. Add dates to period calendar
+4. Add health info
 4. Attempt to change privacy settings
 5. Attempt to change PII (add/modify name, birthdate, etc.)
 6. Attempt to change health data (exercise frequency, physical fitness, etc.)

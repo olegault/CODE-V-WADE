@@ -23,8 +23,8 @@ def int_to_text(i):
         return("N/A")
 
 def translate_score(score):
-    if not score:
-        score = -1
+    if isinstance(score, type(None)):
+        return ("No Score", "score-none")
     if score > 89:
         return ("Great", "score-great")
     if score > 69:
@@ -61,7 +61,7 @@ def index(request):
         #if(val=='y'):
         sql = ('SELECT Name, Icon, UID, overallScore, Rating FROM "App Matrix" ORDER BY Downloads desc limit 10'.format(seq=','.join(['?']*len(args))))
         rows = cursor.execute(sql, args)
-        print("here")
+        # print("here")
 
         for row in rows:
             # print(row)
@@ -205,7 +205,7 @@ def scorecard(request, appID=None):
     #cannot connect:
     except sqlite3.Error as error:
         print("Failed to connect", error)
-        str = "app not found"
+        strng = "app not found"
         return HttpResponse(template.render(context, request))
 
 
@@ -312,9 +312,8 @@ def PageObjects(request):
             score_list = []
 
             rows = cursor.execute("SELECT Name, Icon, appID, overallScore, Rating FROM 'App Matrix' WHERE devAddress LIKE ? ORDER BY Downloads desc limit 10", (res,))
-            
 
-            for r in rows:
+            for row in rows:
                 # print(row)
                 icon_list.append(row['Icon']) #img
                 app_list.append(row['Name']) #app name

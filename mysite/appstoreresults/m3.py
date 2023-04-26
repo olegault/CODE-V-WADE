@@ -60,7 +60,7 @@ def update_db_entry(package, metrics):
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
 
-    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE Name LIKE ?", ("%" + package + "%",))
+    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE appID = ?", (package,))
     res = cursor.fetchall()
     app_db = res[0]
     print(app_db['UID'])
@@ -144,15 +144,17 @@ def get_overall_score(app_row):
                'controlSharing': app_row['controlSharing']}
     return calc_score(pos_neg_metrics, metrics)
 
-def update_scores(app_title):
+def update_scores(package):
     print('Updating scores')
     sqliteConnection = sqlite3.connect(DB_FILEPATH)
     sqliteConnection.row_factory = sqlite3.Row
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
 
-    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE Name LIKE ?", ("%" + app_title + "%",))
+    print(package)
+    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE appID = ?", (package.strip(),))
     res = cursor.fetchall()
+    print(res)
     app_row = res[0]
     print(app_row['overallScore'])
 
@@ -161,12 +163,14 @@ def update_scores(app_title):
     encryption = get_encryption_score(app_row)
     sensitive = get_sensitive_score(app_row)
     transparency = get_transparency_score(app_row)
+    print(overall)
 
     try:
+        print(app_row['UID'])
         cursor = sqliteConnection.execute(f'''UPDATE 'App Matrix' SET overallScore=?, thirdPartySharingScore=?, dataEncryptionScore=?, sensitiveDataScore=?, transparencyScore=? WHERE UID = ?''', 
                                           (overall, sharing, encryption, sensitive, transparency, app_row['UID']))
-        sqliteConnection.commit()
-        print('committed')
+        c = sqliteConnection.commit()
+        print(c)
     except BaseException as e:
         print(e)
 
@@ -176,15 +180,15 @@ def calculate_m3(url):
     if not app_info:
         return False
 
-    package = url.split('id=')[1].split('&')[0]
-    appstoreresults.notify_packet_analysis.send_notification(url)
+    package = app_info['appId']
+    # appstoreresults.notify_packet_analysis.send_notification(url)
 
     privpol_metrics = appstoreresults.privpol.analyze_policy(app_info['privacyPolicy'])
     if privpol_metrics:
-        res = update_db_entry(app_info['title'], privpol_metrics)
+        res = update_db_entry(package, privpol_metrics)
         print("Updated entries: " , privpol_metrics)
 
-    update_scores(app_info['title'])
+    update_scores(package)
     
 
 if __name__ == '__main__':

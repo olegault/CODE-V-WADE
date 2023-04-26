@@ -31,7 +31,7 @@ def analyze_policy(policy_url):
     metrics = {"collectPII": 0,
             "shareLawEnforcement":0,
             "shareAdvertisers":0,
-            "shareHealthCare":0,
+            "shareHealthCareProvider":0,
             "collectHealthInfo": 0,
             "collectMedicationInfo" : 0,
             "collectReproductiveInfo": 0,
@@ -47,7 +47,7 @@ def analyze_policy(policy_url):
     if "prohibit sharing with advertisers" in text:
         metrics['shareAdvertisers'] = 1
     if "share with partner organizations" in text:
-        metrics['shareHealthCare'] = 1
+        metrics['shareHealthCareProvider'] = 1
     if "non-reproductive" in text:
         metrics['collectHealthInfo'] = 1 
     if "medication" in text:

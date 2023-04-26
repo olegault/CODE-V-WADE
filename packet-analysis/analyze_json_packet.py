@@ -16,24 +16,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DB_FILEPATH = os.path.join(BASE_DIR, 'mysite/appstoreresults/db-final.db')
 print(DB_FILEPATH)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('package', type=str)
-args = parser.parse_args()
-
-package_name = args.package
-filename = f"./app-flows/{package_name}/flows"
-
-flows = []
-
-init()
-
-with open(filename, 'rb') as fp:
-    reader = FlowReader(fp)
-
-    for flow in reader.stream():
-        if isinstance(flow, HTTPFlow):
-            flows.append(flow)
-
 # Filters list of flows by method (GET, POST, etc.)
 def filter_flows_method(flows: list[HTTPFlow], methods: list[str]):
     filt = []
@@ -172,7 +154,6 @@ def can_control_sharing(flows: list[HTTPFlow]):
     print("\n" + colored("Control Sharing", 'white', 'on_red'))
     return terms_search(flows, 'controlSharing', buff)
 
-flows = unique_urls(flows)
 # flows = filter_flows_method(flows, 'POST')
 
 def report(flows: list[HTTPFlow]):
@@ -214,7 +195,7 @@ def update_db_entry(package, metrics):
     cursor = sqliteConnection.cursor()
     print("Successfully Connected to SQLite")
 
-    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE appID LIKE ?", ("%" + package + "%",))
+    cursor = sqliteConnection.execute("SELECT * FROM 'App Matrix' WHERE appID = ?", (package,))
     res = cursor.fetchall()
     app_db = res[0]
 
@@ -228,12 +209,36 @@ def update_db_entry(package, metrics):
             sqliteConnection.commit()
         except BaseException as e:
             print(e)
-    update_scores(app_db['Name'])
+    update_scores(app_db['appID'])
     return True
 
 
 
-manual_metrics = report(flows)
-update_db_entry(package_name, manual_metrics)
+# manual_metrics = report(flows)
+# update_db_entry(package_name, manual_metrics)
 
 # print(flows[0].response.headers)
+
+if __name__ == "__main__":
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('package', type=str)
+    # args = parser.parse_args()
+
+    # package_name = args.package.strip()
+    # filename = f"./app-flows/{package_name}/flows"
+
+    # flows = []
+
+    # init()
+
+    # with open(filename, 'rb') as fp:
+    #     reader = FlowReader(fp)
+
+    #     for flow in reader.stream():
+    #         if isinstance(flow, HTTPFlow):
+    #             flows.append(flow)
+
+    # flows = unique_urls(flows)
+
+    manual_metrics = {"encryptedTransit": True}
+    update_db_entry('org.iggymedia.periodtracker', manual_metrics)

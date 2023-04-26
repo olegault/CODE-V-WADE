@@ -21,9 +21,10 @@
 
 {% endblock %} {% block content %}
 
-<!--Left Column-->
+
 <div class="container mt-5">
   <div class="row text-center">
+    <!--Left Column-->
     <div class="col-md-6 flex-column" style="margin-top: 5%; width: 40%">
       <img class="img-fluid rounded mb-5 mb-lg-0" src="/static/sphere.gif" />
       <h1 class="fw-bolder mb-2" style="font-size: 2in">CODE V WADE</h1>
@@ -40,16 +41,16 @@
       </div>
     </div>
     <!--Right Column-->
-    <div class="col-md-4">
+    <div class="col-md-6">
       <div
         class="container"
         style="
           overflow: scroll;
           height: 40%;
-          width: 25vw;
+          /* width: 30vw; */
           background-color: #2723fb;
           border-radius: 10px;
-          margin-left: 80%;
+          margin-left: 50%;
           padding:2rem;
         "
       >
@@ -98,7 +99,7 @@
               text-decoration: none;
               text-align: center;
               word-break: break-all;
-              display: block;
+              /* display: block; */
               margin-top: 10px;
             "
             >{{ item.0 }}</a
