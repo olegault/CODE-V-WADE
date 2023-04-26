@@ -154,6 +154,7 @@ def scorecard(request, appID=None):
                         'overallScore': under_review(app["overallScore"]),
                         'overallDesc': score_desc,
                         'overallClass': score_class,
+                        'playStoreURL': app['url'],
 
                         'thirdPartyScore': under_review(app['thirdPartySharingScore']),
                         'thirdPartyDesc': share_desc,
