@@ -140,7 +140,7 @@
           <li>
               <svg class="bi me-2" width="40" height="32"></svg>
               <span class="fs-4">Name</span>
-                <form action="search" method="GET" style="text-align:center">
+                <form action="search" method="post" style="text-align:center">
                   {{ form }}{% csrf_token %}
                   <button type="submit" class="btn btn-primary" method="post">
                     SEARCH
