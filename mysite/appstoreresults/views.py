@@ -254,7 +254,7 @@ def search(request):
                         
                 else:
                     res = "App not found, try again"
-                    return render(request, 'search.html', {'form':SearchResult()})
+                    return render(request, 'search.html', {'form':SearchResult(request.POST)})
 
             #cannot connect:
             except sqlite3.Error as error:
@@ -566,6 +566,7 @@ def africa(request):
         except sqlite3.Error as error:
             print("Failed to insert data into sqlite table", error)
             return render(request, "search.html")
+
 
     return render(request, "search.html")
 
