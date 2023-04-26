@@ -573,26 +573,34 @@ def submitdone(request):
 
 
 def categories(request):
-
+    #res = request.GET.get("category", "1")  # set default category to 1 if not specified
     res = request.GET.get("category", "")
 
     try:
+
         sqliteConnection = sqlite3.connect(DB_FILEPATH)
+        print(DB_FILEPATH)
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
-
+        
         args=[]
         app_list =[]
         icon_list =[]
         id_list = []
         score_list = []
 
-        sql = 'SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE category =?'
-        rows = cursor.execute(sql, (res,))
+        sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE Name =?')
+        rows = cursor.execute(sql,(res,))
+
+
+        #sql = 'SELECT Name FROM 'App Matrix' WHERE category =?'
+        #rint("Executing SQL query:", sql, "with parameter:", res)
+        #rows = cursor.execute(sql, (res,))
+        #ows = cursor.execute(sql, (res,))
 
         for row in rows:
-            # print(row)
+            print(row,"ROW")
             icon_list.append(row['Icon']) #img
             app_list.append(row['Name']) #app name
             id_list.append(row['UID'])
@@ -603,7 +611,7 @@ def categories(request):
 
     
         res = {app_list[i]: [icon_list[i], id_list[i], score_list[i]] for i in range(len(app_list))}
-        # print(res)
+        print(res)
         return render(request, 'search.html', {'res':res})
 
     #cannot connect:
