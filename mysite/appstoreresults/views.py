@@ -576,11 +576,11 @@ def submitdone(request):
 def categories(request):
     #res = request.GET.get("category", "1")  # set default category to 1 if not specified
     res = request.GET.get("category", "")
+    res = int(res)
 
     try:
 
         sqliteConnection = sqlite3.connect(DB_FILEPATH)
-        print(DB_FILEPATH)
         sqliteConnection.row_factory = sqlite3.Row
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
@@ -591,14 +591,9 @@ def categories(request):
         id_list = []
         score_list = []
 
-        sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE Name =?')
+        sql = ('SELECT Name, Icon, UID, overallScore FROM "App Matrix" WHERE category =?')
         rows = cursor.execute(sql,(res,))
 
-
-        #sql = 'SELECT Name FROM 'App Matrix' WHERE category =?'
-        #rint("Executing SQL query:", sql, "with parameter:", res)
-        #rows = cursor.execute(sql, (res,))
-        #ows = cursor.execute(sql, (res,))
 
         for row in rows:
             print(row,"ROW")
